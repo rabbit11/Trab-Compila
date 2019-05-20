@@ -4,41 +4,25 @@
     // Pedro Coelho            743585
     // Vinícius Crepschi       743601
 
-//    comp2
-
-/*
-Expr ::= '(' oper  Expr Expr ')' | number
-oper ::= '+' | '-'
-number ::= '0' | ... | '9'
-
-	 Example of program:
-    
-         (+ (- 5 4) 2)
-*/
-
-/*
- - um metodo para cada nao-terminal -> analisador sintatico (parser)
- - error -- aponta o erro (quando ocorrer)
- - nextToken (analisador lexico) -- posicao do proximo token valido 
- */
+import AST.*;
+import java.util.ArrayList;
 
 public class Compiler {
 
-    public int compile( char []p_input ) {
-		int resultado;        
-		input = p_input;
+    public Program compile( char []p_input ) {
+        input = p_input;
         tokenPos = 0;
         nextToken();
-        resultado = expr();
-		    
-	    if ( token != '\0' )
+        
+        
+        Program e = program();
+        if (tokenPos != input.length)
           error();
-
-		return resultado;
+          
+        return e;
     }
 
     private void nextToken() {
-		
 		while(tokenPos < input.length && input[tokenPos] == ' '){
 			tokenPos++;
 		}
@@ -49,6 +33,7 @@ public class Compiler {
 			token = input[tokenPos];
 			tokenPos++;
 		}
+
     }
     
     private void error() {
