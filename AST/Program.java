@@ -3,29 +3,25 @@ package AST;
 import java.util.ArrayList;
 
 public class Program {
+    private ArrayList<Func> arrayFunc;
 
-    private Expr expr;
-    private ArrayList<Variable> listV;
-
-    public Program(ArrayList<Variable> listV, Expr expr) {
-        this.listV = listV;
-        this.expr = expr;
+    public Program(ArrayList<Func> arrayFunc) {
+        this.arrayFunc = arrayFunc;
     }
 
-    public void genC() {
-        System.out.println("void main () {");
-        System.out.print("\t");
-
-        for (Variable v : listV) {
-            v.genC();
+    public void genC(PW pw) {
+        pw.println("#include <stdio.h>\n");
+        
+        // Se não tiver nenhuma função declarada
+        if (arrayFunc.contains(null)) {
+            pw.println("int main(){}");
         }
 
-        expr.genC();
-        System.out.println("\n }");
+        // Pode ter funções declaradas
+        else {
+            for (Func f : arrayFunc) {
+                f.genC(pw);
+            }
+        }
     }
-
-    public int eval() {
-        return expr.eval();
-    }
-
 }
