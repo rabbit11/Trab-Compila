@@ -1,18 +1,20 @@
-import AST
-
-java.util.ArrayList
-
-import lexer.*
-
 //Type ::= "Int" | "Boolean" | "String"
 
-public Class Type{
+package AST;
+
+import Lexer.Symbol;
+
+import java.util.ArrayList;
+import Lexer.*;
+
+public class Type {
   private Symbol type;
 
-  public Type(Symbol a)
+  public Type(Symbol a) {
     this.type = a;
+  }
 
-  public tipo(PW pw){
+  public void tipo(PW pw){
     if(type == Symbol.INT)
       pw.println("Int");
     else if (type == Symbol.BOOLEAN)
@@ -21,7 +23,7 @@ public Class Type{
       pw.println("String");
   }
 
-  public getType(){
+  public Symbol getType(){
     return this.type;
   }
 }

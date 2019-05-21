@@ -1,15 +1,15 @@
 // VarDecStat ::= "var" Id ":" Type ";"
-
-package AST;
+// package AST;
 
 import java.util.*;
 import Lexer.*;
+import AST.Type;
 
-public class Variable {
+public class VarDecStat {
   private String var;
-  private Symbol tipo;
+  private Type tipo;
 
-  public Variable(String var, Symbol tipo, String valor) {
+  public VarDecStat(String var, Type tipo, String valor) {
     this.var = var;
     this.tipo = tipo;
   }
@@ -18,12 +18,12 @@ public class Variable {
     this.var = var;
   }
 
-  public void setTipo(Symbol tipo) {
+  public void setTipo(Type tipo) {
     this.tipo = tipo;
   }
 
   public void genC(PW pw) {
-    pw.println("var" + this.var + ":" + this.tipo + ";");
+    pw.println("var" + this.var + ":" + this.tipo.getType() + ";");
   }
 
   public String getVar() {
@@ -31,6 +31,6 @@ public class Variable {
   }
 
   public Symbol getTipo() {
-    return this.tipo;
+    return this.tipo.getType();
   }
 }
