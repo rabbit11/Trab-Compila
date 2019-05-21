@@ -29,16 +29,20 @@ public class Function {
 
         for (int i = 0; i < params.size(); i++) {
             if (i + 1 == params.size()) {
-                if (params.get(i).getTipo() == Symbol.INT) {
+                if (params.get(i).tipo.getType() == Symbol.INT) {
                     pw.print("int " + params.get(i).getVar());
-                } else {
+                } else if {
                     pw.print("boolean " + params.get(i).getVar());
+                }else {
+                    pw.print("char * " + params.get(i).getVar());
                 }
             } else {
                 if (params.get(i).getTipo() == Symbol.INT) {
                     pw.print("int " + params.get(i).getVar() + ", ");
-                } else {
+                } else if {
                     pw.print("boolean " + params.get(i).getVar() + ", ");
+                }else {
+                    pw.print("char * " + params.get(i).getVar() + ", ");
                 }
             }
         }
