@@ -4,6 +4,7 @@ java.util.ArrayList
 
 import lexer.*
 
+//Type ::= "Int" | "Boolean" | "String"
 
 public Class Type{
   private Symbol type;
