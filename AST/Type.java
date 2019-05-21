@@ -15,5 +15,6 @@ public Class Type{
      pw.println("Boolean");
     else if (type == Symbol.String)
       pw.println("String");
+
   }
 }
