@@ -1,13 +1,13 @@
 package AST;
 
 import AST.VarDecStat;
-import AST.CompositeExpr;
+import AST.Expr;
 
 public class Stat {
   private VarDecStat var;
-  private CompositeExpr expr;
+  private Expr expr;
 
-  public Stat(VarDecStat v, CompositeExpr e) {
+  public Stat(VarDecStat v, Expr e) {
     this.var = v;
     this.expr = e;
   }
@@ -19,7 +19,7 @@ public class Stat {
     return this.var;
   }
 
-  public CompositeExpr getExpr() {
+  public Expr getExpr() {
     return this.expr;
   }
 
@@ -27,7 +27,7 @@ public class Stat {
     this.var = var;
   }
 
-  public void setExpr(CompositeExpr expr) {
+  public void setExpr(Expr expr) {
     this.expr = expr;
   }
 }

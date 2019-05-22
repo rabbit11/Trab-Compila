@@ -1,7 +1,7 @@
 package AST;
 
 public class AssignExprStat extends Stat {
-    public AssignStatement(Variable var, CompositeExpr expr) {
+    public AssignExprStat(Variable var, Expr expr) {
         super(var, expr);
     }
 
