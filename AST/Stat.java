@@ -13,7 +13,6 @@ public class Stat {
   }
 
   public void genC(PW pw) {
-    // faz nada
   }
 
   public VarDecStat getVar() {
