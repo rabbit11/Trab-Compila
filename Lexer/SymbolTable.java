@@ -1,7 +1,7 @@
 package Lexer;
 
 import java.util.Hashtable;
-import AST.Variable;
+import AST.VarDecStat;
 import AST.Function;
 
 public class SymbolTable {
