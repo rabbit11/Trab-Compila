@@ -45,18 +45,26 @@ In the last call to put, we used name + "" as the key. We could not have used ju
 */
 
 import AST.*;
+import Lexer.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Compiler {
+  private Lexer lexer;
+  private SymbolTable table;
 
   public Program compile(char[] p_input) {
+    error = new CompilerError(null);
+    lexer = new Lexer(p_input, error);
+    table = new SymbolTable();
+    error.setLexer(lexer);
+
     input = p_input;
     tokenPos = 0;
 
     symbolTable = new Hashtable();
 
-    nextToken();
+    lexer.nextToken();
 
     Program e = program();
     if (tokenPos != input.length)
@@ -81,16 +89,14 @@ public class Compiler {
     
 
   }
-  private void nextToken() {
-    while (tokenPos < input.length && input[tokenPos] == ' ') {
-      tokenPos++;
-    }
 
-    if (tokenPos >= input.length)
-      token = '\0';
-    else {
-      token = input[tokenPos];
-      tokenPos++;
+  private char relOp(){
+    if(lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE
+        || lexer.token == Symbol.GT || lexer.token == Symbol.GTE){
+
+      }
+    else{
+      System.out.println("Operador não reconhecido");
     }
   }
 
