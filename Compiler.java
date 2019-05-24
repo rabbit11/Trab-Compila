@@ -84,11 +84,6 @@ public class Compiler {
   private Func func(){
 
   }
-  
-  private LiteralBoolean literalBoolean(){
-    
-
-  }
 
   private char relOp(){
     if(lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE
@@ -98,7 +93,16 @@ public class Compiler {
     else{
       System.out.println("Operador não reconhecido");
     }
+    lexer.nextToken();
   }
+
+  // private LiteralBoolean literalBoolean(){
+  //   if(lexer.token == Symbol.BOOLEAN){
+  //     Symbol a = lexer.token;
+      
+  //     if(a == )
+  //   }
+  // }
 
   private void error(String errorMsg) {
     if (tokenPos == 0)
