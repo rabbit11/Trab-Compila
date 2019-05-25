@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Lexer.*;
 
+//Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
 
 //conferir após implementação de var e type
 public class Function {

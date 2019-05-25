@@ -1,11 +1,11 @@
-// LiteralBoolean::="true"|"false"
-
 package AST;
 
 import Lexer.Symbol;
 
 import java.util.ArrayList;
 import Lexer.*;
+
+// LiteralBoolean::="true"|"false"
 
 public class LiteralBoolean {
   private Symbol value;

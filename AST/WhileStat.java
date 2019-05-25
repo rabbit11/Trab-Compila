@@ -2,6 +2,8 @@ package AST;
 
 import java.util.ArrayList;
 
+//WhileStat ::= "while" Expr StatList
+
 public class WhileStat extends Stat {
     // super expr sera as condições do while
 

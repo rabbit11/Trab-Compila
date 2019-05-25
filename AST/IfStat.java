@@ -2,6 +2,8 @@ package AST;
 
 import java.util.ArrayList;
 
+//IfStat ::= "if" Expr StatList [ "else" StatList ]
+
 public class IfStat extends Stat {
     private ArrayList<Stat> arrayStmt;
 

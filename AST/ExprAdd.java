@@ -2,6 +2,8 @@ package AST;
 
 import Lexer.*;
 
+//ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
+
 public class ExprAdd extends Expr{
     private Expr esquerda, direita;
     private Symbol operador;
@@ -23,7 +25,7 @@ public class ExprAdd extends Expr{
             direita.genC(pw);
         }
     }
-    
+
     public void setEsquerda(Expr esq) {
         this.esquerda = esq;
     }

@@ -1,11 +1,11 @@
-//Type ::= "Int" | "Boolean" | "String"
-
 package AST;
 
 import Lexer.Symbol;
 
 import java.util.ArrayList;
 import Lexer.*;
+
+//Type ::= "Int" | "Boolean" | "String"
 
 public class Type {
   private Symbol type;

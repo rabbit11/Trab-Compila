@@ -1,5 +1,7 @@
 package AST;
 
+//ReturnStat ::= "return" Expr ";"
+
 public class ReturnStat extends Stat {
     public ReturnStat(Variable v, Expr e) {
         super(v, e);

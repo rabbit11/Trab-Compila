@@ -2,6 +2,8 @@ package AST;
 
 import java.util.ArrayList;
 
+//Program ::= Func {F unc}
+
 public class Program {
     private ArrayList<Func> arrayFunc;
 
@@ -11,7 +13,7 @@ public class Program {
 
     public void genC(PW pw) {
         pw.println("#include <stdio.h>\n");
-        
+
         // Se não tiver nenhuma função declarada
         if (arrayFunc.contains(null)) {
             pw.println("int main(){}");

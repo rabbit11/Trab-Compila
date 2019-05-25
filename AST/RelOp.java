@@ -1,11 +1,11 @@
-// RelOp::="<"|"<="|">"|">="|"=="|"!="
-
 package AST;
 
 import Lexer.Symbol;
 
 import java.util.ArrayList;
 import Lexer.*;
+
+// RelOp::="<"|"<="|">"|">="|"=="|"!="
 
 public class RelOp {
   private Symbol op;
@@ -22,7 +22,7 @@ public class RelOp {
     else if (type == Symbol.LTE)
       pw.println(">=");
     else if (type == Symbol.GTE)
-      pw.println("<="); 
+      pw.println("<=");
     else if (type == Symbol.EQUAL)
       pw.println("==");
     else if (type != Symbol.DIFFERENT)

@@ -1,5 +1,7 @@
 package AST;
 
+// AssignExprStat ::= Expr [ "=" Expr ] ";"
+
 public class AssignExprStat extends Stat {
     public AssignExprStat(Variable var, Expr expr) {
         super(var, expr);
