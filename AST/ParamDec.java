@@ -1,5 +1,5 @@
 // ParamDec ::= Id ":" Type
-package AST
+package AST;
 import java.util.*;
 import Lexer.*;
 import AST.Type;
