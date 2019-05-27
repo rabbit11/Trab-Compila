@@ -2,6 +2,8 @@ package AST;
 
 import Lexer.*;
 
+//ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
+
 public class ExprMult extends Expr {
     private Expr esquerda, direita;
     private Symbol operador;

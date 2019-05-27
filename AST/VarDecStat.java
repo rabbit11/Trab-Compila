@@ -1,9 +1,10 @@
-// VarDecStat ::= "var" Id ":" Type ";"
-// package AST;
+package AST;
 
 import java.util.*;
 import Lexer.*;
 import AST.Type;
+
+// VarDecStat ::= "var" Id ":" Type ";"
 
 public class VarDecStat {
   private String var;

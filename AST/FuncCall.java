@@ -2,6 +2,8 @@ package AST;
 
 import java.util.ArrayList;
 
+//FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
+
 public class FuncCall {
     private ArrayList<VarDecStat> arrayVar;
     private ArrayList<Stat> arrayStat;

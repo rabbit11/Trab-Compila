@@ -263,32 +263,11 @@ public class Lexer {
     return true;
   }
 
-  private void readFloat(String aux) {
-    // Colocamos o ponto na string aux
-    aux = aux + input[tokenPos];
-    tokenPos++;
-
-    // Enquanto for digito, popula a string aux
-    while (Character.isDigit(input[tokenPos])) {
-      aux = aux + input[tokenPos];
-      tokenPos++;
-    }
-  }
-
-  // A STRINGLITERAL 80, incluindo o '\0', logo a STRINGLITERAL entre as aspas,
-  // tem tamanho 81 no máximo
-  // Pois 80 - 1 = 79
-  // 79 + as duas aspas = 81
   private boolean validStringLiteral(String str) {
     // Se começar com \", é uma string literal
     if (str.charAt(0) == '\"') {
-      // Se for maior que 81, a string literal tem tamanho maior que 80
-      if (str.length() > 81) {
-        error.signal("String maior que 79 caracteres");
-      }
-
       // Se o ultimo caracter não for uma '"'
-      else if (str.charAt(str.length() - 1) != '\"') {
+      if (str.charAt(str.length() - 1) != '\"') {
         error.signal("A string precisa estar entre aspas duplas");
       }
 

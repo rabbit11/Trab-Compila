@@ -1,5 +1,7 @@
 package AST;
 
+//Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
+
 import AST.VarDecStat;
 import AST.Expr;
 
