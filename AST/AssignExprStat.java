@@ -5,7 +5,13 @@ package AST;
 public class AssignExprStat extends Stat {
     public AssignExprStat(Variable var, Expr expr) {
         super(var, expr);
+
+        // this.v = var;
+        // this.exp = expr;
     }
+
+    // private Variable v;
+    // private Expr exp;
 
     @Override
     public void genC(PW pw) {

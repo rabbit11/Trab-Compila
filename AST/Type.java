@@ -16,7 +16,7 @@ public class Type {
 
   public void tipo(PW pw){
     if(type == Symbol.INT)
-      pw.println("Int");
+      pw.println("int");
     else if (type == Symbol.BOOLEAN)
      pw.println("Boolean");
     else if (type == Symbol.STRING)

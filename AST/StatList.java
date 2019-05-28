@@ -1,16 +1,12 @@
 package AST;
 
-import java.util.*
+import java.util.*;
 
 //StatList ::= "{” {Stat} ”}"
 
-public class Statlist extends Stat{
-    private Arraylist<Stat> listaStats;
-
-
-    public Statlist(Arraylist listaStats){
-      this.setListaStats(listaStats);
-
+public class StatList extends Stat{
+    public StatList(ArrayList<Stat> listaStats){
+      this.listaStats = listaStats;
     }
 
     public genC(PW pw){
@@ -20,12 +16,13 @@ public class Statlist extends Stat{
       pw.printNI("}");
     }
 
+    // public setListaStats(Stat a) {
+    //   this.listaStats = a;
+    // }
 
-    public setListaStats(Stat a)
-      this.listaStats = a;
-
-
-    public getListaStats()
-      return this.listaStats;
-
+    // public getListaStats() {
+    //   return this.listaStats;
+    // }
+    
+  private ArrayList<Stat> listaStats;
 }

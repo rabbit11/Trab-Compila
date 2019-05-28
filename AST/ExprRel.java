@@ -1,8 +1,8 @@
-package AST
+package AST;
 
 //ExprRel ::= ExprAdd [ RelOp ExprAdd ]
 
-public class ExprRel extends Expr{
+public class ExprRel extends Expr {
     
     private Expr esquerda, direita;
     private Symbol operador;

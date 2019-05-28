@@ -1,4 +1,4 @@
-package AST
+package AST;
 
 //ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
 public class ExprLiteral extends Expr {
