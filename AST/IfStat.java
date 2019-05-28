@@ -11,6 +11,7 @@ public class IfStat extends Stat {
     public IfStat( Expr expr, StatList elseStat ) {
         this.expr = expr;
         this.elseStat = elseStat;
+    }
 
     @Override
     public void genC( PW pw ) {

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 //ParamList ::= ParamDec {”, ”ParamDec}
 
-public class ParamList extends ParamDec {
+public class ParamList{
     private ArrayList<ParamDec> arrayParam;
 
     public ParamList(ArrayList<ParamDec> p) {
