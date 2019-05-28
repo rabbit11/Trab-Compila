@@ -2,7 +2,7 @@ package AST;
 
 //Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
 
-abstract public class Statement {
+abstract public class Stat {
   abstract public void genC(PW pw);
 }
 

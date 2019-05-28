@@ -24,11 +24,12 @@ public class Type {
       pw.println("Boolean");
       return "Boolean";
     }
-    
+
     else if (type == Symbol.STRING){
       pw.println("String");
       return "String";
     }
+    return "Tipo não reconhecido";
   }
 
   public Symbol getType() {
