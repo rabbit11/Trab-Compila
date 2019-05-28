@@ -184,47 +184,26 @@ public class Compiler {
     return result;
   }
 
-  private void varDecStat( ArrayList<VarDecStat> varList ) {
-// VarDecList2 ::= Ident { ’,’ Ident } ’:’ Type ’;’
-    ArrayList<VarDecStat> lastVarList = new ArrayList<VarDecStat>();
+  private void varDecStat() {
 
-    while ( true ) {
-    if ( lexer.token != Symbol.IDENT )
+    if ( lexer.token != Symbol.VAR )//ta certo isso?
       System.out.println("Identifier expected");
+      
+    lexer.nextToken(); // ta certo isso?
+
+    Type typeVar = type();
+
     // name of the identifier
     String name = lexer.getStringValue();
 
-      lexer.nextToken();
-      // semantic analysis
-      // if the name is in the symbol table, the variable is been declared twice.
-      if (symbolTable.get(name) != null)
-        error.signal("VarDecStat " + name + " has already been declared");
-      // variable does not have a type yet
-      VarDecStat v = new VarDecStat(name);
-      // inserts the variable in the symbol table. The name is the key and an
-      // object of class VarDecStat is the value. Hash tables store a pair (key, value)
-      // retrieved by the key.
-      symbolTable.put(name, v);
-      // list of the last variables declared. They don’t have types yet
-      lastVarList.add(v);
-      if (lexer.token == Symbol.COMMA)
-        lexer.nextToken();
-      else
-        break;
-    }
-    if (lexer.token != Symbol.COLON) // :
-      error.signal(": expected");
     lexer.nextToken();
-    // get the type
-    Type typeVar = type();
-    for (VarDecStat v : lastVarList) {
-      // add type to the variable
-      v.setType(typeVar);
-      // add variable to the list of variable
-      varList.add(v);
+    
+    VarDecStat v = new VarDecStat(name, typeVar);
+    
+    if (lexer.token != Symbol.SEMICOLON){
+      System.out.println("; expected");
     }
-    if (lexer.token != Symbol.SEMICOLON)
-      error.signal("; expected");
+
     lexer.nextToken();
   }
 
