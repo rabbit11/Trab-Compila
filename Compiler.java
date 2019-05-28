@@ -104,6 +104,130 @@ public class Compiler {
   //   }
   // }
 
+  // ReturnStat ::= "return" Expr ";"
+  public ReturnStat ReturnStat(ReturnStat stat){
+
+    // ReturnStat();
+
+    if (lexer.token != Symbol.RETURN) {
+      System.out.println("Expected 'Return' but found '" + lexer.getStringValue() + "'");
+    }
+
+    lexer.nextToken();
+
+    // FLAG = RETURN;
+
+    expr(stat.getExpr());
+
+    if (lexer.token != Symbol.SEMICOLON) {
+      System.out.println("Expected ';' but found '" + lexer.getStringValue() + "'");
+    }
+
+    lexer.nextToken();
+  }
+
+  /*
+   * Statement ::= AssignmentStatement | IfStatement | ReadStatement |
+   * WriteStatement
+   */
+  private Stat stat() {
+    switch (lexer.token) {
+    case IDENT:
+      return assignmentStat();
+    case IF:
+      return ifStat();
+    case READ:
+      return readStat();
+    case WRITE:
+      return writeStat();
+    default:
+      // will never be executed
+      System.out.println("Statement expected");
+    }
+    return null;
+  }
+
+  // StatList ::= "{"{Stat}"}"
+  private StatList statList() {
+    ArrayList<Stat> v = new ArrayList<Stat>();
+    // statements always begin with an identifier, if, read or write
+    while (lexer.token == Symbol.IDENT || lexer.token == Symbol.IF || lexer.token == Symbol.READ
+        || lexer.token == Symbol.WRITE) {
+      v.add(stat());
+      if (lexer.token != Symbol.SEMICOLON)
+        System.out.println("; expected");
+      lexer.nextToken();
+    }
+    return new StatList(v);
+  }
+
+  //****precisa ser checado****
+  // Type::="Int"|"Boolean"|"String"
+  private Type type() {
+    Type result;
+    switch ( lexer.token ) {
+    case INT :
+      System.out.println("int");
+      // result = Type.integerType;
+      break;
+    case BOOLEAN:
+      // result = Type.booleanType;
+      break;
+    case STRING:
+      // result = Type.charType;
+      break;
+    default:
+      System.out.println("Type expected");
+      result = null;
+    }
+    lexer.nextToken();
+    return result;
+  }
+
+  private void varDecStat( ArrayList<VarDecStat> varList ) {
+// VarDecList2 ::= Ident { ’,’ Ident } ’:’ Type ’;’
+    ArrayList<VarDecStat> lastVarList = new ArrayList<VarDecStat>();
+
+    while ( true ) {
+    if ( lexer.token != Symbol.IDENT )
+      System.out.println("Identifier expected");
+    // name of the identifier
+    String name = lexer.getStringValue();
+
+      lexer.nextToken();
+      // semantic analysis
+      // if the name is in the symbol table, the variable is been declared twice.
+      if (symbolTable.get(name) != null)
+        error.signal("VarDecStat " + name + " has already been declared");
+      // variable does not have a type yet
+      VarDecStat v = new VarDecStat(name);
+      // inserts the variable in the symbol table. The name is the key and an
+      // object of class VarDecStat is the value. Hash tables store a pair (key, value)
+      // retrieved by the key.
+      symbolTable.put(name, v);
+      // list of the last variables declared. They don’t have types yet
+      lastVarList.add(v);
+      if (lexer.token == Symbol.COMMA)
+        lexer.nextToken();
+      else
+        break;
+    }
+    if (lexer.token != Symbol.COLON) // :
+      error.signal(": expected");
+    lexer.nextToken();
+    // get the type
+    Type typeVar = type();
+    for (VarDecStat v : lastVarList) {
+      // add type to the variable
+      v.setType(typeVar);
+      // add variable to the list of variable
+      varList.add(v);
+    }
+    if (lexer.token != Symbol.SEMICOLON)
+      error.signal("; expected");
+    lexer.nextToken();
+  }
+
   private void error(String errorMsg) {
     if (tokenPos == 0)
       tokenPos = 1;
@@ -120,5 +244,5 @@ public class Compiler {
   private char token;
   private int tokenPos;
   private char[] input;
-  private Hashtable<Character, Variable> symbolTable;
+  private Hashtable<Character, VarDecStat> symbolTable;
 }
