@@ -4,7 +4,9 @@ import java.util.*;
 
 //StatList ::= "{” {Stat} ”}"
 
-public class StatList extends Stat{
+public class StatList{
+    private ArrayList<Stat> listaStats;
+
     public StatList(ArrayList<Stat> listaStats){
       this.listaStats = listaStats;
     }
@@ -24,5 +26,4 @@ public class StatList extends Stat{
     //   return this.listaStats;
     // }
     
-  private ArrayList<Stat> listaStats;
 }
