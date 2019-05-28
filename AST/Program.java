@@ -19,8 +19,8 @@ public class Program {
         pw.println("void main() {");
         pw.add();
         // generate code for the declaration of variables
-        for (VarDecStat var : arrayVariable){
-            pw.println(var.getType().getCname() + " " + var.getName() + ";");
+        for (VarDecStat var : arrayFunc){
+            pw.println(var.getTipo().tipo(pw) + " " + var.getVar() + ";");
         }
         pw.out.println("");
         statList.genC(pw);

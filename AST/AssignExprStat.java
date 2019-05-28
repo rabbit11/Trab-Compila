@@ -12,9 +12,6 @@ public class AssignExprStat extends Stat {
         this.expr = expr;
     }
 
-    // private Variable v;
-    // private Expr exp;
-
     @Override
     public void genC(PW pw) {
         pw.printBL(); // Quebra de linha

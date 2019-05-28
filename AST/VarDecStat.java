@@ -31,7 +31,7 @@ public class VarDecStat {
     return this.var;
   }
 
-  public Symbol getTipo() {
+  public Type getTipo() {
     return this.tipo.getType();
   }
 }
