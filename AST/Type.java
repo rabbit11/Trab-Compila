@@ -14,13 +14,21 @@ public class Type {
     this.type = a;
   }
 
-  public void tipo(PW pw) {
-    if (type == Symbol.INT)
+  public String tipo(PW pw) {
+    if (type == Symbol.INT){
       pw.println("int");
-    else if (type == Symbol.BOOLEAN)
+      return "int";
+    }
+
+    else if (type == Symbol.BOOLEAN){
       pw.println("Boolean");
-    else if (type == Symbol.STRING)
+      return "Boolean";
+    }
+    
+    else if (type == Symbol.STRING){
       pw.println("String");
+      return "String";
+    }
   }
 
   public Symbol getType() {
