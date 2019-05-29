@@ -133,6 +133,32 @@ public class Lexer {
         }
       }
 
+      // Se o conteudo não for vazio, pode ser uma palavra reservada ou ident
+      if (!aux.equals("")) {
+        // Verificamos se o conteudo está na tabela hash
+        Symbol temp = keywordsTable.get(aux);
+
+        // Se estiver na tabela hash
+        if (temp != null) {
+          // O token toma o valor encontrado na tabela
+          token = temp;
+        }
+
+        // Pode ser um ident
+        else {
+          // Enquanto for letra ou digito, continua lendo para a string aux
+          while (Character.isLetterOrDigit(input[tokenPos])) {
+            aux = aux + input[tokenPos];
+            tokenPos++;
+          }
+
+          // Se o ident lido for válido
+          if (validIdent(aux)) {
+            token = Symbol.IDENT;
+            stringValue = aux;
+          }
+        }
+      }
       // Pode ser stringliteral ou simbolo, a string aux aqui com certeza sera vazia
       else {
         // Se não for uma aspas, é um simbolo
@@ -236,6 +262,28 @@ public class Lexer {
     return boolValue;
   }
 
+  private boolean validId(String str) {
+    // Precisa começar com uma letra
+    if (Character.isLetter(str.charAt(0))) {
+      // Se for maior que 30, é um identificador invalido
+      if (str.length() > 30) {
+        error.signal("A variavel precisa ter um tamanho maximo 30 caracteres");
+      }
+
+      // Se tiver algum valor diferente de numeros e digitos, gera um erro
+      else if (!containsOnlyNumbersAndDigits(str)) {
+        error.signal("Nome de variavel invalido, encontrado caractere invalido em '" + str + "'");
+      }
+
+      token = Symbol.IDLITERAL;
+      stringValue = str;
+    } else {
+      error.signal("O nome da variavel precisa começar com uma letra, encontrado caractere invalido em '" + str + "'");
+    }
+
+    return true;
+  }
+
   // public char getCharValue() {
   //   return charValue;
   // }
@@ -279,6 +327,7 @@ public class Lexer {
 
   // Max string size
   private int MaxStringSize = 81;
+  private int MaxIdentSize = 30;
 
   // current token
   public Symbol token;

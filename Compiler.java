@@ -273,6 +273,82 @@ public class Compiler {
 
   }
 
+  public boolean LiteralBoolean() {
+
+    if (lexer.token == Symbol.BOOLLITERAL) {
+      boolean boo = lexer.getBoolValue();
+      lexer.nextToken();
+      return boo;
+    } else {
+      error.signal("Error in the boolean type");
+    }
+
+    return null;
+  }
+
+  private ParamList paramList() {
+    // ParamList ::= ParamDec { ’,’ ParamDec }
+    ParamList paramList = null;
+
+    paramList = new ParamList();
+    paramDec(paramList);
+    while (lexer.token == Symbol.COMMA) {
+      lexer.nextToken();
+      paramDec(paramList);
+    }
+
+    return paramList;
+  }
+
+  private void ParamDec(ParamList paramList) {
+    // ParamDec ::= Id ":" Type
+    ArrayList<Parameter> lastVarList = new ArrayList<Parameter>();
+    while (true) {
+      if (lexer.token != Symbol.IDLITERAL)
+        error.signal("Identifier expected");
+      // name of the identifier
+      String name = (String) lexer.getStringValue();
+      lexer.nextToken();
+      // // semantic analysis
+      // // if the name is in the symbol table and the scope of the name is local,
+      // // the variable is been declared twice.
+      // if (symbolTable.getInLocal(name) != null)
+      //   error.show("Parameter " + name + " has already been declared");
+      // variable does not have a type yet
+      Parameter v = new Parameter(name);
+      // inserts the variable in the symbol table. The name is the key and an
+      // object of class Variable is the value. Hash tables store a pair (key, value)
+      // retrieved by the key.
+      symbolTable.putInLocal(name, v);
+      // list of the last variables declared. They don’t have types yet
+      lastVarList.add(v);
+      if (lexer.token == Symbol.COMMA)
+        lexer.nextToken();
+      else
+        break;
+    }
+    if (lexer.token != Symbol.COLON) { // :
+      error.show(": expected");
+      lexer.skipPunctuation();
+    } else
+      lexer.nextToken();
+    // get the type
+    Type typeVar = type();
+    for (Parameter v : lastVarList) {
+      // add type to the variable
+      v.setType(typeVar);
+      // add v to the list of parameter declarations
+      paramList.addElement(v);
+    }
+  }
+
+  // // ParamDec ::= Id ":" Type
+  // public VarDecStat ParamDec() {
+  // VarDecStat var = new VarDecStat();
+  // var.setVar(id());
+  // return var;
+  // }
+
   private void error(String errorMsg) {
     if (tokenPos == 0)
       tokenPos = 1;
