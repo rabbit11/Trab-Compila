@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public class IfStat extends Stat {
     private Expr expr;
+    private StatList ifBody;
     private StatList elseStat;
 
-    public IfStat( Expr expr, StatList elseStat ) {
+    public IfStat( Expr expr, StatList ifBody, StatList elseStat ) {
         this.expr = expr;
+        this.ifBody = ifBody;
         this.elseStat = elseStat;
     }
 

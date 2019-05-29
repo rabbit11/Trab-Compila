@@ -161,6 +161,54 @@ public class Compiler {
     return new StatList(v);
   }
 
+  private IfStat ifStat() {
+
+    if (lexer.token != Symbol.IF) {
+      System.out.println("'if' expected");
+    }
+
+    lexer.nextToken();
+
+    Expr e = exprOr(lexer.token);
+
+    lexer.nextToken();
+
+    //devemos checar pela abertura e fechamento de chaves?
+
+    if(lexer.token != Symbol.LBRA){
+      System.out.println("{ expected");
+    }
+
+    StatList ifPart = statList();
+    StatList elsePart = null;
+
+    if(lexer.token != Symbol.RBRA){
+      System.out.println("} expected");
+    }
+
+    lexer.nextToken();
+
+    if(lexer.token == Symbol.ELSE){
+
+      if(lexer.token != Symbol.LBRA){
+        System.out.println("{ expected");
+      }
+
+      lexer.nextToken();
+      elsePart = statList();
+      lexer.nextToken();
+
+      if(lexer.token != Symbol.RBRA){
+        System.out.println("} expected");
+      }
+    }
+
+    lexer.nextToken(); // não sei se precisa
+
+    return new IfStat(e, ifPart, elsePart);
+
+  }
+
   //****precisa ser checado****
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
@@ -207,7 +255,7 @@ public class Compiler {
     lexer.nextToken();
   }
 
-  private void whileStat(){
+  private WhileStat whileStat(){
     if(lexer.token != Symbol.WHILE){
       System.out.println("'while' expected");
     }
@@ -218,9 +266,11 @@ public class Compiler {
 
     lexer.nextToken();
     
-    StatList statList = statList();
+    StatList whilePart = statList();
    
     lexer.nextToken(); // não sei se precisa
+
+    return new WhileStat(whilePart, e);
     
   }
 

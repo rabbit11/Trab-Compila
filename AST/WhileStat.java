@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 public class WhileStat extends Stat {
     private Expr expr;
-    private StatList stat;
+    private StatList whileBody;
     // super expr sera as condições do while
 
     // private WhileBody corpo;
     private ArrayList<AssignExprStat> atribuicaoInicio;
     private ArrayList<AssignExprStat> atribuicaoFinal;
 
-    public WhileStat(StatList stat, Expr expr) {
-        this.stat = stat;
+    public WhileStat(StatList whileBody, Expr expr) {
+        this.whileBody = whileBody;
         this.expr = expr;
     }
 
@@ -25,7 +25,7 @@ public class WhileStat extends Stat {
         pw.out.println(" )");
 
             pw.add();
-            stat.genC(pw);
+            whileBody.genC(pw);
             pw.sub();
         }
 }
