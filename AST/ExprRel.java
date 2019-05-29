@@ -1,4 +1,5 @@
 package AST;
+import Lexer.*;
 
 //ExprRel ::= ExprAdd [ RelOp ExprAdd ]
 

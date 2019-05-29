@@ -1,5 +1,5 @@
 package AST;
-
+import Lexer.*;
 //ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
 
 public class ExprUnary extends Expr {
@@ -11,24 +11,24 @@ public class ExprUnary extends Expr {
     this.setOperador(op);
   }
 
-  public genC(PW pw){
-    if(getOperador() != NULL)
+  public void genC(PW pw){
+    if(getOperador() != null)
       pw.printNI(operador.toString() + "");
   }
 
-  public setUnaria(Expr unary) {
+  public void setUnaria(Expr unary) {
     this.unaria = unary;
   }
 
-  public getUnaria() {
+  public Expr getUnaria() {
     return this.unaria;
   }
 
-  public setOperador(Symbol op) {
+  public void setOperador(Symbol op) {
     this.operador = op;
   }
 
-  public getOperador() {
+  public Symbol getOperador() {
     return this.operador;
   }
 }

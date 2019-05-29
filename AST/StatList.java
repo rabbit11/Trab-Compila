@@ -4,17 +4,26 @@ import java.util.*;
 
 //StatList ::= "{” {Stat} ”}"
 
-public class StatList extends Stat{
+public class StatList{
+    private ArrayList<Stat> listaStats;
+
     public StatList(ArrayList<Stat> listaStats){
       this.listaStats = listaStats;
     }
 
-    public genC(PW pw){
-      pw.printNI("{");
-      for(int i = 0; i < listaStats.size(); i++)
-        pw.print(listaStats[i]); //não sei qual print usar aqui
-      pw.printNI("}");
+
+    public void genC(PW pw){
+        for(Stat s : listaStats){
+          s.genC(pw);
+        }
     }
+
+    // public void genC(PW pw){
+    //   pw.printNI("{");
+    //   for(int i = 0; i < listaStats.size(); i++)
+    //     pw.print(listaStats[i]); //não sei qual print usar aqui
+    //   pw.printNI("}");
+    // }
 
     // public setListaStats(Stat a) {
     //   this.listaStats = a;
@@ -24,5 +33,4 @@ public class StatList extends Stat{
     //   return this.listaStats;
     // }
     
-  private ArrayList<Stat> listaStats;
 }
