@@ -8,7 +8,7 @@ public class ExprRel extends Expr {
     private Expr esquerda, direita;
     private Symbol operador;
 
-    public ExprRel(Expr esq, Expr dir, Symbol op){
+    public ExprRel(Expr esq, Symbol op, Expr dir){
         this.setDireita(dir);
         this.setEsquerda(esq);
         this.setOperador(op);

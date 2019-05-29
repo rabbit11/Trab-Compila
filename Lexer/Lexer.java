@@ -1,7 +1,7 @@
 package Lexer;
 
 import java.util.*;
-import Error.*;
+//import Error.*;
 
 public class Lexer {
 
@@ -153,8 +153,8 @@ public class Lexer {
           }
 
           // Se o ident lido for válido
-          if (validIdent(aux)) {
-            token = Symbol.IDENT;
+          if (validIdent(aux)) { //VALIDIDENT NAO EXISTE!!
+            token = Symbol.IDENT; //SIMBOLO IDENT NAO EXISTE!!
             stringValue = aux;
           }
         }

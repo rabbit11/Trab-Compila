@@ -11,7 +11,7 @@ public class Func {
     private Symbol tipoRetorno;
     private String nomeFunc;
     private ArrayList<VarDecStat> params;
-    // private FuncCorpo corpo;
+    //private FuncCorpo corpo;
 
     public Func(Symbol tipoRetorno, String nomeFunc, ArrayList<VarDecStat> params) {
         this.tipoRetorno = tipoRetorno;
@@ -30,9 +30,9 @@ public class Func {
 
         for (int i = 0; i < params.size(); i++) {
             if (i + 1 == params.size()) {
-                if (params.get(i).tipo.getType() == Symbol.INT) {
+                if (params.get(i).getTipo().getType() == Symbol.INT) {
                     pw.print("int " + params.get(i).getVar());
-                } else if {
+                } else if (params.get(i).getTipo().getType() == Symbol.BOOLEAN){
                     pw.print("boolean " + params.get(i).getVar());
                 }else {
                     pw.print("char * " + params.get(i).getVar());
@@ -40,7 +40,7 @@ public class Func {
             } else {
                 if (params.get(i).getTipo() == Symbol.INT) {
                     pw.print("int " + params.get(i).getVar() + ", ");
-                } else if {
+                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
                     pw.print("boolean " + params.get(i).getVar() + ", ");
                 }else {
                     pw.print("char * " + params.get(i).getVar() + ", ");
@@ -54,7 +54,7 @@ public class Func {
         pw.add();
 
         // Imprime o corpo da função
-        corpo.genC(pw);
+        //corpo.genC(pw); FOI COMENTADO PARA COMPILAR
 
         // Decrementa a tabulação e fecha a função
         pw.sub();
@@ -62,13 +62,14 @@ public class Func {
 
     }
 
-    public void setparams(ArrayList<Variable> var) {
+    public void setparams(ArrayList<VarDecStat> var) {
         this.params = var;
     }
 
-    public void setCorpo(FuncCorpo corpo) {
+   /* public void setCorpo(FuncCorpo corpo) {
         this.corpo = corpo;
     }
+    */ //FOI COMENTADO PARA COMPILAR
 
     public String getNome() {
         return this.nomeFunc;
@@ -78,7 +79,7 @@ public class Func {
         return this.tipoRetorno;
     }
 
-    public ArrayList<Variable> getparams() {
+    public ArrayList<VarDecStat> getparams() {
         return this.params;
     }
 }

@@ -22,7 +22,7 @@ public class Main {
     else {
       file = new File(args[0]);
       if ( ! file.exists() || ! file.canRead() ) {
-        System.out.println("Either the file " + args[0] + " does not exist or it cannot be accessed")
+        System.out.println("Either the file " + args[0] + " does not exist or it cannot be accessed");
           throw new RuntimeException();
       }
 
