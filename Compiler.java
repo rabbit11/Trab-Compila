@@ -257,13 +257,13 @@ public class Compiler {
 
     lexer.nextToken();
 
-    
+
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("; expected");
     }
-    
+
     lexer.nextToken();
-    
+
     VarDecStat v = new VarDecStat(name, typeVar);
     return v;
   }
@@ -320,7 +320,7 @@ public class Compiler {
       error.signal("Identifier expected");
     }
     // name of the identifier
-    String name = (String) lexer.getStringValue(); 
+    String name = (String) lexer.getStringValue();
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) { // :
@@ -463,6 +463,112 @@ public void assignExprStat(){
   else
     error("simbolo incorreto");
 
+}
+
+private Expr exprRel(){
+   //ExprRel ::= ExprAdd [ RelOp ExprAdd ]
+   Expr left, right;
+   left = exprAdd();
+   Symbol op = lexer.token;
+   if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE || op == Symbol.GT){
+      lexer.nextToken();
+      right = exprAdd();
+
+      left = new ExprRel(left, op, right);
+   }
+   return left;
+}
+
+private Expr exprUnary(){
+   //ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
+   Symbol op = lexer.token;
+   if(op == Symbol.PLUS || op == Symbol.MINUS)
+      lexer.nextToken();
+
+   Expr e = exprPrimary();
+
+   return new ExprUnary(e, op);
+}
+
+private Expr exprPrimary(){
+   //ExprPrimary ::= Id | FuncCall | ExprLiteral
+
+ //  ?
+}
+
+private Function func(){
+   //Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
+   if(lexer.token != Symbol.FUNCTION){
+      // should never occur
+      error.signal("Internal compiler error");
+      return null;
+   }
+   lexer.nextToken();
+
+   if (lexer.token != Symbol.IDLITERAL )
+      error.signal("Identifier expected");
+
+   String name = (String) lexer.getStringValue();
+   Subroutine s = (Subroutine) symbolTable.returnGlobal(name);
+
+   lexer.nextToken();
+
+   // currentFunction is used to store the function being compiled
+   s = currentFunction = new Function(name);
+
+   // insert s in the symbol table
+   symbolTable.putGlobal(name, s);
+
+   if (lexer.token == Symbol.LPAR){
+      lexer.nextToken();
+      s.setParams( paramList() );
+      if (lexer.token != Symbol.RPAR){
+         error.show(") expected");
+      }
+      else
+         lexer.nextToken();
+   }
+
+   if (lexer.token == Symbol.ARROW) {
+      lexer.nextToken();
+      ((Function ) s).setReturnType( type() );
+   }
+
+   s.setCorpo( statList() );
+
+   symbolTable.resetLocal();
+   return s;
+}
+
+private FuncCall funcCall(){
+   //FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
+   if (lexer.token != Symbol.IDLITERAL )
+      error.signal("Identifier expected");
+
+   lexer.nextToken();
+   String name = ( String ) lexer.getStringValue();
+
+   Function p = (Function ) symbolTable.returnGlobal(name);
+
+   if ( lexer.token != Symbol.LPAR ) {
+      error.show("( expected");
+   }
+   else
+      lexer.nextToken();
+      if ( lexer.token != Symbol.RPAR ) {
+         Expr e = expr();
+         lexer.nextToken();
+         while ( lexer.token == Symbol.COMMA){
+            lexer.nextToken(); // space
+            e = expr();
+         }
+
+         lexer.nextToken();
+         if ( lexer.token != Symbol.RPAR ) {
+            error.show(") expected");
+         }
+      }
+   // return ?????
 }
 
   private char token;
