@@ -1,4 +1,5 @@
 package AST;
+import Lexer.*;
 
 //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
 

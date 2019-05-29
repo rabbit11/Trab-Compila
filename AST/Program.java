@@ -2,7 +2,32 @@ package AST;
 
 import java.util.ArrayList;
 
-//Program ::= Func {F unc}
+//Program ::= Func {Func}
+
+// public class Program {
+//     private ArrayList<Func> arrayFunc;
+//     private StatList statList;
+
+//     public Program(ArrayList<Func> arrayFunc, StatList statList) {
+//         this.arrayFunc = arrayFunc;
+//         this.statList = statList;
+//     }
+
+//     public void genC(PW pw) {
+//         pw.out.println("#include <stdio.h>");
+//         pw.out.println();
+//         pw.println("void main() {");
+//         pw.add();
+//         // generate code for the declaration of variables
+//         for (VarDecStat var : arrayFunc){
+//             pw.println(var.getTipo().tipo(pw) + " " + var.getVar() + ";");
+//         }
+//         pw.out.println("");
+//         statList.genC(pw);
+//         pw.sub();
+//         pw.out.println("}");
+//     }
+// }
 
 public class Program {
     private ArrayList<Func> arrayFunc;

@@ -1,5 +1,7 @@
 package AST;
 
+import Lexer.*;
+
 //ExprAnd ::= ExprRel {”and”ExprRel}ExprAnd ::= ExprRel {”and”ExprRel}
 public class ExprAnd extends Expr{
     

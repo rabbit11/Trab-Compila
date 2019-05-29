@@ -14,16 +14,25 @@ public class Type {
     this.type = a;
   }
 
-  public void tipo(PW pw){
-    if(type == Symbol.INT)
+  public String tipo(PW pw) {
+    if (type == Symbol.INT){
       pw.println("int");
-    else if (type == Symbol.BOOLEAN)
-     pw.println("Boolean");
-    else if (type == Symbol.STRING)
+      return "int";
+    }
+
+    else if (type == Symbol.BOOLEAN){
+      pw.println("Boolean");
+      return "Boolean";
+    }
+
+    else if (type == Symbol.STRING){
       pw.println("String");
+      return "String";
+    }
+    return "Tipo não reconhecido";
   }
 
-  public Symbol getType(){
+  public Symbol getType() {
     return this.type;
   }
 }

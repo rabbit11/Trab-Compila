@@ -7,13 +7,13 @@ import Lexer.*;
 //Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
 
 //conferir após implementação de var e type
-public class Function {
+public class Func {
     private Symbol tipoRetorno;
     private String nomeFunc;
     private ArrayList<VarDecStat> params;
-    private FuncCorpo corpo;
+    // private FuncCorpo corpo;
 
-    public Function(Symbol tipoRetorno, String nomeFunc, ArrayList<Variable> params) {
+    public Func(Symbol tipoRetorno, String nomeFunc, ArrayList<VarDecStat> params) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
         this.params = params;

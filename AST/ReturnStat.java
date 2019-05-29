@@ -3,8 +3,12 @@ package AST;
 //ReturnStat ::= "return" Expr ";"
 
 public class ReturnStat extends Stat {
-    public ReturnStat(Variable v, Expr e) {
-        super(v, e);
+    private VarDecStat var;
+    private Expr expr;
+
+    public ReturnStat(VarDecStat v, Expr e) {
+        this.var = v;
+        this.expr = e;
     }
 
     @Override
@@ -14,7 +18,7 @@ public class ReturnStat extends Stat {
         pw.printI(); // Ident
         pw.printNI("return "); // Return
 
-        super.getExpr().genC(pw); // Expressão
+        // super.getExpr().genC(pw); // Expressão
         pw.printNI(";"); // ';'
 
         pw.printBL(); // Quebra de linha
