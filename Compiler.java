@@ -80,18 +80,6 @@ public class Compiler {
     return new Program(esq, dir);
   }
 
-  // public Program program() {
-  //   // Verifica se começou com a palavra PROGRAM
-  //   if (lexer.token != Symbol.FUNCTION) {
-  //     error.signal("Expected 'Func' but found '" + lexer.getStringValue() + "'\n'");
-  //   }
-  //   else {
-  //     Func();
-  //   }
-
-  //   return pg;
-  // }
-
   // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
   private Func func() {
 
@@ -106,14 +94,6 @@ public class Compiler {
     }
     lexer.nextToken();
   }
-
-  // private LiteralBoolean literalBoolean(){
-  // if(lexer.token == Symbol.BOOLEAN){
-  // Symbol a = lexer.token;
-
-  // if(a == )
-  // }
-  // }
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat(ReturnStat stat) {
@@ -362,44 +342,28 @@ private Expr exprAnd() {
 
 //ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
 public Expr exprLiteral(){
-  private int flag = 0;
-
+  int flag = 0;
 
   if(lexer.token == Symbol.INTLITERAL){
       lexer.nextToken();
       return Symbol.INTLITERAL;
-    }
-    else
-      flag = 1;
+  }
+  else
+    flag = 1;
 
-    if(lexer.token == Symbol.BOOLLITERAL){
-      lexer.nextToken();
-      return Symbol.BOOLLITERAL;
+  if(lexer.token == Symbol.BOOLLITERAL){
+    lexer.nextToken();
+    return Symbol.BOOLLITERAL;
+  }
+}
 
-  private char relOp() {
-    if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
-        || lexer.token == Symbol.GTE) {
-
-    } else {
-      System.out.println("Operador não reconhecido");
-    }
-    else
-      flag = 2;
-
-
-    if(lexer.token == Symbol.STRINGLITERAL){
-      lexer.nextToken();
-      return Symbol.STRINGLITERAL;
-    }
-    else
-      flag = 3;
-
-      if(flag == 1)
-        System.out.println("Expected type 'int'");
-      else if(flag == 2)
-        System.out.println("Expected type 'boolean'");
-      else if(flag == 3)
-        System.out.println("Expected type 'string'");
+private char RelOp() {
+  if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
+  || lexer.token == Symbol.GTE) {
+    lexer.nextToken();      
+  }
+  else 
+    error("Operation not defined");
 }
 
 //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
@@ -457,10 +421,8 @@ public void assignExprStat(){
       return esq;
   }
 
-
   else
-    error("simbolo incorreto");
-
+    error("simbolo incorreto"); 
 }
 
   private char token;
