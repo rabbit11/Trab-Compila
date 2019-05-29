@@ -2,11 +2,11 @@ package AST;
 
 //ExprAnd ::= ExprRel {”and”ExprRel}ExprAnd ::= ExprRel {”and”ExprRel}
 public class ExprAnd extends Expr{
-    
+
     private Expr esquerda, direita;
     private Symbol operador;
 
-    public ExprAnd(Expr esq, Expr dir, Symbol op){
+    public ExprAnd(Expr esq, Symbol op, Expr dir){
         this.setDireita(dir);
         this.setEsquerda(esq);
         this.setOperador(op);

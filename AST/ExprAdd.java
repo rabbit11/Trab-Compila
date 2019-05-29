@@ -8,7 +8,7 @@ public class ExprAdd extends Expr{
     private Expr esquerda, direita;
     private Symbol operador;
 
-    public ExprAdd(Expr esq, Expr dir, Symbol op){
+    public ExprAdd(Expr esq, Symbol op, Expr dir){
         this.setDireita(dir);
         this.setEsquerda(esq);
         this.setOperador(op);

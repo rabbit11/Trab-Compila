@@ -12,7 +12,7 @@ private void error(String errorMsg) => Error Message
 Class Hashtable has methods
     Object put(Object key, Object value)
     Object get(Object key)
-    
+
 Method put inserts value at the table using key as its name (or key!). It returns the table object that had key key. If there were none, it returns null:
 
   Hashtable h = new Hashtable();
@@ -30,18 +30,18 @@ Method put inserts value at the table using key as its name (or key!). It return
   System.out.println( h.get("a") );
 
 In the last call to put, we used name + "" as the key. We could not have used just name because name is not an object.
-    
+
     This compiler uses the same grammar as compiler 6:
-       Program ::= VarDecList ':' Expr   
-       VarDecList ::=  | VarDec VarDecList 
+       Program ::= VarDecList ':' Expr
+       VarDecList ::=  | VarDec VarDecList
        VarDec ::= Letter '=' Number
        Expr::=  '(' oper Expr  Expr ')' | Number | Letter
        Oper ::= '+' | '-' | '*' | '/'
        Number ::= '0'| '1' | ... | '9'
        Letter ::= 'A' | 'B'| ... | 'Z'| 'a'| 'b' | ... | 'z'
-       
+
      The compiler evaluate the expression
-     
+
 */
 
 import AST.*;
@@ -79,27 +79,141 @@ public class Compiler {
 
     return new Program(esq, dir);
   }
-  
-  // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
-  private Func func(){
 
-  }
+//ExprAnd::= ExprRel {”and”ExprRel}
+private Expr exprAnd() {
+  Expr esq, dir;
+  esq = ExprRel();
 
-  private char relOp(){
-    if(lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE
-        || lexer.token == Symbol.GT || lexer.token == Symbol.GTE){
-
-      }
-    else{
-      System.out.println("Operador não reconhecido");
-    }
+  if(lexer.token == Symbol.AND){
     lexer.nextToken();
+    dir = ExprRel();
+    esq = new exprAnd(esq, Symbol.AND, dir);
   }
+  else
+    sysem.out.println("'and' expected");
+
+  return left;
+}
+
+//ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
+public Expr exprLiteral(){
+  private int flag = 0;
+
+
+  if(lexer.token == Symbol.INTLITERAL){
+      lexer.nextToken();
+      return Symbol.INTLITERAL;
+    }
+    else
+      flag = 1;
+
+    if(lexer.token == Symbol.BOOLLITERAL){
+      lexer.nextToken();
+      return Symbol.BOOLLITERAL;
+    }
+    else
+      flag = 2;
+
+
+    if(lexer.token == Symbol.STRINGLITERAL){
+      lexer.nextToken();
+      return Symbol.STRINGLITERAL;
+    }
+    else
+      flag = 3;
+
+      if(flag == 1)
+        System.out.println("Expected type 'int'");
+      else if(flag == 2)
+        System.out.println("Expected type 'boolean'");
+      else if(flag == 3)
+        System.out.println("Expected type 'string'");
+}
+
+//ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
+private Expr exprMult(){
+  Expr esq, dir;
+  esq = simpleExpr();
+  Symbol op;
+
+  while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV || op == Symbol.REMAINDER){
+    lexer.nextToken();
+    dir = simpleExpr();
+    esq = new ExprMult(esq, op, dir);
+
+  }
+  return left;
+}
+
+//Expr ::= ExprAnd {”or”ExprAnd}
+public Expr expr(){
+  Expr esq, dir;
+  esq = ExprAnd();
+
+  while ((op = lexer.token) == Symbol.OR){
+    lexer.nextToken();
+    dir = exprMult();
+  }
+  return left;
+}
+
+//ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
+private Expr exprAdd(){
+  Symbol op;
+  Expr esq, dir;
+  esq = exprMult();
+
+  while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS){
+    lexer.nextToken();
+    dir = exprMult();
+    esq = new ExprAdd(esq, op, dir);
+  }
+  return left;
+}
+
+//AssignExprStat ::= Expr [ "=" Expr ] ";"
+public void assignExprStat(){
+  Expr esq, dir;
+  esq = expr();
+
+  if(lexer.token == Symbol.ASSIGN){
+    lexer.nextToken();
+    dir = expr();
+    lexer.nextToken();
+    if(lexer.token == Symbol.SEMICOLON)
+      lexer.nextToken();
+      return esq;
+  }
+
+
+  else
+    error("simbolo incorreto");
+
+}
+
+
+
+// Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
+private Func func(){
+
+}
+
+private char relOp(){
+  if(lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE
+      || lexer.token == Symbol.GT || lexer.token == Symbol.GTE){
+
+    }
+  else{
+    System.out.println("Operador não reconhecido");
+  }
+  lexer.nextToken();
+}
 
   // private LiteralBoolean literalBoolean(){
   //   if(lexer.token == Symbol.BOOLEAN){
   //     Symbol a = lexer.token;
-      
+
   //     if(a == )
   //   }
   // }

@@ -6,7 +6,7 @@ public class ExprMult extends Expr {
     private Expr esquerda, direita;
     private Symbol operador;
 
-    public ExprMult(Expr esq, Expr dir, Symbol op) {
+    public ExprMult(Expr esq, Symbol op, Expr dir) {
         this.setDireita(dir);
         this.setEsquerda(esq);
         this.setOperador(op);
