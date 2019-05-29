@@ -80,12 +80,7 @@ public class Compiler {
     return new Program(esq, dir);
   }
 
-  // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
-  private Func func() {
-
-  }
-
-  private char RelOp() {
+  private void RelOp() {
     if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
         || lexer.token == Symbol.GTE) {
 
@@ -237,7 +232,6 @@ public class Compiler {
 
     lexer.nextToken();
 
-
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("; expected");
     }
@@ -325,213 +319,206 @@ public class Compiler {
     throw new RuntimeException(strError);
   }
 
+  // ExprAnd::= ExprRel {”and”ExprRel}
+  private Expr exprAnd() {
+    Expr esq, dir;
+    esq = ExprRel();
 
-//ExprAnd::= ExprRel {”and”ExprRel}
-private Expr exprAnd() {
-  Expr esq, dir;
-  esq = ExprRel();
+    if (lexer.token == Symbol.AND) {
+      lexer.nextToken();
+      dir = ExprRel();
+      esq = new exprAnd(esq, Symbol.AND, dir);
+    } else
+      system.out.println("'and' expected");
 
-  if(lexer.token == Symbol.AND){
-    lexer.nextToken();
-    dir = ExprRel();
-    esq = new exprAnd(esq, Symbol.AND, dir);
+    return left;
   }
-  else
-    system.out.println("'and' expected");
 
-  return left;
-}
+  // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
+  public Expr exprLiteral() {
+    int flag = 0;
 
-//ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
-public Expr exprLiteral(){
-  int flag = 0;
-
-  if(lexer.token == Symbol.INTLITERAL){
+    if(lexer.token==Symbol.INTLITERAL){
       lexer.nextToken();
       return Symbol.INTLITERAL;
-  }
-  else
-    flag = 1;
+    }
+    else flag=1;
 
-  if(lexer.token == Symbol.BOOLLITERAL){
-    lexer.nextToken();
-    return Symbol.BOOLLITERAL;
-  }
-}
+    if(lexer.token==Symbol.BOOLLITERAL){
+        lexer.nextToken();
+        return Symbol.BOOLLITERAL;
+    }
 
-private char RelOp() {
-  if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
-  || lexer.token == Symbol.GTE) {
-    lexer.nextToken();      
-  }
-  else 
-    error("Operation not defined");
-}
+    if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
+        || lexer.token == Symbol.GTE) {
 
-//ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
-private Expr exprMult(){
-  Expr esq, dir;
-  esq = simpleExpr();
-  Symbol op;
+    } else
+      flag = 2;
 
-  while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV || op == Symbol.REMAINDER){
-    lexer.nextToken();
-    dir = simpleExpr();
-    esq = new ExprMult(esq, op, dir);
 
-  }
-  return left;
-}
-
-//Expr ::= ExprAnd {”or”ExprAnd}
-public Expr expr(){
-  Expr esq, dir;
-  esq = ExprAnd();
-
-  while ((op = lexer.token) == Symbol.OR){
-    lexer.nextToken();
-    dir = exprMult();
-  }
-  return left;
-}
-
-//ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
-private Expr exprAdd(){
-  Symbol op;
-  Expr esq, dir;
-  esq = exprMult();
-
-  while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS){
-    lexer.nextToken();
-    dir = exprMult();
-    esq = new ExprAdd(esq, op, dir);
-  }
-  return left;
-}
-
-//AssignExprStat ::= Expr [ "=" Expr ] ";"
-public void assignExprStat(){
-  Expr esq, dir;
-  esq = expr();
-
-  if(lexer.token == Symbol.ASSIGN){
-    lexer.nextToken();
-    dir = expr();
-    lexer.nextToken();
-    if(lexer.token == Symbol.SEMICOLON)
+    if(lexer.token == Symbol.STRINGLITERAL){
       lexer.nextToken();
-      return esq;
-  }
+      return Symbol.STRINGLITERAL;
+    }
+    else
+      flag = 3;
 
-  else
-    error("simbolo incorreto"); 
+    if(flag == 1)
+      System.out.println("Expected type 'int'");
+    else if(flag == 2)
+      System.out.println("Expected type 'boolean'");
+    else if(flag == 3)
+      System.out.println("Expected type 'string'");
 }
 
-private Expr exprRel(){
-   //ExprRel ::= ExprAdd [ RelOp ExprAdd ]
-   Expr left, right;
-   left = exprAdd();
-   Symbol op = lexer.token;
-   if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE || op == Symbol.GT){
+  // Expr ::= ExprAnd {”or”ExprAnd}
+  public Expr expr() {
+    Expr esq, dir;
+    esq = ExprAnd();
+
+    while ((op = lexer.token) == Symbol.OR) {
+      lexer.nextToken();
+      dir = exprMult();
+    }
+    return left;
+  }
+
+  // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
+  private Expr exprAdd() {
+    Symbol op;
+    Expr esq, dir;
+    esq = exprMult();
+
+    while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
+      lexer.nextToken();
+      dir = exprMult();
+      esq = new ExprAdd(esq, op, dir);
+    }
+    return left;
+  }
+
+  // AssignExprStat ::= Expr [ "=" Expr ] ";"
+  public Expr assignExprStat() {
+    Expr esq, dir;
+    esq = expr();
+
+    if (lexer.token == Symbol.ASSIGN) {
+      lexer.nextToken();
+      dir = expr();
+      lexer.nextToken();
+      if (lexer.token == Symbol.SEMICOLON)
+        lexer.nextToken();
+      return esq;
+    }
+
+    else
+      error("simbolo incorreto");
+  }
+
+  private Expr exprRel() {
+    // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
+    Expr left, right;
+    left = exprAdd();
+    Symbol op = lexer.token;
+    if (op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE
+        || op == Symbol.GT) {
       lexer.nextToken();
       right = exprAdd();
 
       left = new ExprRel(left, op, right);
-   }
-   return left;
-}
+    }
+    return left;
+  }
 
-private Expr exprUnary(){
-   //ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
-   Symbol op = lexer.token;
-   if(op == Symbol.PLUS || op == Symbol.MINUS)
+  private Expr exprUnary() {
+    // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
+    Symbol op = lexer.token;
+    if (op == Symbol.PLUS || op == Symbol.MINUS)
       lexer.nextToken();
 
-   Expr e = exprPrimary();
+    Expr e = exprPrimary();
 
-   return new ExprUnary(e, op);
-}
+    return new ExprUnary(e, op);
+  }
 
-private Expr exprPrimary(){
-   //ExprPrimary ::= Id | FuncCall | ExprLiteral
+  private Expr exprPrimary() {
+    // ExprPrimary ::= Id | FuncCall | ExprLiteral
 
- //  ?
-}
+    // ?
+  }
 
-private Function func(){
-   //Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
-   if(lexer.token != Symbol.FUNCTION){
+  private Function func() {
+    // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
+    if (lexer.token != Symbol.FUNCTION) {
       // should never occur
       error.signal("Internal compiler error");
       return null;
-   }
-   lexer.nextToken();
+    }
+    lexer.nextToken();
 
-   if (lexer.token != Symbol.IDLITERAL )
+    if (lexer.token != Symbol.IDLITERAL)
       error.signal("Identifier expected");
 
-   String name = (String) lexer.getStringValue();
-   Subroutine s = (Subroutine) symbolTable.returnGlobal(name);
+    String name = (String) lexer.getStringValue();
+    Subroutine s = (Subroutine) symbolTable.returnGlobal(name);
 
-   lexer.nextToken();
+    lexer.nextToken();
 
-   // currentFunction is used to store the function being compiled
-   s = currentFunction = new Function(name);
+    // currentFunction is used to store the function being compiled
+    s = currentFunction = new Function(name);
 
-   // insert s in the symbol table
-   symbolTable.putGlobal(name, s);
+    // insert s in the symbol table
+    symbolTable.putGlobal(name, s);
 
-   if (lexer.token == Symbol.LPAR){
+    if (lexer.token == Symbol.LPAR) {
       lexer.nextToken();
-      s.setParams( paramList() );
-      if (lexer.token != Symbol.RPAR){
-         error.show(") expected");
-      }
-      else
-         lexer.nextToken();
-   }
+      s.setParams(paramList());
+      if (lexer.token != Symbol.RPAR) {
+        error.show(") expected");
+      } else
+        lexer.nextToken();
+    }
 
-   if (lexer.token == Symbol.ARROW) {
+    if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      ((Function ) s).setReturnType( type() );
-   }
+      ((Function) s).setReturnType(type());
+    }
 
-   s.setCorpo( statList() );
+    s.setCorpo(statList());
 
-   symbolTable.resetLocal();
-   return s;
-}
+    symbolTable.resetLocal();
+    return s;
+  }
 
-private FuncCall funcCall(){
-   //FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
-   if (lexer.token != Symbol.IDLITERAL )
+  private FuncCall funcCall() {
+    // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
+    if (lexer.token != Symbol.IDLITERAL)
       error.signal("Identifier expected");
 
-   lexer.nextToken();
-   String name = ( String ) lexer.getStringValue();
+    lexer.nextToken();
+    String name = (String) lexer.getStringValue();
 
-   Function p = (Function ) symbolTable.returnGlobal(name);
+    Function p = (Function) symbolTable.returnGlobal(name);
 
-   if ( lexer.token != Symbol.LPAR ) {
+    if (lexer.token != Symbol.LPAR) {
       error.show("( expected");
-   }
-   else
+    } else
       lexer.nextToken();
-      if ( lexer.token != Symbol.RPAR ) {
-         Expr e = expr();
-         lexer.nextToken();
-         while ( lexer.token == Symbol.COMMA){
-            lexer.nextToken(); // space
-            e = expr();
-         }
-
-         lexer.nextToken();
-         if ( lexer.token != Symbol.RPAR ) {
-            error.show(") expected");
-         }
+    if (lexer.token != Symbol.RPAR) {
+      Expr e = expr();
+      lexer.nextToken();
+      while (lexer.token == Symbol.COMMA) {
+        lexer.nextToken(); // space
+        e = expr();
       }
-   // return ?????
-}
+
+      lexer.nextToken();
+      if (lexer.token != Symbol.RPAR) {
+        error.show(") expected");
+      }
+    }
+    // return ?????
+  }
 
   private char token;
   private int tokenPos;
