@@ -131,14 +131,12 @@ public class Compiler {
    */
   private Stat stat() {
     switch (lexer.token) {
-    case IDENT:
-      return assignmentStat();
+    // case IDENT:
+    //   return assignmentStat();
     case IF:
       return ifStat();
-    case READ:
-      return readStat();
-    case WRITE:
-      return writeStat();
+    case WHILE:
+      return whileStat();
     default:
       // will never be executed
       System.out.println("Statement expected");
@@ -231,7 +229,7 @@ public class Compiler {
     return result;
   }
 
-  private void varDecStat() {
+  private VarDecStat varDecStat() {
 
     if (lexer.token != Symbol.VAR)// ta certo isso?
       System.out.println("Identifier expected");
@@ -245,13 +243,15 @@ public class Compiler {
 
     lexer.nextToken();
 
-    VarDecStat v = new VarDecStat(name, typeVar);
-
+    
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("; expected");
     }
-
+    
     lexer.nextToken();
+    
+    VarDecStat v = new VarDecStat(name, typeVar);
+    return v;
   }
 
   private WhileStat whileStat() {
