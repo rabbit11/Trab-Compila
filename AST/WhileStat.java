@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public class WhileStat extends Stat {
     private Expr expr;
-    private Stat stat;
+    private StatList stat;
     // super expr sera as condições do while
 
     // private WhileBody corpo;
     private ArrayList<AssignExprStat> atribuicaoInicio;
     private ArrayList<AssignExprStat> atribuicaoFinal;
 
-    public WhileStat(Stat stat, Expr expr) {
+    public WhileStat(StatList stat, Expr expr) {
         this.stat = stat;
         this.expr = expr;
     }

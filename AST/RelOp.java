@@ -15,21 +15,21 @@ public class RelOp {
   }
 
   public void tipo(PW pw) {
-    if (type == Symbol.LT)
+    if (getType() == Symbol.LT)
       pw.println("<");
-    else if (type == Symbol.GT)
+    else if (getType() == Symbol.GT)
       pw.println(">");
-    else if (type == Symbol.LTE)
+    else if (getType() == Symbol.LTE)
       pw.println(">=");
-    else if (type == Symbol.GTE)
+    else if (getType() == Symbol.GTE)
       pw.println("<=");
-    else if (type == Symbol.EQUAL)
+    else if (getType() == Symbol.EQUAL)
       pw.println("==");
-    else if (type != Symbol.DIFFERENT)
+    else if (getType() != Symbol.DIFFERENT)
       pw.println("=");
   }
 
   public Symbol getType() {
-    return this.type;
+    return this.op;
   }
 }

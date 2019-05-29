@@ -207,6 +207,23 @@ public class Compiler {
     lexer.nextToken();
   }
 
+  private void whileStat(){
+    if(lexer.token != Symbol.WHILE){
+      System.out.println("'while' expected");
+    }
+    
+    lexer.nextToken();
+
+    Expr e = exprOr(lexer.token);
+
+    lexer.nextToken();
+    
+    StatList statList = statList();
+   
+    lexer.nextToken(); // não sei se precisa
+    
+  }
+
   private void error(String errorMsg) {
     if (tokenPos == 0)
       tokenPos = 1;
