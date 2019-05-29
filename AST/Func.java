@@ -13,7 +13,7 @@ public class Func {
     private ArrayList<VarDecStat> params;
     // private FuncCorpo corpo;
 
-    public Func(Symbol tipoRetorno, String nomeFunc, ArrayList<Variable> params) {
+    public Func(Symbol tipoRetorno, String nomeFunc, ArrayList<VarDecStat> params) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
         this.params = params;
