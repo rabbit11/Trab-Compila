@@ -143,8 +143,10 @@ public class Compiler {
    */
   private Stat stat() {
     switch (lexer.token) {
-    // case IDENT:
-    //   return assignmentStat();
+    case IDLITERAL:
+      return assignExprStat();
+    case VAR:
+      return varDecStat();
     case IF:
       return ifStat();
     case WHILE:
