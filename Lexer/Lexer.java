@@ -232,13 +232,13 @@ public class Lexer {
     return intValue;
   }
 
-  public float getFloatValue() {
-    return floatValue;
+  public boolean getBoolValue() {
+    return boolValue;
   }
 
-  public char getCharValue() {
-    return charValue;
-  }
+  // public char getCharValue() {
+  //   return charValue;
+  // }
 
       // }
 
@@ -284,8 +284,8 @@ public class Lexer {
   public Symbol token;
   private String stringValue;
   private int intValue;
-  private float floatValue;
-  private char charValue;
+  private boolean boolValue;
+  // private char charValue;
 
   private int tokenPos;
   // input[lastTokenPos] is the last character of the last token

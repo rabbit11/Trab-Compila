@@ -1,5 +1,6 @@
 package AST;
 import java.util.ArrayList;
+import AST.ParamDec;
 
 //ParamList ::= ParamDec {”, ”ParamDec}
 

@@ -10,7 +10,7 @@ public class VarDecStat {
   private String var;
   private Type tipo;
 
-  public VarDecStat(String var, Type tipo, String valor) {
+  public VarDecStat(String var, Type tipo) {
     this.var = var;
     this.tipo = tipo;
   }
