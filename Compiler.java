@@ -291,14 +291,16 @@ public class Compiler {
   private void ParamDec() {
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
-      error.signal("Identifier expected");
+      // error.signal("Identifier expected");
+      System.out.println("identifier expected");
     }
     // name of the identifier
     String name = (String) lexer.getStringValue();
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) { // :
-      error.show(": expected");
+      System.out.println(": expected");
+      // error.show(": expected");
     } else {
       lexer.nextToken();
     }
@@ -322,14 +324,14 @@ public class Compiler {
   // ExprAnd::= ExprRel {”and”ExprRel}
   private Expr exprAnd() {
     Expr esq, dir;
-    esq = ExprRel();
+    esq = exprRel();
 
     if (lexer.token == Symbol.AND) {
       lexer.nextToken();
       dir = ExprRel();
       esq = new exprAnd(esq, Symbol.AND, dir);
     } else
-      system.out.println("'and' expected");
+      System.out.println("'and' expected");
 
     return left;
   }
@@ -447,7 +449,7 @@ public class Compiler {
     // ?
   }
 
-  private Function func() {
+  private Func func() {
     // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
     if (lexer.token != Symbol.FUNCTION) {
       // should never occur
@@ -465,7 +467,7 @@ public class Compiler {
     lexer.nextToken();
 
     // currentFunction is used to store the function being compiled
-    s = currentFunction = new Function(name);
+    s = currentFunction = new Func(name);
 
     // insert s in the symbol table
     symbolTable.putGlobal(name, s);
@@ -481,7 +483,7 @@ public class Compiler {
 
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      ((Function) s).setReturnType(type());
+      ((Func) s).setReturnType(type());
     }
 
     s.setCorpo(statList());
