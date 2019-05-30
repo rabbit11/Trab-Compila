@@ -368,8 +368,9 @@ public class Compiler {
       lexer.nextToken();
       dir = exprRel();
       esq = new ExprAnd(esq, Symbol.AND, dir);
-    } else
-      System.out.println("'and' expected");
+    }
+    //  else
+    //   System.out.println("'and' expected");
 
     return esq;
   }
