@@ -91,6 +91,12 @@ public class Lexer {
       return;
     }
 
+    if (input[tokenPos] == '-' && input[tokenPos + 1] == '>') {
+      token = Symbol.ARROW;
+
+      return;
+    }
+
     // Verifica se é um número
     String aux = new String();
     while (Character.isDigit(input[tokenPos])) {
@@ -142,11 +148,6 @@ public class Lexer {
         if (temp != null) {
           // O token toma o valor encontrado na tabela
           token = temp;
-          if(token == Symbol.MINUS)
-            if( input[tokenPos] == '>'){
-                tokenPos++;
-                token = Symbol.ARROW;
-            }
         }
 
         // Pode ser um ident
