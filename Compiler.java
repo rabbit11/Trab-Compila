@@ -122,17 +122,15 @@ public class Compiler {
      System.out.println("Entrou na funcao stat");
     switch (lexer.token) {
     case IDLITERAL:
-      assignExprStat();
-      break;
+      return assignExprStat();
+    case RETURN:
+      return ReturnStat();
     case VAR:
-      varDecStat();
-      break;
+      return varDecStat();
     case IF:
-      ifStat();
-      break;
+      return ifStat();
     case WHILE:
-      whileStat();
-      break;
+      return whileStat();
     default:
       // will never be executed
       System.out.println("Statement expected");
@@ -442,10 +440,11 @@ public class Compiler {
   }
 
   // AssignExprStat ::= Expr [ "=" Expr ] ";"
-  public Expr assignExprStat() {
+  public Stat assignExprStat() {
      System.out.println("Entrou na funcao assignExprStat");
     Expr esq, dir;
     esq = expr();
+    dir = null;
 
     if (lexer.token == Symbol.ASSIGN) {
       lexer.nextToken();
@@ -456,9 +455,9 @@ public class Compiler {
     }
 
     else
-      error("simbolo incorreto");
+      System.out.println("simbolo incorreto");
 
-    return esq;
+    return new AssignExprStat(esq, dir);
   }
 
   private Expr exprRel() {

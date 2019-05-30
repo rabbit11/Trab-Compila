@@ -3,13 +3,11 @@ package AST;
 // AssignExprStat ::= Expr [ "=" Expr ] ";"
 
 public class AssignExprStat extends Stat {
-    private VarDecStat var;
-    private Expr expr;
+    private Expr esq, dir;
 
-    public AssignExprStat(VarDecStat var, Expr expr) {
-        // super(var, expr);
-        this.var = var;
-        this.expr = expr;
+    public AssignExprStat(Expr esq, Expr dir) {
+        this.esq = esq;
+        this.dir = dir;
     }
 
     @Override

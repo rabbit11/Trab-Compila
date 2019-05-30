@@ -6,7 +6,7 @@ import AST.Type;
 
 // VarDecStat ::= "var" Id ":" Type ";"
 
-public class VarDecStat {
+public class VarDecStat extends Stat{
   private String var;
   private Type tipo;
 
