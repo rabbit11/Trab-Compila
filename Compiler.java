@@ -231,7 +231,6 @@ public class Compiler {
 
     result = new Type(lexer.token);    
     lexer.nextToken();
-    System.out.println(lexer.token + "AQUI SE PA DEU RUIM");
     return result;
   }
 
@@ -515,8 +514,10 @@ public class Compiler {
       p = paramList();
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
-      } else
+      } else{
         lexer.nextToken();
+        System.out.println(lexer.token + "AQUI SE PA DEU RUIM");
+      }
     }
 
     Type t = null;
