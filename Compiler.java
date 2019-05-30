@@ -123,15 +123,20 @@ public class Compiler {
     switch (lexer.token) {
     case IDLITERAL:
       assignExprStat();
+      break;
     case VAR:
       varDecStat();
+      break;
     case IF:
       ifStat();
+      break;
     case WHILE:
       whileStat();
+      break;
     default:
       // will never be executed
       System.out.println("Statement expected");
+      System.out.println(lexer.token);
     }
     return null;
   }
@@ -151,6 +156,7 @@ public class Compiler {
     if(lexer.token != Symbol.LBRA){
       System.out.println("Esperado {");
     }
+    lexer.nextToken();
     stat();
 
     if(lexer.token != Symbol.RBRA){
@@ -226,10 +232,11 @@ public class Compiler {
     }
     else{
       System.out.println("Tipo não reconhecido");
+      System.out.println("TOken:" + lexer.token);
       return null;
     }
 
-    result = new Type(lexer.token);    
+    result = new Type(lexer.token);
     lexer.nextToken();
     return result;
   }
@@ -371,18 +378,20 @@ public class Compiler {
    public Expr exprLiteral() {
      System.out.println("Entrou na funcao exprLiteral");
        Symbol op = lexer.token;
+       System.out.println("OP: " + lexer.token);
 
-       if(op==Symbol.INTLITERAL)
+       switch(op)
+       case(Symbol.INTLITERAL):
          lexer.nextToken();
-       else System.out.println("Expected type 'int'");
+         break;
 
-       if(op==Symbol.BOOLLITERAL)
-           lexer.nextToken();
-       else System.out.println("Expected type 'boolean'");
+        case(op==Symbol.BOOLLITERAL):
+          lexer.nextToken();
+          break;
 
-       if(op == Symbol.STRINGLITERAL)
+        case(op == Symbol.STRINGLITERAL)
          lexer.nextToken();
-       else System.out.println("Expected type 'string'");
+         break;
 
       return new ExprLiteral(op);
    }
@@ -523,6 +532,7 @@ public class Compiler {
     Type t = null;
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
+      System.out.println(lexer.token);
       t = type();
     }
 

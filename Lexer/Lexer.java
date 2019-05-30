@@ -91,9 +91,12 @@ public class Lexer {
       return;
     }
 
+    //System.out.println("CHEGOU AQUI");
+
     if (input[tokenPos] == '-' && input[tokenPos + 1] == '>') {
       token = Symbol.ARROW;
-
+      tokenPos++;
+      tokenPos++;
       return;
     }
 
