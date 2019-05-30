@@ -201,28 +201,25 @@ public class Compiler {
 
   }
 
-  // ****precisa ser checado****
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
     Type result;
 
     if(lexer.token == Symbol.INT){
       System.out.println("int");
-      result = new Type(lexer.token);
     }
     else if(lexer.token == Symbol.BOOLEAN){
       System.out.println("boolean");
-      result = new Type(lexer.token);      
     }
     else if(lexer.token == Symbol.STRING){
       System.out.println("String");
-      result = new Type(lexer.token);
     }
     else{
       System.out.println("Tipo não reconhecido");
       return null;
     }
-
+    
+    result = new Type(lexer.token);
     lexer.nextToken();
     return result;
   }
