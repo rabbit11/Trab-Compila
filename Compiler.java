@@ -75,6 +75,7 @@ public class Compiler {
 
   // Program ::= Func {Func}
   private Program program() {
+    Sytem.out.println("Entrou na funcao program");
     Func esq = func();
     Func dir = func();
 
@@ -86,6 +87,7 @@ public class Compiler {
   }
 
   private void RelOp() {
+     Sytem.out.println("Entrou na funcao RelOP");
     if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
         || lexer.token == Symbol.GTE) {
 
@@ -97,6 +99,7 @@ public class Compiler {
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat() {
+     Sytem.out.println("Entrou na funcao ReturnStat");
 
     // if (lexer.token != Symbol.RETURN) {
     //   System.out.println("Expected 'Return' but found '" + lexer.getStringValue() + "'");
@@ -116,6 +119,7 @@ public class Compiler {
 
   //Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
   private Stat stat() {
+     Sytem.out.println("Entrou na funcao stat");
     switch (lexer.token) {
     case IDLITERAL:
       assignExprStat();
@@ -134,6 +138,7 @@ public class Compiler {
 
   // StatList ::= "{"{Stat}"}"
   private StatList statList() {
+     Sytem.out.println("Entrou na funcao statList");
     ArrayList<Stat> v = new ArrayList<Stat>();
     // statements always begin with an identifier, if
     // while (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.IF) {
@@ -157,6 +162,7 @@ public class Compiler {
 
   //IfStat ::= "if" Expr StatList [ "else" StatList ]
   private IfStat ifStat() {
+     Sytem.out.println("Entrou na funcao ifStat");
 
     if (lexer.token != Symbol.IF) {
       System.out.println("'if' expected");
@@ -206,6 +212,7 @@ public class Compiler {
 
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
+     Sytem.out.println("Entrou na funcao type");
     Type result;
 
     if(lexer.token == Symbol.INT){
@@ -228,6 +235,7 @@ public class Compiler {
   }
 
   private VarDecStat varDecStat() {
+     Sytem.out.println("Entrou na funcao varDecStat");
 
     if (lexer.token != Symbol.VAR)// ta certo isso?
       System.out.println("Identifier expected");
@@ -253,6 +261,7 @@ public class Compiler {
 
   //WhileStat ::= "while" Expr StatList
   private WhileStat whileStat() {
+     Sytem.out.println("Entrou na funcao whileStat");
     if (lexer.token != Symbol.WHILE) {
       System.out.println("'while' expected");
     }
@@ -272,6 +281,7 @@ public class Compiler {
   }
 
   public boolean literalBoolean() {
+     Sytem.out.println("Entrou na funcao literalBoolean");
 
     if (lexer.token == Symbol.BOOLLITERAL) {
       boolean boo = lexer.getBoolValue();
@@ -285,6 +295,7 @@ public class Compiler {
   }
 
   private ParamList paramList() {
+     Sytem.out.println("Entrou na funcao paramList");
     // ParamList ::= ParamDec { ’,’ ParamDec }
    ParamDec p = paramDec();
 
@@ -303,6 +314,7 @@ public class Compiler {
   }
 
   private ParamDec paramDec() {
+     Sytem.out.println("Entrou na funcao paramDec");
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
       // error.signal("Identifier expected");
@@ -326,6 +338,7 @@ public class Compiler {
   }
 
   private void error(String errorMsg) {
+     Sytem.out.println("Entrou na funcao error");
     if (tokenPos == 0)
       tokenPos = 1;
     else if (tokenPos >= input.length)
@@ -340,6 +353,7 @@ public class Compiler {
 
   // ExprAnd::= ExprRel {”and”ExprRel}
   private Expr exprAnd() {
+     Sytem.out.println("Entrou na funcao exprAnd");
     Expr esq, dir;
     esq = exprRel();
 
@@ -355,6 +369,7 @@ public class Compiler {
 
    // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
    public Expr exprLiteral() {
+     Sytem.out.println("Entrou na funcao exprLiteral");
        Symbol op = lexer.token;
 
        if(op==Symbol.INTLITERAL)
@@ -374,6 +389,7 @@ public class Compiler {
 
   // Expr ::= ExprAnd {”or”ExprAnd}
   public Expr expr() {
+     Sytem.out.println("Entrou na funcao expr");
     Expr esq, dir;
     esq = exprAnd();
     Symbol op;
@@ -387,6 +403,7 @@ public class Compiler {
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private Expr exprMult() {
+     Sytem.out.println("Entrou na funcao exprMult");
     Symbol op;
     Expr esq, dir;
     esq = exprUnary();
@@ -401,6 +418,7 @@ public class Compiler {
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private Expr exprAdd() {
+     Sytem.out.println("Entrou na funcao exprAdd");
     Symbol op;
     Expr esq, dir;
     esq = exprMult();
@@ -415,6 +433,7 @@ public class Compiler {
 
   // AssignExprStat ::= Expr [ "=" Expr ] ";"
   public Expr assignExprStat() {
+     Sytem.out.println("Entrou na funcao assignExprStat");
     Expr esq, dir;
     esq = expr();
 
@@ -433,6 +452,7 @@ public class Compiler {
   }
 
   private Expr exprRel() {
+     Sytem.out.println("Entrou na funcao exprRel");
     // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
     Expr left, right;
     left = exprAdd();
@@ -448,6 +468,7 @@ public class Compiler {
   }
 
   private Expr exprUnary() {
+     Sytem.out.println("Entrou na funcao exprUnary");
     // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
     Symbol op = lexer.token;
     if (op == Symbol.PLUS || op == Symbol.MINUS)
@@ -460,6 +481,7 @@ public class Compiler {
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
    private Expr exprPrimary() {
+     Sytem.out.println("Entrou na funcao exprPrimary");
       if(lexer.token == Symbol.IDLITERAL){
          lexer.nextToken();
       }
@@ -470,6 +492,7 @@ public class Compiler {
   }
 
   private Func func() {
+     Sytem.out.println("Entrou na funcao func");
     // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
     if (lexer.token != Symbol.FUNCTION) {
       // should never occur
@@ -507,6 +530,7 @@ public class Compiler {
   }
 
   private Expr funcCall() {
+     Sytem.out.println("Entrou na funcao funcCall");
     // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
     if (lexer.token != Symbol.IDLITERAL)
       System.out.println("Identifier expected");
