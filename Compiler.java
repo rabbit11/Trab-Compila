@@ -489,24 +489,25 @@ public class Compiler {
 
     lexer.nextToken();
 
-
+    ParamList p = null;
     if (lexer.token == Symbol.LPAR) {
       lexer.nextToken();
-      paramList();
+      p = paramList();
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
       } else
         lexer.nextToken();
     }
 
+    Type t = null;
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      type();
+      t = type();
     }
 
     statList();
 
-    //return ??????????
+    return new Func(t.getType(), name, p);
   }
 
   private FuncCall funcCall() {
