@@ -433,11 +433,12 @@ public class Compiler {
       lexer.nextToken();
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
-      return esq;
     }
 
     else
       error("simbolo incorreto");
+
+    return esq;
   }
 
   private Expr exprRel() {
