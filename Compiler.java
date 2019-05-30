@@ -205,21 +205,24 @@ public class Compiler {
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
     Type result;
-    switch (lexer.token) {
-    case INT:
+
+    if(lexer.token == Symbol.INT){
       System.out.println("int");
-      // result = Type.integerType;
-      break;
-    case BOOLEAN:
-      // result = Type.booleanType;
-      break;
-    case STRING:
-      // result = Type.charType;
-      break;
-    default:
-      System.out.println("Type expected");
-      result = null;
+      result = new Type(lexer.token);
     }
+    else if(lexer.token == Symbol.BOOLEAN){
+      System.out.println("boolean");
+      result = new Type(lexer.token);      
+    }
+    else if(lexer.token == Symbol.STRING){
+      System.out.println("String");
+      result = new Type(lexer.token);
+    }
+    else{
+      System.out.println("Tipo não reconhecido");
+      return null;
+    }
+
     lexer.nextToken();
     return result;
   }
