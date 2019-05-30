@@ -97,30 +97,20 @@ public class Compiler {
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat(ReturnStat stat) {
-
-    // ReturnStat();
-
     if (lexer.token != Symbol.RETURN) {
       System.out.println("Expected 'Return' but found '" + lexer.getStringValue() + "'");
     }
 
     lexer.nextToken();
-
-    // FLAG = RETURN;
-
-    expr(stat.expr()); //SUBSTITUIDO GETEXPR (QUE NAO EXISTIA) POR EXPR
+    expr();
 
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("Expected ';' but found '" + lexer.getStringValue() + "'");
     }
-
     lexer.nextToken();
   }
 
-  /*
-   * Statement ::= AssignmentStatement | IfStatement | ReadStatement |
-   * WriteStatement
-   */
+  //Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
   private Stat stat() {
     switch (lexer.token) {
     case IDLITERAL:
