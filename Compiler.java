@@ -344,31 +344,23 @@ public class Compiler {
     return esq;
   }
 
-  // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
-  public Expr exprLiteral() {
-/*    int flag = 0;
+ // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
+public void exprLiteral() {
+    int flag = 0;
 
     if(lexer.token==Symbol.INTLITERAL){
       lexer.nextToken();
-      return Symbol.INTLITERAL;
     }
     else flag=1;
 
     if(lexer.token==Symbol.BOOLLITERAL){
         lexer.nextToken();
-        return Symbol.BOOLLITERAL;
-    }
-
-    if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
-        || lexer.token == Symbol.GTE) {
-
     } else
       flag = 2;
 
 
     if(lexer.token == Symbol.STRINGLITERAL){
       lexer.nextToken();
-      return Symbol.STRINGLITERAL;
     }
     else
       flag = 3;
@@ -378,7 +370,7 @@ public class Compiler {
     else if(flag == 2)
       System.out.println("Expected type 'boolean'");
     else if(flag == 3)
-      System.out.println("Expected type 'string'");*/
+      System.out.println("Expected type 'string'");
 }
 
   // Expr ::= ExprAnd {”or”ExprAnd}
