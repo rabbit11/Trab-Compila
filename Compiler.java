@@ -487,7 +487,7 @@ public class Compiler {
 
     if (lexer.token == Symbol.LPAR) {
       lexer.nextToken();
-      ParamList();
+      paramList();
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
       } else
