@@ -148,7 +148,7 @@ public class Compiler {
     }
     stat();
 
-    if(lexer.token != Symbol.LBRA){
+    if(lexer.token != Symbol.RBRA){
       System.out.println("Esperado }");
     }
     
