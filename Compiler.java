@@ -151,7 +151,7 @@ public class Compiler {
     if(lexer.token != Symbol.RBRA){
       System.out.println("Esperado }");
     }
-    
+
     return new StatList(v);
   }
 
@@ -468,10 +468,16 @@ public void exprLiteral() {
     return new ExprUnary(e, op);
   }
 
-  private Expr exprPrimary() {
-    // ExprPrimary ::= Id | FuncCall | ExprLiteral
+   // ExprPrimary ::= Id | FuncCall | ExprLiteral
+   private Expr exprPrimary() {
+      if(lexer.token == Symbol.IDLITERAL){
+         lexer.nextToken();
+      }
+      else if(lexer.token == Symbol.STRING)
+         return funcCall();
 
-    // ?
+      else
+         return exprLiteral();
   }
 
   private Func func() {
@@ -511,7 +517,7 @@ public void exprLiteral() {
     return new Func(t.getType(), name, p);
   }
 
-  private FuncCall funcCall() {
+  private Expr funcCall() {
     // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
     if (lexer.token != Symbol.IDLITERAL)
       System.out.println("Identifier expected");
