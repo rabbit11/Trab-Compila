@@ -55,9 +55,9 @@ public class Compiler {
 
   public Program compile(char[] p_input) {
     //error = new CompilerError(null); //COMENTADO PARA COMPILAR
-    lexer = new Lexer(p_input, error);
+    lexer = new Lexer(p_input);
     table = new SymbolTable();
-    error.setLexer(lexer);
+    // error.setLexer(lexer);
 
     input = p_input;
     tokenPos = 0;
@@ -78,7 +78,7 @@ public class Compiler {
     Func esq = func();
     Func dir = func();
 
-    ArrayList<Func> f;
+    ArrayList<Func> f = new ArrayList<Func>(); 
     f.add(esq);
     f.add(dir);
 

@@ -5,14 +5,14 @@ import java.util.*;
 
 public class Lexer {
 
-  public Lexer(char[] input, CompilerError error) {
+  public Lexer(char[] input) {
     this.input = input;
     // end-of-file label
     input[input.length - 1] = '\0';
     // number of the current line
     lineNumber = 1;
     tokenPos = 0;
-    this.error = error;
+    // this.error = error;
   }
 
   // contains the keywords
@@ -106,7 +106,7 @@ public class Lexer {
 
         // Verifica se o número é maior que o valor máximo permitido
         if (intValue > MaxValueInteger || intValue < MinValueInteger) {
-          error.signal("Numero não está entre 0 e 2147483647");
+          System.out.println("Numero não está entre 0 e 2147483647");
         }
 
         token = Symbol.INTLITERAL;
@@ -267,18 +267,18 @@ public class Lexer {
     if (Character.isLetter(str.charAt(0))) {
       // Se for maior que 30, é um identificador invalido
       if (str.length() > 30) {
-        error.signal("A variavel precisa ter um tamanho maximo 30 caracteres");
+        System.out.println("A variavel precisa ter um tamanho maximo 30 caracteres");
       }
 
       // Se tiver algum valor diferente de numeros e digitos, gera um erro
       else if (!containsOnlyNumbersAndDigits(str)) {
-        error.signal("Nome de variavel invalido, encontrado caractere invalido em '" + str + "'");
+        System.out.println("Nome de variavel invalido, encontrado caractere invalido em '" + str + "'");
       }
 
       token = Symbol.IDLITERAL;
       stringValue = str;
     } else {
-      error.signal("O nome da variavel precisa começar com uma letra, encontrado caractere invalido em '" + str + "'");
+      System.out.println("O nome da variavel precisa começar com uma letra, encontrado caractere invalido em '" + str + "'");
     }
 
     return true;
@@ -316,7 +316,7 @@ public class Lexer {
     if (str.charAt(0) == '\"') {
       // Se o ultimo caracter não for uma '"'
       if (str.charAt(str.length() - 1) != '\"') {
-        error.signal("A string precisa estar entre aspas duplas");
+        System.out.println("A string precisa estar entre aspas duplas");
       }
 
       return true;
@@ -345,7 +345,7 @@ public class Lexer {
   // number of current line. Starts with 1
   private int lineNumber;
 
-  private CompilerError error;
+  // private CompilerError error;
   private static final int MaxValueInteger = 2147483647;
   private static final int MinValueInteger = 0;
 }
