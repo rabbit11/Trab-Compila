@@ -3,11 +3,11 @@ package AST;
 //ReturnStat ::= "return" Expr ";"
 
 public class ReturnStat extends Stat {
-    private VarDecStat var;
+    // private VarDecStat var;
     private Expr expr;
 
-    public ReturnStat(VarDecStat v, Expr e) {
-        this.var = v;
+    public ReturnStat(Expr e) {
+        // this.var = v;
         this.expr = e;
     }
 
