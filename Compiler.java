@@ -136,13 +136,22 @@ public class Compiler {
   private StatList statList() {
     ArrayList<Stat> v = new ArrayList<Stat>();
     // statements always begin with an identifier, if
-    while (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.IF) {
-    //NÃO EXISTE SIMBOLOS ID
-      v.add(stat());
-      if (lexer.token != Symbol.SEMICOLON)
-        System.out.println("; expected");
-      lexer.nextToken();
+    // while (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.IF) {
+    // //NÃO EXISTE SIMBOLOS ID
+    //   v.add(stat());
+    //   if (lexer.token != Symbol.SEMICOLON)
+    //     System.out.println("; expected");
+    //   lexer.nextToken();
+    // }
+    if(lexer.token != Symbol.LBRA){
+      System.out.println("Esperado {");
     }
+    stat();
+
+    if(lexer.token != Symbol.LBRA){
+      System.out.println("Esperado }");
+    }
+    
     return new StatList(v);
   }
 
