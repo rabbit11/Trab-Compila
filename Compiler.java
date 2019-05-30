@@ -108,7 +108,7 @@ public class Compiler {
 
     // FLAG = RETURN;
 
-    expr(stat.Expr()); //SUBSTITUIDO GETEXPR (QUE NAO EXISTIA) POR EXPR
+    expr(stat.expr()); //SUBSTITUIDO GETEXPR (QUE NAO EXISTIA) POR EXPR
 
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("Expected ';' but found '" + lexer.getStringValue() + "'");
