@@ -306,7 +306,7 @@ public class Compiler {
       System.out.println("identifier expected");
     }
     // name of the identifier
-    String name = (String) lexer.getStringValue();
+    String id = (String) lexer.getStringValue();
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) { // :
@@ -317,6 +317,9 @@ public class Compiler {
     }
     // get the type
     Type typeVar = type();
+    ParamDec param = new ParamDec(id, typeVar);
+
+    return param;
   }
 
   private void error(String errorMsg) {
