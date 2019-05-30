@@ -283,19 +283,23 @@ public class Compiler {
 
   private ParamList paramList() {
     // ParamList ::= ParamDec { ’,’ ParamDec }
-    ParamList paramList = null;
+   ParamDec p = paramDec();
 
-    ParamList a = new paramList();
-    paramDec();
-    while (lexer.token == Symbol.COMMA) {
+   ArrayList<ParamDec> pList = new ArrayList<ParamDec>();
+   ParamList paramList = new ParamList(pList);
+   pList.add(p);
+
+   while (lexer.token == Symbol.COMMA) {
       lexer.nextToken();
-      paramDec();
-    }
+      p = paramDec();
+      pList.add(p);
+   }
 
-    return paramList;
+   paramList.setArrayParam(pList);
+   return paramList;
   }
 
-  private void paramDec() {
+  private ParamDec paramDec() {
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
       // error.signal("Identifier expected");
