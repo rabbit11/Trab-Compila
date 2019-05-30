@@ -510,16 +510,20 @@ public void exprLiteral() {
     lexer.nextToken();
     String name = (String) lexer.getStringValue();
 
+    ArrayList<Expr> eList = new ArrayList<Expr>();
+
     if (lexer.token != Symbol.LPAR) {
       System.out.println("( expected");
     } else
       lexer.nextToken();
     if (lexer.token != Symbol.RPAR) {
       Expr e = expr();
+      eList.add(e);
       lexer.nextToken();
       while (lexer.token == Symbol.COMMA) {
         lexer.nextToken(); // space
         e = expr();
+        eList.add(e);
       }
 
       lexer.nextToken();
@@ -527,7 +531,7 @@ public void exprLiteral() {
         System.out.println(") expected");
       }
     }
-    // return ????????
+    return new FuncCall(name, eList);
   }
 
   private char token;

@@ -4,25 +4,20 @@ import java.util.ArrayList;
 
 //FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
 
-public class FuncCall {
-    private ArrayList<VarDecStat> arrayVar;
-    private ArrayList<Stat> arrayStat;
+public class FuncCall extends Expr{
+    private String funcName;
+    private ArrayList<Expr> arrayExpr;
 
-    public FuncCall(ArrayList<VarDecStat> var, ArrayList<Stat> stmt) {
-        this.arrayVar = var;
-        this.arrayStat = stmt;
+    public FuncCall(String s, ArrayList<Expr> e) {
+        this.funcName = s;
+        this.arrayExpr = e;
     }
 
     public void genC(PW pw) {
-        for (VarDecStat v : arrayVar) {
-            v.genC(pw);
-        }
-        for (Stat s : arrayStat) {
-            s.genC(pw);
-        }
+      // precisa fazer
     }
 
-    public void setArrayVar(ArrayList<VarDecStat> var) {
-        this.arrayVar = var;
+    public void setArrayExpr(ArrayList<Expr> e) {
+        this.arrayExpr = e;
     }
 }
