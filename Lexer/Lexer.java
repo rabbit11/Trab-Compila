@@ -153,8 +153,8 @@ public class Lexer {
           }
 
           // Se o ident lido for válido
-          if (validIdent(aux)) { //VALIDIDENT NAO EXISTE!!
-            token = Symbol.IDENT; //SIMBOLO IDENT NAO EXISTE!!
+          if (validId(aux)) { //VALIDIDENT NAO EXISTE!!
+            token = Symbol.IDLITERAL; //SIMBOLO IDLITERAL NAO EXISTE!!
             stringValue = aux;
           }
         }

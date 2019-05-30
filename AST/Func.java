@@ -38,9 +38,9 @@ public class Func {
                     pw.print("char * " + params.get(i).getVar());
                 }
             } else {
-                if (params.get(i).getTipo() == Symbol.INT) {
+                if (params.get(i).getTipo().getType() == Symbol.INT) {
                     pw.print("int " + params.get(i).getVar() + ", ");
-                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
+                } else if (params.get(i).getTipo().getType() == Symbol.BOOLEAN){
                     pw.print("boolean " + params.get(i).getVar() + ", ");
                 }else {
                     pw.print("char * " + params.get(i).getVar() + ", ");

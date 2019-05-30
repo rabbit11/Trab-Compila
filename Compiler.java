@@ -75,11 +75,14 @@ public class Compiler {
 
   // Program ::= Func {Func}
   private Program program() {
-    func();
+    Func esq = func();
+    Func dir = func();
 
-    return new Program(esq, dir);
+    ArrayList<Func> f;
+    f.add(esq);
+    f.add(dir);
 
-    //ESQ E DIR NAO EXISTEM
+    return new Program(f);
   }
 
   private void RelOp() {
@@ -121,13 +124,13 @@ public class Compiler {
   private Stat stat() {
     switch (lexer.token) {
     case IDLITERAL:
-      return assignExprStat();
+      assignExprStat();
     case VAR:
-      return varDecStat();
+      varDecStat();
     case IF:
-      return ifStat();
+      ifStat();
     case WHILE:
-      return whileStat();
+      whileStat();
     default:
       // will never be executed
       System.out.println("Statement expected");
@@ -138,9 +141,9 @@ public class Compiler {
   // StatList ::= "{"{Stat}"}"
   private StatList statList() {
     ArrayList<Stat> v = new ArrayList<Stat>();
-    // statements always begin with an identifier, if, read or write
-    while (lexer.token == Symbol.IDENT || lexer.token == Symbol.IF || lexer.token == Symbol.READ
-        || lexer.token == Symbol.WRITE) { //NÃO EXISTE SIMBOLOS IDENT, READ E WRITE
+    // statements always begin with an identifier, if
+    while (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.IF) {
+    //NÃO EXISTE SIMBOLOS ID
       v.add(stat());
       if (lexer.token != Symbol.SEMICOLON)
         System.out.println("; expected");
@@ -149,6 +152,7 @@ public class Compiler {
     return new StatList(v);
   }
 
+  //IfStat ::= "if" Expr StatList [ "else" StatList ]
   private IfStat ifStat() {
 
     if (lexer.token != Symbol.IF) {
@@ -157,7 +161,7 @@ public class Compiler {
 
     lexer.nextToken();
 
-    Expr e = exprOr(lexer.token); //NÃO TEMOS A FUNÇÃO EXPROR
+    Expr e = expr();
 
     lexer.nextToken();
 
@@ -244,6 +248,7 @@ public class Compiler {
     return v;
   }
 
+  //WhileStat ::= "while" Expr StatList
   private WhileStat whileStat() {
     if (lexer.token != Symbol.WHILE) {
       System.out.println("'while' expected");
@@ -251,13 +256,13 @@ public class Compiler {
 
     lexer.nextToken();
 
-    Expr e = exprOr(lexer.token); //NÃO TEMOS A FUNÇÃO EXPROR
+    Expr e = expr();
 
     lexer.nextToken();
 
     StatList whilePart = statList();
 
-    lexer.nextToken(); // não sei se precisa
+    lexer.nextToken();
 
     return new WhileStat(whilePart, e);
 
@@ -273,14 +278,14 @@ public class Compiler {
       System.out.println("Error in the boolean type");
     }
 
-    return false; //ALTERADO RETORNO DE NULL PARA FALSE
+    return false;
   }
 
   private ParamList ParamList() {
     // ParamList ::= ParamDec { ’,’ ParamDec }
     ParamList paramList = null;
 
-    ParamList a = new ParamList(); //ADICIONADO A LETRA 'a' PQ NAO TINHA NADA NO LUGAR (ANTIGO: ParamList = new ParamList();)
+    ParamList a = new ParamList();
     ParamDec();
     while (lexer.token == Symbol.COMMA) {
       lexer.nextToken();
@@ -330,8 +335,8 @@ public class Compiler {
 
     if (lexer.token == Symbol.AND) {
       lexer.nextToken();
-      dir = ExprRel(); //ERRO AQUI, NAO DESCOBRI O MOTIVO
-      esq = new ExprAnd(esq, Symbol.AND, dir); //EXPRAND ALTERADO DE exprAnd para ExprAnd
+      dir = exprRel();
+      esq = new ExprAnd(esq, Symbol.AND, dir);
     } else
       System.out.println("'and' expected");
 
@@ -340,7 +345,7 @@ public class Compiler {
 
   // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
   public Expr exprLiteral() {
-    int flag = 0;
+/*    int flag = 0;
 
     if(lexer.token==Symbol.INTLITERAL){
       lexer.nextToken();
@@ -372,30 +377,45 @@ public class Compiler {
     else if(flag == 2)
       System.out.println("Expected type 'boolean'");
     else if(flag == 3)
-      System.out.println("Expected type 'string'");
+      System.out.println("Expected type 'string'");*/
 }
 
   // Expr ::= ExprAnd {”or”ExprAnd}
   public Expr expr() {
     Expr esq, dir;
-    esq = ExprAnd(); //ERRO AQUI, NAO SEI PQ
+    esq = exprAnd();
+    Symbol op;
 
     while ((op = lexer.token) == Symbol.OR) {
       lexer.nextToken();
-      dir = exprMult();
+      dir = exprAnd();
     }
-    return left;
+    return esq;
+  }
+
+  //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
+  private Expr exprMult() {
+    Symbol op;
+    Expr esq, dir;
+    esq = exprUnary();
+
+    while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
+      lexer.nextToken();
+      dir = exprUnary();
+      esq = new ExprMult(esq, op, dir);
+    }
+    return esq;
   }
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private Expr exprAdd() {
     Symbol op;
     Expr esq, dir;
-    esq = ExprMult(); //EXPRMULT ALTERADO DE exprMult para ExprMult
+    esq = exprMult();
 
-    while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) { //ERRO NO OP AQUI (SERIA A ATRIBUIÇÃO?)
+    while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
       lexer.nextToken();
-      dir = ExprMult(); //EXPRMULT ALTERADO DE exprMult para ExprMult
+      dir = exprMult();
       esq = new ExprAdd(esq, op, dir);
     }
     return esq;
@@ -464,19 +484,13 @@ public class Compiler {
       System.out.println("Identifier expected");
 
     String name = (String) lexer.getStringValue();
-    Subroutine s = (Subroutine) symbolTable.returnGlobal(name); //SUBROUTINE NAO EXISTE!!
 
     lexer.nextToken();
 
-    // currentFunction is used to store the function being compiled
-    s = currentFunction = new Func(name); //CURRENTFUNCTION NAO EXISTE
-
-    // insert s in the symbol table
-    symbolTable.putGlobal(name, s);
 
     if (lexer.token == Symbol.LPAR) {
       lexer.nextToken();
-      s.setParams(ParamList()); //TROCADO DE paramList para ParamList
+      ParamList();
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
       } else
@@ -485,13 +499,12 @@ public class Compiler {
 
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      ((Func) s).setReturnType(type());
+      type();
     }
 
-    s.setCorpo(statList());
+    statList();
 
-    SymbolTable.resetLocal(); //TROCADO DE symbolTable para SymbolTable
-    return s;
+    //return ??????????
   }
 
   private FuncCall funcCall() {
@@ -501,9 +514,6 @@ public class Compiler {
 
     lexer.nextToken();
     String name = (String) lexer.getStringValue();
-
-    Func p = (Func) SymbolTable.returnGlobal(name); //TROCADO DE symbolTable para SymbolTable
-    //TROCADO DE Function para Func
 
     if (lexer.token != Symbol.LPAR) {
       System.out.println("( expected");
@@ -522,7 +532,7 @@ public class Compiler {
         System.out.println(") expected");
       }
     }
-    // return ?????
+    // return ????????
   }
 
   private char token;
