@@ -10,13 +10,13 @@ import Lexer.*;
 public class Func {
     private Symbol tipoRetorno;
     private String nomeFunc;
-    private ArrayList<VarDecStat> params;
+    private ArrayList<ParamDec> params;
     //private FuncCorpo corpo;
 
-    public Func(Symbol tipoRetorno, String nomeFunc, ArrayList<VarDecStat> params) {
+    public Func(Symbol tipoRetorno, String nomeFunc, ParamList p) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
-        this.params = params;
+        this.params = p.getListaStats();
     }
 
     public void genC(PW pw) {
@@ -30,20 +30,20 @@ public class Func {
 
         for (int i = 0; i < params.size(); i++) {
             if (i + 1 == params.size()) {
-                if (params.get(i).getTipo().getType() == Symbol.INT) {
-                    pw.print("int " + params.get(i).getVar());
-                } else if (params.get(i).getTipo().getType() == Symbol.BOOLEAN){
-                    pw.print("boolean " + params.get(i).getVar());
-                }else {
-                    pw.print("char * " + params.get(i).getVar());
+                if (params.get(i).getTipo() == Symbol.INT) {
+                    pw.print("Int " + params.get(i).getVar());
+                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
+                    pw.print("Boolean " + params.get(i).getVar());
+                }else if (params.get(i).getTipo() == Symbol.STRING){
+                    pw.print("String " + params.get(i).getVar());
                 }
             } else {
-                if (params.get(i).getTipo().getType() == Symbol.INT) {
-                    pw.print("int " + params.get(i).getVar() + ", ");
-                } else if (params.get(i).getTipo().getType() == Symbol.BOOLEAN){
-                    pw.print("boolean " + params.get(i).getVar() + ", ");
-                }else {
-                    pw.print("char * " + params.get(i).getVar() + ", ");
+                if (params.get(i).getTipo() == Symbol.INT) {
+                    pw.print("Int " + params.get(i).getVar() + ", ");
+                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
+                    pw.print("Boolean " + params.get(i).getVar() + ", ");
+                }else if (params.get(i).getTipo() == Symbol.STRING){
+                    pw.print("String " + params.get(i).getVar());
                 }
             }
         }
@@ -53,8 +53,7 @@ public class Func {
         // Incrementa a tabulação
         pw.add();
 
-        // Imprime o corpo da função
-        //corpo.genC(pw); FOI COMENTADO PARA COMPILAR
+        // statList
 
         // Decrementa a tabulação e fecha a função
         pw.sub();
@@ -62,7 +61,7 @@ public class Func {
 
     }
 
-    public void setparams(ArrayList<VarDecStat> var) {
+    public void setParams(ArrayList<ParamDec> var) {
         this.params = var;
     }
 
@@ -79,7 +78,7 @@ public class Func {
         return this.tipoRetorno;
     }
 
-    public ArrayList<VarDecStat> getparams() {
+    public ArrayList<ParamDec> getParams() {
         return this.params;
     }
 }
