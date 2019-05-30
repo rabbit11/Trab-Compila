@@ -142,6 +142,11 @@ public class Lexer {
         if (temp != null) {
           // O token toma o valor encontrado na tabela
           token = temp;
+          if(token == Symbol.MINUS)
+            if( input[tokenPos] == '>'){
+                tokenPos++;
+                token = Symbol.ARROW;
+            }
         }
 
         // Pode ser um ident
