@@ -73,8 +73,8 @@ public class Main {
         System.out.println(e);
       }
       if ( program != null ) {
-        PW pw = new PW();
-        pw.set(printWriter);
+        PW pw = new PW(printWriter);
+        pw.set(2); //PARAMETRO TROCADO SÓ PRA COMPILAR
         program.genC(pw);
         if ( printWriter.checkError() ) {
           System.out.println("There was an error in the output");
