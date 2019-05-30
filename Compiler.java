@@ -353,24 +353,24 @@ public class Compiler {
     return esq;
   }
 
-// ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
-public Expr exprLiteral() {
-    Symbol op = lexer.token;
+   // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
+   public Expr exprLiteral() {
+       Symbol op = lexer.token;
 
-    if(op==Symbol.INTLITERAL)
-      lexer.nextToken();
-    else System.out.println("Expected type 'int'");
+       if(op==Symbol.INTLITERAL)
+         lexer.nextToken();
+       else System.out.println("Expected type 'int'");
 
-    if(op==Symbol.BOOLLITERAL)
-        lexer.nextToken();
-    else System.out.println("Expected type 'boolean'");
+       if(op==Symbol.BOOLLITERAL)
+           lexer.nextToken();
+       else System.out.println("Expected type 'boolean'");
 
-    if(op == Symbol.STRINGLITERAL)
-      lexer.nextToken();
-    else System.out.println("Expected type 'string'");
+       if(op == Symbol.STRINGLITERAL)
+         lexer.nextToken();
+       else System.out.println("Expected type 'string'");
 
-   return new ExprLiteral(op);
-}
+      return new ExprLiteral(op);
+   }
 
   // Expr ::= ExprAnd {”or”ExprAnd}
   public Expr expr() {
