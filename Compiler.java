@@ -78,7 +78,7 @@ public class Compiler {
     Func esq = func();
     Func dir = func();
 
-    ArrayList<Func> f = new ArrayList<Func>(); 
+    ArrayList<Func> f = new ArrayList<Func>();
     f.add(esq);
     f.add(dir);
 
@@ -218,7 +218,7 @@ public class Compiler {
       System.out.println("Tipo não reconhecido");
       return null;
     }
-    
+
     result = new Type(lexer.token);
     lexer.nextToken();
     return result;
@@ -268,7 +268,7 @@ public class Compiler {
 
   }
 
-  public boolean LiteralBoolean() {
+  public boolean literalBoolean() {
 
     if (lexer.token == Symbol.BOOLLITERAL) {
       boolean boo = lexer.getBoolValue();
@@ -281,21 +281,21 @@ public class Compiler {
     return false;
   }
 
-  private ParamList ParamList() {
+  private ParamList paramList() {
     // ParamList ::= ParamDec { ’,’ ParamDec }
     ParamList paramList = null;
 
-    ParamList a = new ParamList();
-    ParamDec();
+    ParamList a = new paramList();
+    paramDec();
     while (lexer.token == Symbol.COMMA) {
       lexer.nextToken();
-      ParamDec();
+      paramDec();
     }
 
     return paramList;
   }
 
-  private void ParamDec() {
+  private void paramDec() {
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
       // error.signal("Identifier expected");
