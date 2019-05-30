@@ -100,6 +100,34 @@ public class Lexer {
       return;
     }
 
+    if (input[tokenPos] == '=' && input[tokenPos + 1] == '=') {
+      token = Symbol.EQUAL;
+      tokenPos++;
+      tokenPos++;
+      return;
+    }
+
+    if (input[tokenPos] == '<' && input[tokenPos + 1] == '=') {
+      token = Symbol.LTE;
+      tokenPos++;
+      tokenPos++;
+      return;
+    }
+
+    if (input[tokenPos] == '>' && input[tokenPos + 1] == '=') {
+      token = Symbol.GTE;
+      tokenPos++;
+      tokenPos++;
+      return;
+    }
+
+    if (input[tokenPos] == '!' && input[tokenPos + 1] == '=') {
+      token = Symbol.DIFFERENT;
+      tokenPos++;
+      tokenPos++;
+      return;
+    }
+
     // Verifica se é um número
     String aux = new String();
     while (Character.isDigit(input[tokenPos])) {
