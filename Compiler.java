@@ -229,8 +229,9 @@ public class Compiler {
       return null;
     }
 
-    result = new Type(lexer.token);
+    result = new Type(lexer.token);    
     lexer.nextToken();
+    System.out.println(lexer.token + "AQUI SE PA DEU RUIM");
     return result;
   }
 
