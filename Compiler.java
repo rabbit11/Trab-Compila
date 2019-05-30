@@ -353,7 +353,7 @@ public class Compiler {
     return esq;
   }
 
- // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
+// ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
 public Expr exprLiteral() {
     Symbol op = lexer.token;
 
