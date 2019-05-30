@@ -47,7 +47,7 @@ In the last call to put, we used name + "" as the key. We could not have used ju
 import AST.*;
 import Lexer.*;
 import java.util.ArrayList;
-import java.util.Hashtable;
+// import java.util.Hashtable;
 
 public class Compiler {
   private Lexer lexer;
@@ -62,7 +62,7 @@ public class Compiler {
     input = p_input;
     tokenPos = 0;
 
-    symbolTable = new Hashtable();
+    // symbolTable = new Hashtable();
 
     lexer.nextToken();
 
@@ -540,5 +540,5 @@ public class Compiler {
   private char token;
   private int tokenPos;
   private char[] input;
-  private Hashtable<Character, VarDecStat> symbolTable;
+  // private Hashtable<Character, VarDecStat> symbolTable;
 }
