@@ -68,7 +68,7 @@ public class Main {
 
       // the generated code goes to a file and so are the errors
       try {
-        program = compiler.compile(input, printWriter );
+        program = compiler.compile(input); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
       } catch ( RuntimeException e ) {
         System.out.println(e);
       }
