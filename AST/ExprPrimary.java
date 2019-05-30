@@ -2,7 +2,7 @@ package AST;
 
 //ExprPrimary ::= Id | FuncCall | ExprLiteral
 
-public class ExprPrimary {
+public class ExprPrimary extends Expr{
   private VarDecStat var;
   private Expr expr;
 
