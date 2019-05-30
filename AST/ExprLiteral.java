@@ -1,11 +1,14 @@
 package AST;
+import Lexer.*;
 
 //ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
 public class ExprLiteral extends Expr {
     private Expr exp;
+    private Symbol op;
 
-    public ExprLiteral(Expr exp) {
-        this.setExp(exp);
+    public ExprLiteral(Symbol s) {
+        //this.setExp(exp);
+      this.op = s;
     }
 
     public void genC(PW pw) {

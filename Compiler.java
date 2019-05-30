@@ -354,32 +354,22 @@ public class Compiler {
   }
 
  // ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
-public void exprLiteral() {
-    int flag = 0;
+public Expr exprLiteral() {
+    Symbol op = lexer.token;
 
-    if(lexer.token==Symbol.INTLITERAL){
+    if(op==Symbol.INTLITERAL)
       lexer.nextToken();
-    }
-    else flag=1;
+    else System.out.println("Expected type 'int'");
 
-    if(lexer.token==Symbol.BOOLLITERAL){
+    if(op==Symbol.BOOLLITERAL)
         lexer.nextToken();
-    } else
-      flag = 2;
+    else System.out.println("Expected type 'boolean'");
 
-
-    if(lexer.token == Symbol.STRINGLITERAL){
+    if(op == Symbol.STRINGLITERAL)
       lexer.nextToken();
-    }
-    else
-      flag = 3;
+    else System.out.println("Expected type 'string'");
 
-    if(flag == 1)
-      System.out.println("Expected type 'int'");
-    else if(flag == 2)
-      System.out.println("Expected type 'boolean'");
-    else if(flag == 3)
-      System.out.println("Expected type 'string'");
+   return new ExprLiteral(op);
 }
 
   // Expr ::= ExprAnd {”or”ExprAnd}
@@ -476,8 +466,7 @@ public void exprLiteral() {
       else if(lexer.token == Symbol.STRING)
          return funcCall();
 
-      else
-         return exprLiteral();
+      return exprLiteral();
   }
 
   private Func func() {
