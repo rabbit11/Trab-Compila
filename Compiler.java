@@ -583,17 +583,17 @@ public class Compiler {
     if (lexer.token != Symbol.RPAR) {
       Expr e = expr();
       eList.add(e);
-      lexer.nextToken();
+      // lexer.nextToken();
       while (lexer.token == Symbol.COMMA) {
         lexer.nextToken(); // space
         e = expr();
         eList.add(e);
       }
-
-      lexer.nextToken();
+      
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
       }
+      lexer.nextToken();
     }
     return new FuncCall(name, eList);
   }
