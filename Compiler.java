@@ -34,16 +34,16 @@ public class Compiler {
 
   // Program ::= Func {Func}
   private Program program() {
-    System.out.println("Entrou na funcao program: " + lexer.token);
+    //System.out.println("Entrou na funcao program: " + lexer.token);
     ArrayList<Func> f = new ArrayList<Func>();
 
     while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
-      System.out.println("ACABOU A FUNC");
+      //System.out.println("ACABOU A FUNC");
       lexer.nextToken();
     }
 
-    System.out.println("PRINT NA PROGRAM" + lexer.token);
+    //System.out.println("PRINT NA PROGRAM" + lexer.token);
 
     Program program = new Program(f);
 
@@ -52,7 +52,7 @@ public class Compiler {
     if (lexer.token != Symbol.EOF)
       error("EOF expected");
 
-    System.out.println("ULTIMO TOKEN: " + lexer.token);
+    //System.out.println("ULTIMO TOKEN: " + lexer.token);
 
     return program;
   }
@@ -70,7 +70,7 @@ public class Compiler {
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat() {
-     System.out.println("Entrou na funcao ReturnStat " + lexer.token);
+     //System.out.println("Entrou na funcao ReturnStat " + lexer.token);
 
     if (lexer.token != Symbol.RETURN) {
       System.out.println("Expected 'Return' but found '" + lexer.getStringValue() + "'");
@@ -94,7 +94,7 @@ public class Compiler {
 
   //Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
   private Stat stat() {
-     System.out.println("Entrou na funcao stat " + lexer.token);
+     //System.out.println("Entrou na funcao stat " + lexer.token);
     switch (lexer.token) {
     case IDLITERAL:
       return assignExprStat();
@@ -116,11 +116,11 @@ public class Compiler {
 
   // StatList ::= "{"{Stat}"}"
   private StatList statList() {
-    System.out.println("Entrou na funcao statList " + lexer.token);
+    //System.out.println("Entrou na funcao statList " + lexer.token);
     ArrayList<Stat> v = new ArrayList<Stat>();
 
     if(lexer.token != Symbol.LBRA){
-      System.out.println("Esperado { i chegô: " + lexer.getStringValue());
+      //System.out.println("Esperado { i chegô: " + lexer.getStringValue());
     }
     lexer.nextToken();
 
@@ -145,7 +145,7 @@ public class Compiler {
 
   //IfStat ::= "if" Expr StatList [ "else" StatList ]
   private IfStat ifStat() {
-     System.out.println("Entrou na funcao ifStat " + lexer.token);
+     //System.out.println("Entrou na funcao ifStat " + lexer.token);
 
     if (lexer.token != Symbol.IF) {
       System.out.println("'if' expected");
@@ -185,7 +185,7 @@ public class Compiler {
 
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
-     System.out.println("Entrou na funcao type " + lexer.token);
+     //System.out.println("Entrou na funcao type " + lexer.token);
     Type result;
 
     if(lexer.token == Symbol.INT){
@@ -199,7 +199,7 @@ public class Compiler {
     }
     else{
       System.out.println("Tipo não reconhecido");
-      System.out.println("Token:" + lexer.token);
+      //System.out.println("Token:" + lexer.token);
       return null;
     }
 
@@ -209,14 +209,14 @@ public class Compiler {
   }
 
   private VarDecStat varDecStat() {
-     System.out.println("Entrou na funcao varDecStat " + lexer.token);
+     //System.out.println("Entrou na funcao varDecStat " + lexer.token);
 
     if (lexer.token != Symbol.VAR)// ta certo isso?
       System.out.println("Identifier expected");
 
     lexer.nextToken(); // ta certo isso?
 
-    System.out.println("Identifier: " + lexer.getStringValue());
+    // System.out.println("Identifier: " + lexer.getStringValue());
 
     // name of the identifier
     String name = lexer.getStringValue();
@@ -243,7 +243,7 @@ public class Compiler {
 
   //WhileStat ::= "while" Expr StatList
   private WhileStat whileStat() {
-     System.out.println("Entrou na funcao whileStat " + lexer.token);
+     //System.out.println("Entrou na funcao whileStat " + lexer.token);
     if (lexer.token != Symbol.WHILE) {
       System.out.println("'while' expected");
     }
@@ -262,7 +262,7 @@ public class Compiler {
   }
 
   public boolean literalBoolean() {
-     System.out.println("Entrou na funcao literalBoolean " + lexer.token);
+     //System.out.println("Entrou na funcao literalBoolean " + lexer.token);
 
     if (lexer.token == Symbol.BOOLLITERAL) {
       boolean boo = lexer.getBoolValue();
@@ -276,7 +276,7 @@ public class Compiler {
   }
 
   private ParamList paramList() {
-     System.out.println("Entrou na funcao paramList " + lexer.token);
+     //System.out.println("Entrou na funcao paramList " + lexer.token);
     // ParamList ::= ParamDec { ’,’ ParamDec }
    ParamDec p = paramDec();
 
@@ -295,7 +295,7 @@ public class Compiler {
   }
 
   private ParamDec paramDec() {
-     System.out.println("Entrou na funcao paramDec " + lexer.token);
+     //System.out.println("Entrou na funcao paramDec " + lexer.token);
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
       // error.signal("Identifier expected");
@@ -319,8 +319,8 @@ public class Compiler {
   }
 
   private void error(String errorMsg) {
-    System.out.println("Entrou na funcao error " + lexer.token);
-    System.out.println("O TOKEN " + lexer.getStringValue());
+    //System.out.println("Entrou na funcao error " + lexer.token);
+    //System.out.println("O TOKEN " + lexer.getStringValue());
 
     if (tokenPos == 0)
       tokenPos = 1;
@@ -336,7 +336,7 @@ public class Compiler {
 
   // ExprAnd::= ExprRel {”and”ExprRel}
   private Expr exprAnd() {
-     System.out.println("Entrou na funcao exprAnd " + lexer.token);
+     //System.out.println("Entrou na funcao exprAnd " + lexer.token);
     Expr esq, dir;
     esq = exprRel();
 
@@ -353,7 +353,7 @@ public class Compiler {
 
    //  ::= LiteralInt | LiteralBoolean | LiteralString
    public Expr exprLiteral() {
-     System.out.println("Entrou na funcao exprLiteral " + lexer.token);
+     //System.out.println("Entrou na funcao exprLiteral " + lexer.token);
        Symbol op = lexer.token;
 
        switch(op){
@@ -379,7 +379,7 @@ public class Compiler {
 
   // Expr ::= ExprAnd {”or”ExprAnd}
   public Expr expr() {
-     System.out.println("Entrou na funcao expr " + lexer.token);
+     //System.out.println("Entrou na funcao expr " + lexer.token);
     Expr esq, dir;
     esq = exprAnd();
     Symbol op;
@@ -393,7 +393,7 @@ public class Compiler {
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private Expr exprMult() {
-     System.out.println("Entrou na funcao exprMult " + lexer.token);
+     //System.out.println("Entrou na funcao exprMult " + lexer.token);
     Symbol op;
     Expr esq, dir;
     esq = exprUnary();
@@ -408,7 +408,7 @@ public class Compiler {
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private Expr exprAdd() {
-    System.out.println("Entrou na funcao exprAdd " + lexer.token);
+    //System.out.println("Entrou na funcao exprAdd " + lexer.token);
     Symbol op;
     Expr esq, dir;
     esq = exprMult();
@@ -423,7 +423,7 @@ public class Compiler {
 
   // AssignExprStat ::= Expr [ "=" Expr ] ";"
   public Stat assignExprStat() {
-     System.out.println("Entrou na funcao assignExprStat " + lexer.token);
+     //System.out.println("Entrou na funcao assignExprStat " + lexer.token);
     Expr esq, dir;
     esq = expr();
     dir = null;
@@ -447,7 +447,7 @@ public class Compiler {
   }
 
   private Expr exprRel() {
-     System.out.println("Entrou na funcao exprRel " + lexer.token);
+     //System.out.println("Entrou na funcao exprRel " + lexer.token);
     // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
     Expr left, right;
     left = exprAdd();
@@ -463,7 +463,7 @@ public class Compiler {
   }
 
   private Expr exprUnary() {
-     System.out.println("Entrou na funcao exprUnary " + lexer.token);
+     //System.out.println("Entrou na funcao exprUnary " + lexer.token);
     // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
     Symbol op = lexer.token;
     if (op == Symbol.PLUS || op == Symbol.MINUS)
@@ -476,7 +476,7 @@ public class Compiler {
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
    private Expr exprPrimary() {
-      System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
+      //System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
       // String value = lexer.getStringValue()
       if(lexer.nextNoSkip() == '(') {
         // lexer.nextToken();
@@ -494,7 +494,7 @@ public class Compiler {
   }
 
   private Func func() {
-     System.out.println("Entrou na funcao func " + lexer.token);
+     //System.out.println("Entrou na funcao func " + lexer.token);
     // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
     if (lexer.token != Symbol.FUNCTION) {
       // should never occur
@@ -531,7 +531,7 @@ public class Compiler {
 
     statList();
 
-    System.out.println("PRINT DA FUNC:" + lexer.token);
+    //System.out.println("PRINT DA FUNC:" + lexer.token);
     if(t == null) {
       if(p == null){
         return new Func(name);
@@ -546,7 +546,7 @@ public class Compiler {
   }
 
   private Expr funcCall() {
-     System.out.println("Entrou na funcao funcCall " + lexer.token);
+     //System.out.println("Entrou na funcao funcCall " + lexer.token);
     // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
     if (lexer.token != Symbol.IDLITERAL)
       System.out.println("Identifier expected");

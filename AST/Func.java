@@ -25,7 +25,6 @@ public class Func {
     }
 
     public Func(String nomeFunc){
-      System.out.println("PAUZAO DO CONSTRUTOR");
       this.nomeFunc = nomeFunc;
     }
 
