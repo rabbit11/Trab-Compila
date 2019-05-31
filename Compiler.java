@@ -76,14 +76,16 @@ public class Compiler {
   // Program ::= Func {Func}
   private Program program() {
     System.out.println("Entrou na funcao program: " + lexer.token);
-    Func esq = func();
-    Func dir = func();
-
     ArrayList<Func> f = new ArrayList<Func>();
-    f.add(esq);
-    f.add(dir);
 
-    return new Program(f);
+    while (lexer.token == Symbol.FUNCTION)
+      f.add(func());
+
+    Program program = new Program(f);
+    if (lexer.token != Symbol.EOF)
+      error("EOF expected");
+
+    return program;
   }
 
   private void RelOp() {
