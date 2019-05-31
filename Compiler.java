@@ -112,6 +112,7 @@ public class Compiler {
 
 
     if (lexer.token != Symbol.SEMICOLON) {
+      System.out.println(lexer.getCurrentLine());
       System.out.println("Expected ';' but found '" + lexer.getStringValue() + "'");
     }
 
@@ -161,6 +162,8 @@ public class Compiler {
     lexer.nextToken();
     stat();
 
+    // System.out.println("AOOOO " + lexer.token);
+
     if(lexer.token != Symbol.RBRA){
       System.out.println("Esperado }");
     }
@@ -177,6 +180,8 @@ public class Compiler {
     }
 
     lexer.nextToken();
+
+    // System.out.println("TOKEN " + lexer.token);
 
     Expr e = expr();
 
@@ -199,18 +204,21 @@ public class Compiler {
 
     if (lexer.token == Symbol.ELSE) {
       lexer.nextToken();
+      // System.out.println("TOKEN " + lexer.token);
 
-      if (lexer.token != Symbol.LBRA) {
-        System.out.println("{ expected::::: " + lexer.token);
-      }
+      // if (lexer.token != Symbol.LBRA) {
+      //   System.out.println("{ expected::::: " + lexer.token);
+      // }
 
-      lexer.nextToken();
+      // lexer.nextToken();
+
+      // System.out.println("TOKEN2 " + lexer.token);
       elsePart = statList();
       lexer.nextToken();
 
-      if (lexer.token != Symbol.RBRA) {
-        System.out.println("} expected:");
-      }
+      // if (lexer.token != Symbol.RBRA) {
+      //   System.out.println("} expected:");
+      // }
     }
 
     lexer.nextToken(); // não sei se precisa
@@ -425,6 +433,7 @@ public class Compiler {
     esq = exprUnary();
 
     while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
+      // System.out.println("AOOOOO BOBINA: " + lexer.token);
       lexer.nextToken();
       dir = exprUnary();
       esq = new ExprMult(esq, op, dir);
@@ -499,14 +508,15 @@ public class Compiler {
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
    private Expr exprPrimary() {
      System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
-      if(lexer.token == Symbol.IDLITERAL){
+      
+      if(lexer.token == Symbol.STRING) {
+        lexer.nextToken();
+        return funcCall();
+      }
+      else if(lexer.token == Symbol.IDLITERAL){
         Variable id = new Variable(lexer.token.toString());
         lexer.nextToken();
         return id;
-      }
-      else if(lexer.token == Symbol.STRING) {
-        lexer.nextToken();
-        return funcCall();
       }
       else {
         // lexer.nextToken();
