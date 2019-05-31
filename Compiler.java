@@ -147,14 +147,6 @@ public class Compiler {
   private StatList statList() {
     System.out.println("Entrou na funcao statList " + lexer.token);
     ArrayList<Stat> v = new ArrayList<Stat>();
-    // statements always begin with an identifier, if
-    // while (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.IF) {
-    // //NÃO EXISTE SIMBOLOS ID
-    //   v.add(stat());
-    //   if (lexer.token != Symbol.SEMICOLON)
-    //     System.out.println("; expected");
-    //   lexer.nextToken();
-    // }
 
     if(lexer.token != Symbol.LBRA){
       System.out.println("Esperado {");
@@ -162,10 +154,11 @@ public class Compiler {
     lexer.nextToken();
     stat();
 
-    // System.out.println("AOOOO " + lexer.token);
-
+    System.out.println("AOOOO22222 " + lexer.token);
+ 
     if(lexer.token != Symbol.RBRA){
-      System.out.println("Esperado }");
+      System.out.println("Esperado }, encontrou " + lexer.token);
+      System.out.println(lexer.getCurrentLine());
     }
 
     return new StatList(v);
@@ -214,7 +207,7 @@ public class Compiler {
 
       // System.out.println("TOKEN2 " + lexer.token);
       elsePart = statList();
-      lexer.nextToken();
+      // lexer.nextToken();
 
       // if (lexer.token != Symbol.RBRA) {
       //   System.out.println("} expected:");
@@ -393,17 +386,14 @@ public class Compiler {
 
        switch(op){
        case INTLITERAL:
-         System.out.println("TO AQUI " + lexer.token);
          lexer.nextToken();
          break;
 
         case BOOLLITERAL:
-          System.out.println("CHEGUEI " + lexer.token);
           lexer.nextToken();
           break;
 
         case STRINGLITERAL:
-         System.out.println("ENTREI " + lexer.token);
          lexer.nextToken();
          break;
        }
