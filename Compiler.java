@@ -43,8 +43,10 @@ public class Compiler {
       lexer.nextToken();
     }
 
+    System.out.println("PRINT NA PROGRAM" + lexer.token);
+
     Program program = new Program(f);
-    
+
     lexer.nextToken();
 
     if (lexer.token != Symbol.EOF)
@@ -121,11 +123,11 @@ public class Compiler {
       System.out.println("Esperado { i chegô: " + lexer.getStringValue());
     }
     lexer.nextToken();
-    
+
     Stat a;
     while(true) {
       a = stat();
-      
+
       if(a == null) {
         break;
       }
@@ -133,7 +135,7 @@ public class Compiler {
         v.add(a);
       }
     }
- 
+
     if(lexer.token != Symbol.RBRA) {
       System.out.println("Esperado }, encontrou " + lexer.token);
     }
@@ -526,12 +528,19 @@ public class Compiler {
       t = type();
     }
 
+
     statList();
 
+    System.out.println("PRINT DA FUNC:" + lexer.token);
     if(t == null) {
-      return new Func(name, p);  
+      if(p == null){
+        return new Func(name);
+      }
+      else{
+        return new Func(name, p);
+      }
     }
-    else {
+    else{
       return new Func(t.getType(), name, p);
     }
   }
@@ -560,7 +569,7 @@ public class Compiler {
         e = expr();
         eList.add(e);
       }
-      
+
       if (lexer.token != Symbol.RPAR) {
         System.out.println(") expected");
       }

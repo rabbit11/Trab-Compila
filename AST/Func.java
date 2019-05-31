@@ -24,6 +24,11 @@ public class Func {
         this.params = p.getListaStats();
     }
 
+    public Func(String nomeFunc){
+      System.out.println("PAUZAO DO CONSTRUTOR");
+      this.nomeFunc = nomeFunc;
+    }
+
     public void genC(PW pw) {
         if (tipoRetorno == Symbol.INT) {
             pw.print("int " + this.nomeFunc + "("); // Com ident antes da string
