@@ -91,8 +91,6 @@ public class Lexer {
       return;
     }
 
-    //System.out.println("CHEGOU AQUI");
-
     if (input[tokenPos] == '-' && input[tokenPos + 1] == '>') {
       token = Symbol.ARROW;
       tokenPos++;
@@ -138,7 +136,6 @@ public class Lexer {
     // Se a string aux não for vazia
     if (!aux.equals("")) {
       // Caso seja um int
-      if (Character.isDigit(input[tokenPos + 1])) {
         intValue = Integer.parseInt(aux);
 
         // Verifica se o número é maior que o valor máximo permitido
@@ -147,7 +144,6 @@ public class Lexer {
         }
 
         token = Symbol.INTLITERAL;
-      } 
     }
 
     // Verifica se é string
@@ -254,9 +250,6 @@ public class Lexer {
         }
       }
     }
-
-    // if (DEBUGLEXER)
-    //   System.out.println(token.toString());
 
     lastTokenPos = tokenPos - 1;
   }

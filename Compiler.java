@@ -4,50 +4,9 @@
 // Pedro Coelho            743585
 // Vinícius Crepschi       743601
 
-/*
-    comp7
-
-private void error(String errorMsg) => Error Message
-
-Class Hashtable has methods
-    Object put(Object key, Object value)
-    Object get(Object key)
-
-Method put inserts value at the table using key as its name (or key!). It returns the table object that had key key. If there were none, it returns null:
-
-  Hashtable h = new Hashtable();
-  h.put( "one", new Integer(1) );
-  h.put( "two", new Integer(2) );
-  Object obj = h.put("one", "I am the one");
-  System.out.println(obj);
-  // prints 1
-  obj = h.get("two");
-  System.out.println(obj);
-  // prints 2
-  System.out.println( h.get("one") ); // prints "I am the one"
-  char name = ’a’;
-  h.put( name + "", "This is an a");
-  System.out.println( h.get("a") );
-
-In the last call to put, we used name + "" as the key. We could not have used just name because name is not an object.
-
-    This compiler uses the same grammar as compiler 6:
-       Program ::= VarDecList ':' Expr
-       VarDecList ::=  | VarDec VarDecList
-       VarDec ::= Letter '=' Number
-       Expr::=  '(' oper Expr  Expr ')' | Number | Letter
-       Oper ::= '+' | '-' | '*' | '/'
-       Number ::= '0'| '1' | ... | '9'
-       Letter ::= 'A' | 'B'| ... | 'Z'| 'a'| 'b' | ... | 'z'
-
-     The compiler evaluate the expression
-
-*/
-
 import AST.*;
 import Lexer.*;
 import java.util.ArrayList;
-// import java.util.Hashtable;
 
 public class Compiler {
   private Lexer lexer;
@@ -176,16 +135,13 @@ public class Compiler {
 
     lexer.nextToken();
 
-    // System.out.println("TOKEN " + lexer.token);
-
     Expr e = expr();
-
-    lexer.nextToken();
 
     // devemos checar pela abertura e fechamento de chaves?
 
     if (lexer.token != Symbol.LBRA) {
-      System.out.println("{ expected");
+      System.out.println("{ expected and found " + lexer.token);
+      System.out.println("LINE: " + lexer.getCurrentLine());
     }
 
     StatList ifPart = statList();
@@ -199,21 +155,8 @@ public class Compiler {
 
     if (lexer.token == Symbol.ELSE) {
       lexer.nextToken();
-      // System.out.println("TOKEN " + lexer.token);
 
-      // if (lexer.token != Symbol.LBRA) {
-      //   System.out.println("{ expected::::: " + lexer.token);
-      // }
-
-      // lexer.nextToken();
-
-      // System.out.println("TOKEN2 " + lexer.token);
       elsePart = statList();
-      // lexer.nextToken();
-
-      // if (lexer.token != Symbol.RBRA) {
-      //   System.out.println("} expected:");
-      // }
     }
 
     lexer.nextToken(); // não sei se precisa
@@ -388,6 +331,7 @@ public class Compiler {
 
        switch(op){
        case INTLITERAL:
+        //  System.out.println("linha " + lexer.getCurrentLine());
          lexer.nextToken();
          break;
 
@@ -398,6 +342,9 @@ public class Compiler {
         case STRINGLITERAL:
          lexer.nextToken();
          break;
+
+         default:
+          error("Invalid Expression");
        }
 
       return new ExprLiteral(op);
