@@ -43,8 +43,11 @@ public class Compiler {
     Program program = new Program(f);
     
     lexer.nextToken();
+
     if (lexer.token != Symbol.EOF)
       error("EOF expected");
+
+    System.out.println("ULTIMO TOKEN: " + lexer.token);
 
     return program;
   }
@@ -100,10 +103,10 @@ public class Compiler {
       return whileStat();
     default:
       // will never be executed
-      System.out.println("Statement expected");
-      System.out.println(lexer.token);
+      // System.out.println("Statement expected");
+      // System.out.println(lexer.token);
+      return null;
     }
-    return null;
   }
 
   // StatList ::= "{"{Stat}"}"
@@ -112,14 +115,24 @@ public class Compiler {
     ArrayList<Stat> v = new ArrayList<Stat>();
 
     if(lexer.token != Symbol.LBRA){
-      System.out.println("Esperado {");
+      System.out.println("Esperado { i chegô: " + lexer.getStringValue());
     }
     lexer.nextToken();
-    stat();
+    
+    Stat a;
+    while(true) {
+      a = stat();
+      
+      if(a == null) {
+        break;
+      }
+      else {
+        v.add(a);
+      }
+    }
  
-    if(lexer.token != Symbol.RBRA){
+    if(lexer.token != Symbol.RBRA) {
       System.out.println("Esperado }, encontrou " + lexer.token);
-      System.out.println(lexer.getCurrentLine());
     }
 
     return new StatList(v);
@@ -198,12 +211,20 @@ public class Compiler {
 
     lexer.nextToken(); // ta certo isso?
 
-    Type typeVar = type();
+    System.out.println("Identifier: " + lexer.getStringValue());
 
     // name of the identifier
     String name = lexer.getStringValue();
 
     lexer.nextToken();
+
+    if (lexer.token != Symbol.COLON) {
+      System.out.println(": expected");
+    }
+
+    lexer.nextToken();
+
+    Type typeVar = type();
 
     if (lexer.token != Symbol.SEMICOLON) {
       System.out.println("; expected");
@@ -226,14 +247,13 @@ public class Compiler {
 
     Expr e = expr();
 
-    lexer.nextToken();
+    // lexer.nextToken();
 
     StatList whilePart = statList();
 
     lexer.nextToken();
 
     return new WhileStat(whilePart, e);
-
   }
 
   public boolean literalBoolean() {
@@ -499,7 +519,12 @@ public class Compiler {
 
     statList();
 
-    return new Func(t.getType(), name, p);
+    if(t == null) {
+      return new Func(name, p);  
+    }
+    else {
+      return new Func(t.getType(), name, p);
+    }
   }
 
   private Expr funcCall() {

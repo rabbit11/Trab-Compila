@@ -19,6 +19,11 @@ public class Func {
         this.params = p.getListaStats();
     }
 
+    public Func(String nomeFunc, ParamList p) {
+        this.nomeFunc = nomeFunc;
+        this.params = p.getListaStats();
+    }
+
     public void genC(PW pw) {
         if (tipoRetorno == Symbol.INT) {
             pw.print("int " + this.nomeFunc + "("); // Com ident antes da string
