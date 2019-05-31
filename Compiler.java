@@ -379,18 +379,19 @@ public class Compiler {
        Symbol op = lexer.token;
        System.out.println("OP: " + lexer.token);
 
-       switch(op)
-       case(Symbol.INTLITERAL):
+       switch(op){
+       case INTLITERAL:
          lexer.nextToken();
          break;
 
-        case(op==Symbol.BOOLLITERAL):
+        case BOOLLITERAL:
           lexer.nextToken();
           break;
 
-        case(op == Symbol.STRINGLITERAL)
+        case STRINGLITERAL:
          lexer.nextToken();
          break;
+       }
 
       return new ExprLiteral(op);
    }
