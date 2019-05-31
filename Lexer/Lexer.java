@@ -147,7 +147,7 @@ public class Lexer {
         }
 
         token = Symbol.INTLITERAL;
-      }
+      } 
     }
 
     // Verifica se é string
@@ -297,6 +297,10 @@ public class Lexer {
 
   public boolean getBoolValue() {
     return boolValue;
+  }
+
+  public char nextNoSkip() {
+    return input[tokenPos];
   }
 
   private boolean validId(String str) {

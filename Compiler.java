@@ -433,7 +433,7 @@ public class Compiler {
     esq = exprUnary();
 
     while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
-      // System.out.println("AOOOOO BOBINA: " + lexer.token);
+      System.out.println("AOOOOO BOBINA: " + lexer.token);
       lexer.nextToken();
       dir = exprUnary();
       esq = new ExprMult(esq, op, dir);
@@ -443,12 +443,13 @@ public class Compiler {
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private Expr exprAdd() {
-     System.out.println("Entrou na funcao exprAdd " + lexer.token);
+    System.out.println("Entrou na funcao exprAdd " + lexer.token);
     Symbol op;
     Expr esq, dir;
     esq = exprMult();
 
     while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
+      System.out.println("OP " + op);
       lexer.nextToken();
       dir = exprMult();
       esq = new ExprAdd(esq, op, dir);
@@ -507,10 +508,10 @@ public class Compiler {
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
    private Expr exprPrimary() {
-     System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
-      
-      if(lexer.token == Symbol.STRING) {
-        lexer.nextToken();
+      System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
+      // String value = lexer.getStringValue()
+      if(lexer.nextNoSkip() == '(') {
+        // lexer.nextToken();
         return funcCall();
       }
       else if(lexer.token == Symbol.IDLITERAL){
