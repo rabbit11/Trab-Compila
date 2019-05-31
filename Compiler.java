@@ -67,8 +67,8 @@ public class Compiler {
     lexer.nextToken();
 
     Program e = program();
-    if (tokenPos != input.length)
-      error("Fim de codigo esperado!");
+    // if (lexer.token != Symbol.EOF)
+    //   error("EOF expected");
 
     return e;
   }
@@ -82,6 +82,8 @@ public class Compiler {
       f.add(func());
 
     Program program = new Program(f);
+    
+    lexer.nextToken();
     if (lexer.token != Symbol.EOF)
       error("EOF expected");
 
@@ -155,8 +157,6 @@ public class Compiler {
     }
     lexer.nextToken();
     stat();
-
-    System.out.println("AOOOO22222 " + lexer.token);
  
     if(lexer.token != Symbol.RBRA){
       System.out.println("Esperado }, encontrou " + lexer.token);
@@ -238,7 +238,7 @@ public class Compiler {
     }
     else{
       System.out.println("Tipo não reconhecido");
-      System.out.println("TOken:" + lexer.token);
+      System.out.println("Token:" + lexer.token);
       return null;
     }
 
@@ -425,7 +425,6 @@ public class Compiler {
     esq = exprUnary();
 
     while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
-      System.out.println("AOOOOO BOBINA: " + lexer.token);
       lexer.nextToken();
       dir = exprUnary();
       esq = new ExprMult(esq, op, dir);
@@ -441,7 +440,6 @@ public class Compiler {
     esq = exprMult();
 
     while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
-      System.out.println("OP " + op);
       lexer.nextToken();
       dir = exprMult();
       esq = new ExprAdd(esq, op, dir);
