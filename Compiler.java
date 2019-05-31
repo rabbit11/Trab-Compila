@@ -37,8 +37,11 @@ public class Compiler {
     System.out.println("Entrou na funcao program: " + lexer.token);
     ArrayList<Func> f = new ArrayList<Func>();
 
-    while (lexer.token == Symbol.FUNCTION)
+    while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
+      System.out.println("ACABOU A FUNC");
+      lexer.nextToken();
+    }
 
     Program program = new Program(f);
     
@@ -314,7 +317,9 @@ public class Compiler {
   }
 
   private void error(String errorMsg) {
-     System.out.println("Entrou na funcao error " + lexer.token);
+    System.out.println("Entrou na funcao error " + lexer.token);
+    System.out.println("O TOKEN " + lexer.getStringValue());
+
     if (tokenPos == 0)
       tokenPos = 1;
     else if (tokenPos >= input.length)
@@ -428,9 +433,13 @@ public class Compiler {
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
     }
-
-    else
-      System.out.println("simbolo incorreto " + lexer.token);
+    else if (lexer.token == Symbol.SEMICOLON) {
+      lexer.nextToken();
+      // System.out.println("LINHA " + lexer.getCurrentLine());
+    }
+    else {
+      System.out.println("Simbolo incorreto");
+    }
 
     return new AssignExprStat(esq, dir);
   }

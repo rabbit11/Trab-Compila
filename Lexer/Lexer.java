@@ -82,7 +82,7 @@ public class Lexer {
     }
 
     // Verifica linhas comentadas
-    if (input[tokenPos] == '-' && input[tokenPos + 1] == '-') {
+    if (input[tokenPos] == '/' && input[tokenPos + 1] == '/') {
       while (input[tokenPos] != '\n') {
         tokenPos++;
       }
