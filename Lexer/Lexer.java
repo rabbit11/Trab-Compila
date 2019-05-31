@@ -321,17 +321,6 @@ public class Lexer {
     return true;
   }
 
-  // public char getCharValue() {
-  //   return charValue;
-  // }
-
-      // }
-
-      // // Se o conteudo não for vazio, pode ser uma palavra reservada
-      // if (!aux.equals("")) {
-      //   // Verificamos se o conteudo está na tabela hash
-      //   Symbol temp = keywordsTable.get(aux);
-
   private boolean containsOnlyNumbersAndDigits(String str) {
     // Se a str for vazia ou nula, retorna falso
     if (str == null || str.length() == 0) {
