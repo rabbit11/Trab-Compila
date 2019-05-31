@@ -10,8 +10,8 @@ public class WhileStat extends Stat {
     // super expr sera as condições do while
 
     // private WhileBody corpo;
-    private ArrayList<AssignExprStat> atribuicaoInicio;
-    private ArrayList<AssignExprStat> atribuicaoFinal;
+    // private ArrayList<AssignExprStat> atribuicaoInicio;
+    // private ArrayList<AssignExprStat> atribuicaoFinal;
 
     public WhileStat(StatList whileBody, Expr expr) {
         this.whileBody = whileBody;

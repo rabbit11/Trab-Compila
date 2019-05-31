@@ -189,13 +189,13 @@ public class Compiler {
     Type result;
 
     if(lexer.token == Symbol.INT){
-      System.out.println("int");
+      // System.out.println("int");
     }
     else if(lexer.token == Symbol.BOOLEAN){
-      System.out.println("boolean");
+      // System.out.println("boolean");
     }
     else if(lexer.token == Symbol.STRING){
-      System.out.println("String");
+      // System.out.println("String");
     }
     else{
       System.out.println("Tipo não reconhecido");
