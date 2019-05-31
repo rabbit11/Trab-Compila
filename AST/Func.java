@@ -24,6 +24,11 @@ public class Func {
         this.params = p.getListaStats();
     }
 
+    public Func(String nomeFunc, Symbol tipoRetorno) {
+        this.nomeFunc = nomeFunc;
+        this.tipoRetorno = tipoRetorno;
+    }
+
     public Func(String nomeFunc){
       this.nomeFunc = nomeFunc;
     }
