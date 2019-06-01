@@ -1,10 +1,16 @@
+//     Nome                    RA
+    // Bruno Asti Baradel      726499
+    // Pablo Laranjo           726577
+    // Pedro Coelho            743585
+    // Vinícius Crepschi       743601
+
 package AST;
 import Lexer.*;
 
 //ExprRel ::= ExprAdd [ RelOp ExprAdd ]
 
 public class ExprRel extends Expr {
-    
+
     private Expr esquerda, direita;
     private Symbol operador;
 

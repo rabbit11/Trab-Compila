@@ -1,3 +1,9 @@
+//     Nome                    RA
+    // Bruno Asti Baradel      726499
+    // Pablo Laranjo           726577
+    // Pedro Coelho            743585
+    // Vinícius Crepschi       743601
+
 package AST;
 
 import java.util.*;
@@ -17,20 +23,4 @@ public class StatList{
           s.genC(pw);
         }
     }
-
-    // public void genC(PW pw){
-    //   pw.printNI("{");
-    //   for(int i = 0; i < listaStats.size(); i++)
-    //     pw.print(listaStats[i]); //não sei qual print usar aqui
-    //   pw.printNI("}");
-    // }
-
-    // public setListaStats(Stat a) {
-    //   this.listaStats = a;
-    // }
-
-    // public getListaStats() {
-    //   return this.listaStats;
-    // }
-    
 }
