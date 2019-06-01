@@ -1,0 +1,24 @@
+function constante -> Int {
+	var valor1 : Int;
+	var valor2 : Int;
+	valor1 = 1 - 2 + 5;
+	valor2 = 10 / 2;
+	if valor1 or valor2 != 10 {
+		return valor1;
+	}
+	return valor2;
+}
+
+function multiplicar (mult1 : Int, mult2 : Int, tipo : Boolean) -> Int {
+	if tipo == true {
+		var i : Int;
+		i = 1;
+		var total : Int;
+		total = 0;
+		while i <= mult2{
+			total = total + mult1;		
+			i = i + 1;
+		} 
+		return total;
+	}
+}
