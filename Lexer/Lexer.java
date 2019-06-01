@@ -74,21 +74,21 @@ public class Lexer {
 
   public void nextToken() {
 
-    // if(token == Symbol.IDLITERAL){
-    //   System.out.println(getStringValue());
-    // }
-    // else if(token == Symbol.INTLITERAL){
-    //   System.out.println(getIntValue());
-    // }
-    // else if(token == Symbol.BOOLLITERAL){
-    //   System.out.println(getBoolValue());
-    // }
-    // else if(token == Symbol.STRINGLITERAL){
-    //   System.out.println(getStringValue());
-    // }
-    // else{
-    //   System.out.println(token);
-    // }
+    if(token == Symbol.IDLITERAL){
+      System.out.println(getStringValue());
+    }
+    else if(token == Symbol.INTLITERAL){
+      System.out.println(getIntValue());
+    }
+    else if(token == Symbol.BOOLLITERAL){
+      System.out.println(getBoolValue());
+    }
+    else if(token == Symbol.STRINGLITERAL){
+      System.out.println(getStringValue());
+    }
+    else{
+      System.out.println(token);
+    }
     // Pula espaços e quebra de linhas
     while (input[tokenPos] == ' ' || input[tokenPos] == '\n' || input[tokenPos] == '\t' || input[tokenPos] == '\r') {
       if (input[tokenPos] == '\n') {

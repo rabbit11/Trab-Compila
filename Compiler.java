@@ -82,7 +82,7 @@ public class Compiler {
 
 
     if (lexer.token != Symbol.SEMICOLON) {
-      System.out.println(lexer.getCurrentLine());
+      // System.out.println(lexer.getCurrentLine());
       System.out.println("Expected ';' but found '" + lexer.getStringValue() + "'");
     }
 
@@ -137,7 +137,7 @@ public class Compiler {
 
     if(lexer.token != Symbol.RBRA) {
       System.out.println("Esperado }, encontrou " + lexer.token);
-      System.out.println("LINHA: " + lexer.getCurrentLine());
+      // System.out.println("LINHA: " + lexer.getCurrentLine());
     }
 
     return new StatList(v);
@@ -157,7 +157,7 @@ public class Compiler {
 
     if (lexer.token != Symbol.LBRA) {
       System.out.println("{ expected and found " + lexer.token);
-      System.out.println("LINE: " + lexer.getCurrentLine());
+      // System.out.println("LINE: " + lexer.getCurrentLine());
     }
 
     StatList ifPart = statList();
@@ -528,7 +528,7 @@ public class Compiler {
     Type t = null;
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      System.out.println(lexer.token);
+      // System.out.println(lexer.token);
       t = type();
     }
 
