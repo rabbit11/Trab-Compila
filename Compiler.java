@@ -316,22 +316,6 @@ public class Compiler {
     return param;
   }
 
-  private void error(String errorMsg) {
-    //System.out.println("Entrou na funcao error " + lexer.token);
-    //System.out.println("O TOKEN " + lexer.getStringValue());
-
-    if (tokenPos == 0)
-      tokenPos = 1;
-    else if (tokenPos >= input.length)
-      tokenPos = input.length;
-
-    String strInput = new String(input, tokenPos - 1, input.length - tokenPos + 1);
-    String strError = "Error at \"" + strInput + "\"";
-    System.out.println(strError);
-    System.out.println(errorMsg);
-    throw new RuntimeException(strError);
-  }
-
   // ExprAnd::= ExprRel {”and” ExprRel}
   private Expr exprAnd() {
      //System.out.println("Entrou na funcao exprAnd " + lexer.token);
@@ -588,7 +572,7 @@ public class Compiler {
       }
       lexer.nextToken();
     }
-    
+
     return new FuncCall(name, eList);
   }
 
@@ -596,4 +580,20 @@ public class Compiler {
   private int tokenPos;
   private char[] input;
   // private Hashtable<Character, VarDecStat> symbolTable;
+}
+
+private void error(String errorMsg) {
+    //System.out.println("Entrou na funcao error " + lexer.token);
+    //System.out.println("O TOKEN " + lexer.getStringValue());
+
+    if (tokenPos == 0)
+      tokenPos = 1;
+    else if (tokenPos >= input.length)
+      tokenPos = input.length;
+
+    String strInput = new String(input, tokenPos - 1, input.length - tokenPos + 1);
+    String strError = "Error at \"" + strInput + "\"";
+    System.out.println(strError);
+    System.out.println(errorMsg);
+    throw new RuntimeException(strError);
 }
