@@ -38,8 +38,8 @@ public class Compiler {
 
     while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
-      //System.out.println("ACABOU A FUNC");
       lexer.nextToken();
+      // System.out.println("ACABOU A FUNC" + lexer.token);
     }
 
     //System.out.println("PRINT NA PROGRAM" + lexer.token);
@@ -48,10 +48,10 @@ public class Compiler {
 
     lexer.nextToken();
 
-    if (lexer.token != Symbol.EOF)
+    if (lexer.token != Symbol.EOF){
+      System.out.println("ULTIMO TOKEN: " + lexer.token);
       error("EOF expected");
-
-    //System.out.println("ULTIMO TOKEN: " + lexer.token);
+    }
 
     return program;
   }
@@ -137,7 +137,7 @@ public class Compiler {
 
     if(lexer.token != Symbol.RBRA) {
       System.out.println("Esperado }, encontrou " + lexer.token);
-      // System.out.println("LINHA: " + lexer.getCurrentLine());
+      System.out.println("LINHA: " + lexer.getCurrentLine());
     }
 
     return new StatList(v);
@@ -157,7 +157,7 @@ public class Compiler {
 
     if (lexer.token != Symbol.LBRA) {
       System.out.println("{ expected and found " + lexer.token);
-      // System.out.println("LINE: " + lexer.getCurrentLine());
+      System.out.println("LINE: " + lexer.getCurrentLine());
     }
 
     StatList ifPart = statList();
@@ -171,11 +171,11 @@ public class Compiler {
 
     if (lexer.token == Symbol.ELSE) {
       lexer.nextToken();
-
       elsePart = statList();
+      lexer.nextToken();
     }
 
-    lexer.nextToken();
+    // lexer.nextToken();
 
     return new IfStat(e, ifPart, elsePart);
 
@@ -269,7 +269,7 @@ public class Compiler {
     } else {
       System.out.println("Error in the boolean type");
     }
-
+    // lexer.nextToken();
     return false;
   }
 
@@ -338,7 +338,7 @@ public class Compiler {
     Expr esq, dir;
     esq = exprRel();
 
-    if (lexer.token == Symbol.AND) {
+    while (lexer.token == Symbol.AND) {
       lexer.nextToken();
       dir = exprRel();
       esq = new ExprAnd(esq, Symbol.AND, dir);
@@ -582,6 +582,13 @@ public class Compiler {
       }
       lexer.nextToken();
     }
+    else{
+      if (lexer.token != Symbol.RPAR) {
+        System.out.println(") expected");
+      }
+      lexer.nextToken();
+    }
+    
     return new FuncCall(name, eList);
   }
 
