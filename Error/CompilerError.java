@@ -13,6 +13,11 @@ import AST.PW;
 
 public class CompilerError{
     
+    private PW pw;
+    private String fileName;
+    private boolean signaled;
+
+    
     public CompilerError(PW pw, String fileName){
         this.pw = pw;
         this.fileName = fileName;
@@ -41,7 +46,4 @@ public class CompilerError{
         }
     }
 
-    private PW pw;
-    private String fileName;
-    private boolean signaled;
 }
