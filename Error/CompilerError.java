@@ -33,7 +33,7 @@ public class CompilerError{
         return signaled;
     }
 
-    public void errorMessage(String message){
+    public void message(String message){
         if(errorSignaled()){
             pw.println(message);
         }
