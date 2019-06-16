@@ -16,8 +16,9 @@ public class CompilerError{
     private PW pw;
     private String fileName;
     private boolean signaled;
+    private Lexer lexer;
 
-    
+
     public CompilerError(PW pw, String fileName){
         this.pw = pw;
         this.fileName = fileName;
@@ -32,14 +33,14 @@ public class CompilerError{
         return signaled;
     }
 
-    public void Error(String message){
+    public void errorMessage(String message){
         if(errorSignaled()){
             pw.println(message);
         }
         else {
-            String errorMessage = this.fileName + ": " + lexer.getLineNumber() + message;
+            String errMessage = this.fileName + ": " + lexer.getLineNumber() + message;
             
-            pw.println(errorMessage);
+            pw.println(errMessage);
             pw.println(lexer.getCurrentLine());
 
             this.signaled = true;

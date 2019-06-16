@@ -6,6 +6,7 @@
 
 import AST.*;
 import Lexer.*;
+import Error.*;
 import java.util.ArrayList;
 
 public class Compiler {
@@ -15,6 +16,7 @@ public class Compiler {
   public Program compile(char[] p_input) {
     lexer = new Lexer(p_input);
     table = new SymbolTable();
+    // error = new CompilerError();
     // error.setLexer(lexer);
 
     input = p_input;
@@ -50,7 +52,7 @@ public class Compiler {
 
     if (lexer.token != Symbol.EOF){
       System.out.println("ULTIMO TOKEN: " + lexer.token);
-      error("EOF expected");
+      // error("EOF expected");
     }
 
     return program;
@@ -357,7 +359,7 @@ public class Compiler {
          break;
 
          default:
-          error("Invalid Expression");
+          // error("Invalid Expression");
        }
 
       return new ExprLiteral(op);
@@ -580,20 +582,4 @@ public class Compiler {
   private int tokenPos;
   private char[] input;
   // private Hashtable<Character, VarDecStat> symbolTable;
-}
-
-private void error(String errorMsg) {
-    //System.out.println("Entrou na funcao error " + lexer.token);
-    //System.out.println("O TOKEN " + lexer.getStringValue());
-
-    if (tokenPos == 0)
-      tokenPos = 1;
-    else if (tokenPos >= input.length)
-      tokenPos = input.length;
-
-    String strInput = new String(input, tokenPos - 1, input.length - tokenPos + 1);
-    String strError = "Error at \"" + strInput + "\"";
-    System.out.println(strError);
-    System.out.println(errorMsg);
-    throw new RuntimeException(strError);
 }

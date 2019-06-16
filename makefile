@@ -67,6 +67,7 @@ CLASSES =	\
         AST/VarDecStat.java \
         AST/Variable.java \
         AST/WhileStat.java \
+        Error/CompilerError.java \
 
 #
 # the default make target entry
