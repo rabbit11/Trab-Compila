@@ -12,12 +12,13 @@ import java.util.ArrayList;
 public class Compiler {
   private Lexer lexer;
   private SymbolTable table;
+  private CompilerError error;
 
-  public Program compile(char[] p_input) {
+  public Program compile(char[] p_input, PW pw, String fileName) {
     lexer = new Lexer(p_input);
     table = new SymbolTable();
-    // error = new CompilerError();
-    // error.setLexer(lexer);
+    error = new CompilerError(pw, fileName);
+    error.setLexer(lexer);
 
     input = p_input;
     tokenPos = 0;

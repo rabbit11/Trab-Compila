@@ -14,6 +14,7 @@ public class Main {
     FileReader stream;
     int numChRead;
     Program program;
+    
     if ( args.length != 2 ) {
       System.out.println("Usage:\n Main input output");
       System.out.println("input is the file to be compiled");
@@ -64,11 +65,21 @@ public class Main {
         throw new RuntimeException();
       }
       PrintWriter printWriter = new PrintWriter(outputStream);
+      PW pw = new PW(printWriter);
+
       program = null;
 
       // the generated code goes to a file and so are the errors
       try {
-        program = compiler.compile(input); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
+        String path = args[0];
+        String fileName = "";
+
+        //obtendo o nome do arquivo de entrada, sem incluir o caminho para o mesmo
+        for(int i = path.lastIndexOf('/'); i < path.length(); i++){
+          fileName += path.charAt(i);
+        }
+
+        program = compiler.compile(input, pw, fileName); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
       } catch ( RuntimeException e ) {
         System.out.println(e);
       }
