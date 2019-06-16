@@ -53,7 +53,18 @@ public class Compiler {
 
     if (lexer.token != Symbol.EOF){
       // System.out.println("ULTIMO TOKEN: " + lexer.token);
-      error.message("EOF expected");
+      if(lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL){
+        error.message("EOF expected and found: " + lexer.getStringValue());
+      }
+      else if (lexer.token == Symbol.INTLITERAL){
+        error.message("EOF expected and found: " + lexer.getIntValue());
+      }
+      else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("EOF expected and found: " + lexer.getBoolValue());
+      }
+      else{
+        error.message("EOF expected and found: " + lexer.token);
+      }
     }
 
     return program;
@@ -65,7 +76,15 @@ public class Compiler {
         || lexer.token == Symbol.GTE) {
 
     } else {
-      error.message("Operador não reconhecido");
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Operator expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Operator expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Operator expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("Operator expected and found: " + lexer.token);
+      }
     }
     lexer.nextToken();
   }
@@ -75,7 +94,15 @@ public class Compiler {
      //System.out.println("Entrou na funcao ReturnStat " + lexer.token);
 
     if (lexer.token != Symbol.RETURN) {
-      error.message("Expected 'Return' but found '" + lexer.getStringValue() + "'");
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Expected 'Return' but found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Expected 'Return' but found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Expected 'Return' but found: " + lexer.getBoolValue());
+      } else {
+        error.message("Expected 'Return' but found: " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -85,8 +112,15 @@ public class Compiler {
 
 
     if (lexer.token != Symbol.SEMICOLON) {
-      // System.out.println(lexer.getCurrentLine());
-      error.message("Expected ';' but found '" + lexer.getStringValue() + "'");
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Expected ';' but found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Expected ';' but found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Expected ';' but found: " + lexer.getBoolValue());
+      } else {
+        error.message("Expected ';' but found: " + lexer.token);
+      }
     }
 
     lexer.nextToken();
