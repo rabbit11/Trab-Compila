@@ -156,7 +156,15 @@ public class Compiler {
     ArrayList<Stat> v = new ArrayList<Stat>();
 
     if(lexer.token != Symbol.LBRA){
-      error.message("Esperado {, encontrou: " + lexer.getStringValue());
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Esperado {, encontrou:  " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Esperado {, encontrou:  " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Esperado {, encontrou:  " + lexer.getBoolValue());
+      } else {
+        error.message("Esperado {, encontrou:  " + lexer.token);
+      }
     }
     lexer.nextToken();
 
@@ -173,7 +181,15 @@ public class Compiler {
     }
 
     if(lexer.token != Symbol.RBRA) {
-      error.message("Esperado }, encontrou " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Esperado }, encontrou   " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Esperado }, encontrou   " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Esperado }, encontrou   " + lexer.getBoolValue());
+      } else {
+        error.message("Esperado }, encontrou   " + lexer.token);
+      }
       // System.out.println("LINHA: " + lexer.getCurrentLine());
     }
 
@@ -185,7 +201,15 @@ public class Compiler {
      //System.out.println("Entrou na funcao ifStat " + lexer.token);
 
     if (lexer.token != Symbol.IF) {
-      error.message("'if' expected, but found: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("'if' expected, but found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("'if' expected, but found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("'if' expected, but found: " + lexer.getBoolValue());
+      } else {
+        error.message("'if' expected, but found: " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -193,15 +217,31 @@ public class Compiler {
     Expr e = expr();
 
     if (lexer.token != Symbol.LBRA) {
-      error.message("{ expected and found " + lexer.token);
-      System.out.println("LINE: " + lexer.getCurrentLine());
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("{ expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("{ expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("{ expected and found " + lexer.getBoolValue());
+      } else {
+        error.message("{ expected and found " + lexer.token);
+      }
+      // System.out.println("LINE: " + lexer.getCurrentLine());
     }
 
     StatList ifPart = statList();
     StatList elsePart = null;
 
     if (lexer.token != Symbol.RBRA) {
-      error.message("} expected and found: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("} expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("} expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("} expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("} expected and found: " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -233,7 +273,15 @@ public class Compiler {
       // System.out.println("String");
     }
     else{
-      error.message("Tipo não reconhecido " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Tipo não reconhecido " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Tipo não reconhecido " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Tipo não reconhecido " + lexer.getBoolValue());
+      } else {
+        error.message("Tipo não reconhecido " + lexer.token);
+      }
       //System.out.println("Token:" + lexer.token);
       return null;
     }
@@ -246,8 +294,17 @@ public class Compiler {
   private VarDecStat varDecStat() {
      //System.out.println("Entrou na funcao varDecStat " + lexer.token);
 
-    if (lexer.token != Symbol.VAR)// ta certo isso?
-      error.message("Identifier expected and found" + lexer.token);
+    if (lexer.token != Symbol.VAR){
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Identifier expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Identifier expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Identifier expected and found " + lexer.getBoolValue());
+      } else {
+        error.message("Identifier expected and found " + lexer.token);
+      }
+    }
 
     lexer.nextToken(); // ta certo isso?
 
@@ -259,7 +316,15 @@ public class Compiler {
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) {
-      error.message(": expected and found " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message(": expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message(": expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message(": expected and found " + lexer.getBoolValue());
+      } else {
+        error.message(": expected and found " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -267,7 +332,15 @@ public class Compiler {
     Type typeVar = type();
 
     if (lexer.token != Symbol.SEMICOLON) {
-      error.message("; expected and found" + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("; expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("; expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("; expected and found " + lexer.getBoolValue());
+      } else {
+        error.message("; expected and found " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -280,7 +353,15 @@ public class Compiler {
   private WhileStat whileStat() {
      //System.out.println("Entrou na funcao whileStat " + lexer.token);
     if (lexer.token != Symbol.WHILE) {
-      error.message("'while' expected and found " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("'while' expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("'while' expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("'while' expected and found " + lexer.getBoolValue());
+      } else {
+        error.message("'while' expected and found " + lexer.token);
+      }
     }
 
     lexer.nextToken();
@@ -304,7 +385,15 @@ public class Compiler {
       lexer.nextToken();
       return boo;
     } else {
-      error.message("Error in the boolean type, at " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Error in the boolean type, at " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Error in the boolean type, at " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Error in the boolean type, at " + lexer.getBoolValue());
+      } else {
+        error.message("Error in the boolean type, at " + lexer.token);
+      }
     }
     // lexer.nextToken();
     return false;
@@ -333,15 +422,30 @@ public class Compiler {
      //System.out.println("Entrou na funcao paramDec " + lexer.token);
     // ParamDec ::= Id ":" Type
     if (lexer.token != Symbol.IDLITERAL) {
-      // error.signal("Identifier expected");
-      error.message("identifier expected and found: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("identifier expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("identifier expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("identifier expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("identifier expected and found: " + lexer.token);
+      }
     }
     // name of the identifier
     String id = (String) lexer.getStringValue();
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) { // :
-      error.message(": expected and found " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message(": expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message(": expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message(": expected and found " + lexer.getBoolValue());
+      } else {
+        error.message(": expected and found " + lexer.token);
+      }
       // error.show(": expected");
     } else {
       lexer.nextToken();
@@ -394,7 +498,15 @@ public class Compiler {
          break;
 
          default:
-          error.message("Invalid Expression at: " + lexer.token);
+          if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+            error.message("Invalid Expression at: " + lexer.getStringValue());
+          } else if (lexer.token == Symbol.INTLITERAL) {
+            error.message("Invalid Expression at: " + lexer.getIntValue());
+          } else if (lexer.token == Symbol.BOOLLITERAL) {
+            error.message("Invalid Expression at: " + lexer.getBoolValue());
+          } else {
+            error.message("Invalid Expression at: " + lexer.token);
+          }
        }
 
       return new ExprLiteral(op);
@@ -463,7 +575,15 @@ public class Compiler {
       // System.out.println("LINHA " + lexer.getCurrentLine());
     }
     else {
-      error.message("Incorrect symbol at: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Incorrect symbol at: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Incorrect symbol at: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Incorrect symbol at: " + lexer.getBoolValue());
+      } else {
+        error.message("Incorrect symbol at: " + lexer.token);
+      }
       // System.out.println("TOKEN " + lexer.token);
       // System.out.println("LINHA " + lexer.getCurrentLine());
     }
@@ -522,14 +642,30 @@ public class Compiler {
      //System.out.println("Entrou na funcao func " + lexer.token);
     // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
     if (lexer.token != Symbol.FUNCTION) {
-      // should never occur
-      error.message("Function header expected and found: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Function header expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Function header expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Function header expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("Function header expected and found: " + lexer.token);
+      }
       return null;
     }
     lexer.nextToken();
 
-    if (lexer.token != Symbol.IDLITERAL)
-      error.message("Identifier expected and found: " + lexer.token);
+    if (lexer.token != Symbol.IDLITERAL){
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("Identifier expected and found: " + lexer.token);
+      }
+    }
 
     String name = (String) lexer.getStringValue();
 
@@ -540,7 +676,15 @@ public class Compiler {
       lexer.nextToken();
       p = paramList();
       if (lexer.token != Symbol.RPAR) {
-        error.message(") expected and found: " + lexer.token);
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message(") expected and found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message(") expected and found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message(") expected and found: " + lexer.getBoolValue());
+        } else {
+          error.message(") expected and found: " + lexer.token);
+        }
       } else{
         lexer.nextToken();
       }
@@ -576,8 +720,17 @@ public class Compiler {
   private Expr funcCall() {
      //System.out.println("Entrou na funcao funcCall " + lexer.token);
     // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
-    if (lexer.token != Symbol.IDLITERAL)
-      error.message("Identifier expected and found: " + lexer.token);
+    if (lexer.token != Symbol.IDLITERAL){
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Identifier expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("Identifier expected and found: " + lexer.token);
+      }
+    }
 
     lexer.nextToken();
     String name = (String) lexer.getStringValue();
@@ -585,7 +738,15 @@ public class Compiler {
     ArrayList<Expr> eList = new ArrayList<Expr>();
 
     if (lexer.token != Symbol.LPAR) {
-      error.message("( expected and found: " + lexer.token);
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("( expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("( expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("( expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("( expected and found: " + lexer.token);
+      }
     } else
       lexer.nextToken();
     if (lexer.token != Symbol.RPAR) {
@@ -599,13 +760,29 @@ public class Compiler {
       }
 
       if (lexer.token != Symbol.RPAR) {
-        error.message(") expected and found: " + lexer.token);
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message(") expected and found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message(") expected and found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message(") expected and found: " + lexer.getBoolValue());
+        } else {
+          error.message(") expected and found: " + lexer.token);
+        }
       }
       lexer.nextToken();
     }
     else{
       if (lexer.token != Symbol.RPAR) {
-        error.message(") expected and found " + lexer.token);
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message(") expected and found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message(") expected and found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message(") expected and found: " + lexer.getBoolValue());
+        } else {
+          error.message(") expected and found: " + lexer.token);
+        }
       }
       lexer.nextToken();
     }
