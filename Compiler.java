@@ -592,6 +592,17 @@ public class Compiler {
       lexer.nextToken();
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
+      else{
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getBoolValue());
+        } else {
+          error.message("Expected ';' but found: " + lexer.token);
+        }
+      }
     }
     else if (lexer.token == Symbol.SEMICOLON) {
       lexer.nextToken();
@@ -599,13 +610,13 @@ public class Compiler {
     }
     else {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getStringValue());
+        error.message("Expected ';' but found: " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getIntValue());
+        error.message("Expected ';' but found: " + lexer.getIntValue());
       } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getBoolValue());
+        error.message("Expected ';' but found: " + lexer.getBoolValue());
       } else {
-        error.message("Incorrect symbol at: " + lexer.token);
+        error.message("Expected ';' but found: " + lexer.token);
       }
       // System.out.println("TOKEN " + lexer.token);
       // System.out.println("LINHA " + lexer.getCurrentLine());
