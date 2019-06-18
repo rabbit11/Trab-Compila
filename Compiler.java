@@ -180,6 +180,7 @@ public class Compiler {
       }
     }
 
+    System.out.println("deu ruim guys" + lexer.token);
     if(lexer.token != Symbol.RBRA) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Esperado }, encontrou   " + lexer.getStringValue());
@@ -688,16 +689,6 @@ public class Compiler {
       } else{
         lexer.nextToken();
       }
-    }else {
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("( expected and found: " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("( expected and found: " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("( expected and found: " + lexer.getBoolValue());
-      } else {
-        error.message("( expected and found: " + lexer.token);
-      }
     }
 
     Type t = null;
@@ -706,7 +697,6 @@ public class Compiler {
       // System.out.println(lexer.token);
       t = type();
     }
-
 
     statList();
 
