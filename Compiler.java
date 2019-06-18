@@ -38,30 +38,21 @@ public class Compiler {
   private Program program() {
     //System.out.println("Entrou na funcao program: " + lexer.token);
     ArrayList<Func> f = new ArrayList<Func>();
-    int flagFunc = 0;
+
     while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
-      flagFunc = 1;
       lexer.nextToken();
       // System.out.println("ACABOU A FUNC" + lexer.token);
     }
+
+    //System.out.println("PRINT NA PROGRAM" + lexer.token);
 
     Program program = new Program(f);
 
     lexer.nextToken();
 
-    if(flagFunc == 0){
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Func expected and found: " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Func expected and found: " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Func expected and found: " + lexer.getBoolValue());
-      } else {
-        error.message("Func expected and found: " + lexer.token);
-      }
-    }
-    else if (lexer.token != Symbol.EOF){
+    if (lexer.token != Symbol.EOF){
+      // System.out.println("ULTIMO TOKEN: " + lexer.token);
       if(lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL){
         error.message("EOF expected and found: " + lexer.getStringValue());
       }
@@ -75,6 +66,7 @@ public class Compiler {
         error.message("EOF expected and found: " + lexer.token);
       }
     }
+
     return program;
   }
 
@@ -173,7 +165,6 @@ public class Compiler {
       } else {
         error.message("Esperado {, encontrou:  " + lexer.token);
       }
-        lexer.nextToken();
     }
     lexer.nextToken();
 
@@ -291,7 +282,7 @@ public class Compiler {
       } else {
         error.message("Tipo não reconhecido " + lexer.token);
       }
-      lexer.nextToken();
+      //System.out.println("Token:" + lexer.token);
       return null;
     }
 
@@ -412,30 +403,16 @@ public class Compiler {
      //System.out.println("Entrou na funcao paramList " + lexer.token);
     // ParamList ::= ParamDec { ’,’ ParamDec }
    ParamDec p = paramDec();
+
    ArrayList<ParamDec> pList = new ArrayList<ParamDec>();
    ParamList paramList = new ParamList(pList);
    pList.add(p);
 
-   if(lexer.token == Symbol.COMMA)
-
-     while (lexer.token == Symbol.COMMA) {
-        lexer.nextToken();
-        p = paramDec();
-        pList.add(p);
-     }
-
-    else{
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message(", expected and found " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message(", expected and found " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message(", expected and found " + lexer.getBoolValue());
-      } else {
-        error.message(", expected and found " + lexer.token);
-      }
+   while (lexer.token == Symbol.COMMA) {
       lexer.nextToken();
-    }
+      p = paramDec();
+      pList.add(p);
+   }
 
    paramList.setArrayParam(pList);
    return paramList;
@@ -592,17 +569,6 @@ public class Compiler {
       lexer.nextToken();
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
-      else{
-        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-          error.message("Expected ';' but found: " + lexer.getStringValue());
-        } else if (lexer.token == Symbol.INTLITERAL) {
-          error.message("Expected ';' but found: " + lexer.getIntValue());
-        } else if (lexer.token == Symbol.BOOLLITERAL) {
-          error.message("Expected ';' but found: " + lexer.getBoolValue());
-        } else {
-          error.message("Expected ';' but found: " + lexer.token);
-        }
-      }
     }
     else if (lexer.token == Symbol.SEMICOLON) {
       lexer.nextToken();
@@ -610,13 +576,13 @@ public class Compiler {
     }
     else {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getStringValue());
+        error.message("Incorrect symbol at: " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getIntValue());
+        error.message("Incorrect symbol at: " + lexer.getIntValue());
       } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getBoolValue());
+        error.message("Incorrect symbol at: " + lexer.getBoolValue());
       } else {
-        error.message("Expected ';' but found: " + lexer.token);
+        error.message("Incorrect symbol at: " + lexer.token);
       }
       // System.out.println("TOKEN " + lexer.token);
       // System.out.println("LINHA " + lexer.getCurrentLine());
@@ -719,10 +685,18 @@ public class Compiler {
         } else {
           error.message(") expected and found: " + lexer.token);
         }
-        lexer.nextToken();
-
       } else{
         lexer.nextToken();
+      }
+    }else {
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("( expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("( expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("( expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("( expected and found: " + lexer.token);
       }
     }
 
@@ -732,6 +706,7 @@ public class Compiler {
       // System.out.println(lexer.token);
       t = type();
     }
+
 
     statList();
 
