@@ -43,7 +43,7 @@ public class CompilerError{
             
             pw.println(errMessage);
             pw.println(lexer.getCurrentLine());
-            System.out.println(message);
+            System.out.println(errMessage);
             System.out.println(lexer.getCurrentLine());
 
             this.signaled = true;

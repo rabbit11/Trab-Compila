@@ -180,7 +180,6 @@ public class Compiler {
       }
     }
 
-    System.out.println("deu ruim guys" + lexer.token);
     if(lexer.token != Symbol.RBRA) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Esperado }, encontrou   " + lexer.getStringValue());
