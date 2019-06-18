@@ -625,22 +625,27 @@ public class Compiler {
   }
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
-   private Expr exprPrimary() {
-      //System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
-      // String value = lexer.getStringValue()
-      if(lexer.nextNoSkip() == '(') {
-        // lexer.nextToken();
-        return funcCall();
+  private Expr exprPrimary() {
+    // System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
+    // String value = lexer.getStringValue()
+
+    // if(lexer.nextNoSkip() == '(') {
+    // // lexer.nextToken();
+    // return funcCall();
+    // }
+    if (lexer.token == Symbol.IDLITERAL) {
+      String id = lexer.getStringValue();
+      lexer.nextToken();
+      if (lexer.token == Symbol.LPAR) {
+        return funcCall(id);
+      } else {
+        Variable variable = new Variable(id);
+        return variable;
       }
-      else if(lexer.token == Symbol.IDLITERAL){
-        Variable id = new Variable(lexer.token.toString());
-        lexer.nextToken();
-        return id;
-      }
-      else {
-        // lexer.nextToken();
-        return exprLiteral();
-      }
+    } else {
+      // lexer.nextToken();
+      return exprLiteral();
+    }
   }
 
   private Func func() {
@@ -693,16 +698,6 @@ public class Compiler {
       } else{
         lexer.nextToken();
       }
-    }else {
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("( expected and found: " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("( expected and found: " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("( expected and found: " + lexer.getBoolValue());
-      } else {
-        error.message("( expected and found: " + lexer.token);
-      }
     }
 
     Type t = null;
@@ -732,24 +727,10 @@ public class Compiler {
     }
   }
 
-  private Expr funcCall() {
-     //System.out.println("Entrou na funcao funcCall " + lexer.token);
+  private Expr funcCall(String name) {
+    //  System.out.println("Entrou na funcao funcCall " + lexer.token);
     // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
-    if (lexer.token != Symbol.IDLITERAL){
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Identifier expected and found: " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Identifier expected and found: " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Identifier expected and found: " + lexer.getBoolValue());
-      } else {
-        error.message("Identifier expected and found: " + lexer.token);
-      }
-    }
-
-    lexer.nextToken();
-    String name = (String) lexer.getStringValue();
-
+    
     ArrayList<Expr> eList = new ArrayList<Expr>();
 
     if (lexer.token != Symbol.LPAR) {
