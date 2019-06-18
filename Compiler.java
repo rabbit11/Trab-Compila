@@ -688,6 +688,16 @@ public class Compiler {
       } else{
         lexer.nextToken();
       }
+    }else {
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("( expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("( expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("( expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("( expected and found: " + lexer.token);
+      }
     }
 
     Type t = null;
