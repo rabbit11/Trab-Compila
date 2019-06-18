@@ -344,8 +344,13 @@ public class Compiler {
     }
 
     lexer.nextToken();
+    if(table.returnLocal(name) != null) {
+      error.message("Variável já declarada: " + name);
+    }
 
     VarDecStat v = new VarDecStat(name, typeVar);
+    table.putLocal(name, v);
+
     return v;
   }
 
