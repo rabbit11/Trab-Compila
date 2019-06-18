@@ -61,7 +61,7 @@ public class Compiler {
         error.message("Func expected and found: " + lexer.token);
       }
     }
-    else{
+    else if (lexer.token != Symbol.EOF){
       if(lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL){
         error.message("EOF expected and found: " + lexer.getStringValue());
       }

@@ -33,10 +33,10 @@ public class CompilerError {
     }
 
     public void message(String message) {
-        if (errorSignaled()) {
-            pw.println(message);
-            System.out.println(message);
-        } else {
+        // if (errorSignaled()) {
+        //     pw.println(message);
+        //     System.out.println(message);
+        // } else {
             String errMessage = this.fileName + ":" + lexer.getLineNumber() + ":" + message;
 
             pw.println(errMessage);
@@ -45,7 +45,7 @@ public class CompilerError {
             System.out.println(lexer.getCurrentLine());
 
             this.signaled = true;
-        }
+        // }
     }
 
 }
