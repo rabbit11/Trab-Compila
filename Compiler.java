@@ -290,7 +290,7 @@ public class Compiler {
       } else {
         error.message("Tipo não reconhecido " + lexer.token);
       }
-      //System.out.println("Token:" + lexer.token);
+      lexer.nextToken();
       return null;
     }
 
