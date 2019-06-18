@@ -47,9 +47,9 @@ public class Compiler {
     }
 
     Program program = new Program(f);
-    
+
     lexer.nextToken();
-    
+
     if(flagFunc == 0){
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Func expected and found: " + lexer.getStringValue());
@@ -173,6 +173,7 @@ public class Compiler {
       } else {
         error.message("Esperado {, encontrou:  " + lexer.token);
       }
+        lexer.nextToken();
     }
     lexer.nextToken();
 
@@ -411,16 +412,30 @@ public class Compiler {
      //System.out.println("Entrou na funcao paramList " + lexer.token);
     // ParamList ::= ParamDec { ’,’ ParamDec }
    ParamDec p = paramDec();
-
    ArrayList<ParamDec> pList = new ArrayList<ParamDec>();
    ParamList paramList = new ParamList(pList);
    pList.add(p);
 
-   while (lexer.token == Symbol.COMMA) {
+   if(lexer.token == Symbol.COMMA)
+
+     while (lexer.token == Symbol.COMMA) {
+        lexer.nextToken();
+        p = paramDec();
+        pList.add(p);
+     }
+
+    else{
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message(", expected and found " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message(", expected and found " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message(", expected and found " + lexer.getBoolValue());
+      } else {
+        error.message(", expected and found " + lexer.token);
+      }
       lexer.nextToken();
-      p = paramDec();
-      pList.add(p);
-   }
+    }
 
    paramList.setArrayParam(pList);
    return paramList;
@@ -693,6 +708,8 @@ public class Compiler {
         } else {
           error.message(") expected and found: " + lexer.token);
         }
+        lexer.nextToken();
+
       } else{
         lexer.nextToken();
       }
