@@ -503,6 +503,7 @@ public class Compiler {
          break;
 
          default:
+         lexer.nextToken();
           if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
             error.message("Invalid Expression at: " + lexer.getStringValue());
           } else if (lexer.token == Symbol.INTLITERAL) {
@@ -626,14 +627,13 @@ public class Compiler {
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
   private Expr exprPrimary() {
-    // System.out.println("Entrou na funcao exprPrimary " + lexer.getStringValue());
     // String value = lexer.getStringValue()
-
+    
     // if(lexer.nextNoSkip() == '(') {
-    // // lexer.nextToken();
-    // return funcCall();
-    // }
-    if (lexer.token == Symbol.IDLITERAL) {
+      // // lexer.nextToken();
+      // return funcCall();
+      // }
+      if (lexer.token == Symbol.IDLITERAL) {
       String id = lexer.getStringValue();
       lexer.nextToken();
       if (lexer.token == Symbol.LPAR) {
