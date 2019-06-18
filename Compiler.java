@@ -38,21 +38,30 @@ public class Compiler {
   private Program program() {
     //System.out.println("Entrou na funcao program: " + lexer.token);
     ArrayList<Func> f = new ArrayList<Func>();
-
+    int flagFunc = 0;
     while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
+      flagFunc = 1;
       lexer.nextToken();
       // System.out.println("ACABOU A FUNC" + lexer.token);
     }
 
-    //System.out.println("PRINT NA PROGRAM" + lexer.token);
-
     Program program = new Program(f);
-
+    
     lexer.nextToken();
-
-    if (lexer.token != Symbol.EOF){
-      // System.out.println("ULTIMO TOKEN: " + lexer.token);
+    
+    if(flagFunc == 0){
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("Func expected and found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("Func expected and found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("Func expected and found: " + lexer.getBoolValue());
+      } else {
+        error.message("Func expected and found: " + lexer.token);
+      }
+    }
+    else{
       if(lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL){
         error.message("EOF expected and found: " + lexer.getStringValue());
       }
@@ -66,7 +75,6 @@ public class Compiler {
         error.message("EOF expected and found: " + lexer.token);
       }
     }
-
     return program;
   }
 
