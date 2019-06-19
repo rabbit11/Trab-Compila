@@ -26,8 +26,14 @@ public class Compiler {
 
     //funções pre-definidas na linguagem
     Expr expression = null;
-    table.putFunction("readInt", new Func("readInt", Symbol.INTLITERAL));
-    table.putFunction("readString", new Func("readString", Symbol.STRINGLITERAL));
+    Type tipo = null;
+
+    tipo = new Type(Symbol.INTLITERAL);
+    table.putFunction("readInt", new Func("readInt", tipo));
+
+    tipo = new Type(Symbol.STRINGLITERAL);
+    table.putFunction("readString", new Func("readString", tipo));
+
     table.putFunction("print", new Func("print", expression));
     table.putFunction("println", new Func("println", expression));
     // symbolTable = new Hashtable();
@@ -474,44 +480,53 @@ public class Compiler {
      //System.out.println("Entrou na funcao exprAnd " + lexer.token);
     ExprRel esq, dir;
     ArrayList<Expr> expr = new ArrayList<Expr>();
-    Type tipo;
+    Type tipoEsq, tipoDir;
 
     esq = exprRel();
+    tipoEsq = esq.getType();
     expr.add(esq);
-
-    tipo = esq.getType();
 
     while (lexer.token == Symbol.AND) {
       lexer.nextToken();
       dir = exprRel();
+      tipoDir = dir.getType();
       expr.add(dir);
     }
 
-    return new ExprAnd(expr, Symbol.AND, tipo);
+    return new ExprAnd(expr, Symbol.AND, tipoEsq);
   }
 
    //  ::= LiteralInt | LiteralBoolean | LiteralString
    public Expr exprLiteral() {
      //System.out.println("Entrou na funcao exprLiteral " + lexer.token);
        Symbol op = lexer.token;
+       Type tipo = null;
+       String value = "";
 
        switch(op){
        case INTLITERAL:
-        //  System.out.println("linha " + lexer.getCurrentLine());
          lexer.nextToken();
+         tipo = new Type(Symbol.INTLITERAL);
+         value = lexer.getStringValue();
          break;
 
         case TRUE:
           lexer.nextToken();
+          tipo = new Type(Symbol.BOOLLITERAL);
+          value = "true";
           break;
 
         case FALSE:
           lexer.nextToken();
+          tipo = new Type(Symbol.BOOLLITERAL);
+          value = "false";
           break;
 
         case STRINGLITERAL:
-         lexer.nextToken();
-         break;
+          tipo = new Type(Symbol.STRINGLITERAL);
+          lexer.nextToken();
+          value = lexer.getStringValue();
+          break;
 
          default:
          lexer.nextToken();
@@ -526,7 +541,7 @@ public class Compiler {
           }
        }
 
-      return new ExprLiteral(op);
+      return new ExprLiteral(value, op, tipo);
    }
 
   // Expr ::= ExprAnd {”or” ExprAnd}
@@ -551,33 +566,55 @@ public class Compiler {
   }
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
-  private Expr exprMult() {
+  private ExprMult exprMult() {
      //System.out.println("Entrou na funcao exprMult " + lexer.token);
     Symbol op;
-    Expr esq, dir;
+    ExprUnary esq, dir;
+    ArrayList<ExprUnary> expr = new ArrayList<ExprUnary>();
+    Type tipoEsq, tipoDir;
+
     esq = exprUnary();
+    tipoEsq = esq.getType();
+    tipoDir = null;
+
+    expr.add(esq);
 
     while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
       lexer.nextToken();
       dir = exprUnary();
-      esq = new ExprMult(esq, op, dir);
+      tipoDir = dir.getType();
+
+      expr.add(dir);
     }
-    return esq;
+
+    return new ExprMult(expr, op, tipoEsq);
   }
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
-  private Expr exprAdd() {
-    //System.out.println("Entrou na funcao exprAdd " + lexer.token);
+  private ExprAdd exprAdd() {
     Symbol op;
-    Expr esq, dir;
+    ExprMult esq, dir;
+    ArrayList<ExprMult> expr = new ArrayList<ExprMult>();
+    Type tipoEsq, tipoDir; 
+
     esq = exprMult();
+    tipoEsq = esq.getType();
+    tipoDir = null;
+    expr.add(esq);
 
     while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
       lexer.nextToken();
       dir = exprMult();
-      esq = new ExprAdd(esq, op, dir);
+      tipoDir = dir.getType();
+      expr.add(dir);
     }
-    return esq;
+
+    if(tipoDir != null){
+      if(tipoDir != tipoEsq){
+        error.message("operação de soma invalida, tipos de operandos diferentes");
+      }
+    }
+    return new ExprAdd(expr, op, tipoEsq);
   }
 
   // AssignExprStat ::= Expr [ "=" Expr ] ";"
@@ -614,10 +651,11 @@ public class Compiler {
 
   // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
   private ExprRel exprRel() {
-    Expr left, right;
+    ExprAdd left, right;
     Type tipo;
 
     left = exprAdd();
+    right = null;
     tipo = left.getType();
 
     Symbol op = lexer.token;
@@ -631,16 +669,19 @@ public class Compiler {
     return new ExprRel(left, right, op, tipo);
   }
 
-  private Expr exprUnary() {
+  private ExprUnary exprUnary() {
      //System.out.println("Entrou na funcao exprUnary " + lexer.token);
     // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
     Symbol op = lexer.token;
+    Type tipo;
+
     if (op == Symbol.PLUS || op == Symbol.MINUS)
       lexer.nextToken();
 
-    Expr e = exprPrimary();
+    ExprPrimary e = (ExprPrimary) exprPrimary();
+    tipo = e.getType();
 
-    return new ExprUnary(e, op);
+    return new ExprUnary(e, op, tipo);
   }
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
@@ -652,16 +693,22 @@ public class Compiler {
       // return funcCall();
       // }
       if (lexer.token == Symbol.IDLITERAL) {
-      String id = lexer.getStringValue();
-      lexer.nextToken();
-      if (lexer.token == Symbol.LPAR) {
-        return funcCall(id);
+        String id = lexer.getStringValue();
+        lexer.nextToken();
+
+        if (lexer.token == Symbol.LPAR) {
+          return funcCall(id);
+        } 
+        else {
+          Variable variable = new Variable(id);
+          VarDecStat var = (VarDecStat) table.returnLocal(id);
+          variable.setType(var.getTipo());
+
+          return variable;
+        }
+
       } else {
-        Variable variable = new Variable(id);
-        return variable;
-      }
-    } else {
-      // lexer.nextToken();
+
       return exprLiteral();
     }
   }
@@ -740,16 +787,16 @@ public class Compiler {
       }
     }
     else if(p == null) {
-      return new Func(name, t.getType());
+      return new Func(name, t);
     }
     else {
-      return new Func(t.getType(), name, p);
+      return new Func(t, name, p);
     }
   }
 
   // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
   private Expr funcCall(String name) {
-    
+    Type tipo = null;
     ArrayList<Expr> eList = new ArrayList<Expr>();
 
     if (lexer.token != Symbol.LPAR) {
@@ -764,6 +811,7 @@ public class Compiler {
       }
     } else
       lexer.nextToken();
+
     if (lexer.token != Symbol.RPAR) {
       Expr e = expr();
       eList.add(e);
@@ -823,13 +871,14 @@ public class Compiler {
         paramFunc = func.getParams().get(i);
         varDecList = (VarDecStat) table.returnLocal(varList.getName());
 
-        if(varDecList.getTipo() != paramFunc.getTipo()){
+        if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
           error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
         }
       }
+      tipo = func.getTipo();
     }
 
-    return new FuncCall(name, eList);
+    return new FuncCall(name, eList, tipo);
   }
 
   private char token;

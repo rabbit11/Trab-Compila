@@ -10,6 +10,7 @@ public class Variable extends Expr {
 
   public Variable(String name) {
     this.name = name;
+    this.tipo = null;
   }
 
   public void genC(PW pw) {
@@ -19,5 +20,15 @@ public class Variable extends Expr {
   public String getName(){
     return this.name;
   }
+
+  public Type getType(){
+    return this.tipo;
+  }
+
+  public void setType(Type tipo){
+    this.tipo = tipo;
+  }
+
   private String name;
+  private Type tipo;
 }

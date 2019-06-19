@@ -13,8 +13,9 @@ import java.util.ArrayList;
 public class FuncCall extends Expr{
     private String funcName;
     private ArrayList<Expr> arrayExpr;
+    Type tipo;
 
-    public FuncCall(String s, ArrayList<Expr> e) {
+    public FuncCall(String s, ArrayList<Expr> e, Type tipo) {
         this.funcName = s;
         this.arrayExpr = e;
     }
@@ -25,5 +26,9 @@ public class FuncCall extends Expr{
 
     public void setArrayExpr(ArrayList<Expr> e) {
         this.arrayExpr = e;
+    }
+
+    public Type getType(){
+        return this.tipo;
     }
 }

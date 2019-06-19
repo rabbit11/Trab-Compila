@@ -6,53 +6,56 @@
 
 package AST;
 
+import java.util.ArrayList;
+
 import Lexer.*;
 
 //ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
 
 public class ExprAdd extends Expr{
-    private Expr esquerda, direita;
-    private Symbol operador;
+    private Symbol op;
+    private ArrayList<ExprMult> expr;
+    private Type tipo;
 
-    public ExprAdd(Expr esq, Symbol op, Expr dir){
-        this.setDireita(dir);
-        this.setEsquerda(esq);
-        this.setOperador(op);
+    public ExprAdd(ArrayList<ExprMult> expr, Symbol op, Type tipo ){
+        this.op = op;
+        this.expr = expr;
+        this.tipo = tipo;
     }
 
     public void genC(PW pw){
-        esquerda.genC(pw);
+        // esquerda.genC(pw);
 
-        if(this.operador != null){
-            pw.printNI(" " + operador.toString() + " ");
-        }
+        // if(this.operador != null){
+        //     pw.printNI(" " + operador.toString() + " ");
+        // }
 
-        if (this.direita != null) {
-            direita.genC(pw);
-        }
+        // if (this.direita != null) {
+        //     direita.genC(pw);
+        // }
     }
 
-    public void setEsquerda(Expr esq) {
-        this.esquerda = esq;
+    public void setExpr(ArrayList<ExprMult> expr) {
+        this.expr = expr;
     }
 
-    public void setDireita(Expr dir) {
-        this.direita = dir;
+    public void setOp(Symbol op) {
+        this.op = op;
     }
 
-    public void setOperador(Symbol op) {
-        this.operador = op;
+    public void setTipo(Type tipo) {
+        this.tipo = tipo;
     }
 
-    public Expr getEsquerda() {
-        return this.esquerda;
+    public ArrayList<ExprMult> getExpr() {
+        return this.expr;
     }
 
-    public Expr getDireita() {
-        return this.direita;
+    public Symbol getOp() {
+        return this.op;
     }
 
-    public Symbol getOperador() {
-        return this.operador;
+    public Type getType() {
+        return this.tipo;
     }
 }

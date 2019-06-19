@@ -9,32 +9,41 @@ import Lexer.*;
 //ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
 
 public class ExprUnary extends Expr {
-  private Expr unaria;
-  private Symbol operador;
+  private ExprPrimary expr;
+  private Symbol op;
+  private Type tipo;
 
-  public ExprUnary(Expr unary, Symbol op){
-    this.setUnaria(unary);
-    this.setOperador(op);
+  public ExprUnary(ExprPrimary expr, Symbol op, Type tipo){
+    this.expr = expr;
+    this.op = op;
+    this.tipo = tipo;
   }
-
   public void genC(PW pw){
-    if(getOperador() != null)
-      pw.printNI(operador.toString() + "");
+    // if(getOperador() != null)
+    //   pw.printNI(operador.toString() + "");
   }
 
-  public void setUnaria(Expr unary) {
-    this.unaria = unary;
+  public void setExpr(ExprPrimary expr) {
+    this.expr = expr;
   }
 
-  public Expr getUnaria() {
-    return this.unaria;
+  public void setOp(Symbol op) {
+    this.op = op;
   }
 
-  public void setOperador(Symbol op) {
-    this.operador = op;
+  public void setTipo(Type tipo) {
+    this.tipo = tipo;
   }
 
-  public Symbol getOperador() {
-    return this.operador;
+  public ExprPrimary getExpr() {
+    return this.expr;
+  }
+
+  public Symbol getOp() {
+    return this.op;
+  }
+
+  public Type getType() {
+    return this.tipo;
   }
 }

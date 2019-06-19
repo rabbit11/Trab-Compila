@@ -35,7 +35,7 @@ public class ParamDec extends Expr{
     return this.var;
   }
 
-  public Symbol getTipo() {
-    return this.tipo.getType();
+  public Type getType() {
+    return this.tipo;
   }
 }

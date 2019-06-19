@@ -9,12 +9,15 @@ import Lexer.*;
 
 //ExprLiteral ::= LiteralInt | LiteralBoolean | LiteralString
 public class ExprLiteral extends Expr {
+    private String value;
     private Expr exp;
     private Symbol op;
+    private Type tipo;
 
-    public ExprLiteral(Symbol s) {
-        //this.setExp(exp);
-      this.op = s;
+    public ExprLiteral(String value, Symbol op, Type tipo) {
+      this.op = op;
+      this.value = value;
+      this.tipo = tipo;
     }
 
     public void genC(PW pw) {
@@ -26,6 +29,14 @@ public class ExprLiteral extends Expr {
 
     public Expr getExp() {
         return this.exp;
+    }
+
+    public String getValue(){
+        return this.value;
+    }
+
+    public Type getType(){
+        return this.tipo;
     }
 
 }

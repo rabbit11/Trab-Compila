@@ -14,13 +14,13 @@ import Lexer.*;
 
 //conferir após implementação de var e type
 public class Func {
-    private Symbol tipoRetorno;
+    private Type tipoRetorno;
     private String nomeFunc;
     private ArrayList<ParamDec> params;
     private Expr expr;
     //private FuncCorpo corpo;
 
-    public Func(Symbol tipoRetorno, String nomeFunc, ParamList p) {
+    public Func(Type tipoRetorno, String nomeFunc, ParamList p) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
         this.params = p.getListaStats();
@@ -40,7 +40,7 @@ public class Func {
         this.params = null;
     }
 
-    public Func(String nomeFunc, Symbol tipoRetorno) {
+    public Func(String nomeFunc, Type tipoRetorno) {
         this.nomeFunc = nomeFunc;
         this.tipoRetorno = tipoRetorno;
         this.expr = null;
@@ -55,44 +55,44 @@ public class Func {
     }
 
     public void genC(PW pw) {
-        if (tipoRetorno == Symbol.INT) {
-            pw.print("int " + this.nomeFunc + "("); // Com ident antes da string
-        } else if (tipoRetorno == Symbol.BOOLEAN) {
-            pw.print("boolean " + this.nomeFunc + "(");
-        } else if (tipoRetorno == Symbol.STRING) {
-            pw.print("string " + this.nomeFunc + "(");
-        }
+        // if (tipoRetorno == Symbol.INT) {
+        //     pw.print("int " + this.nomeFunc + "("); // Com ident antes da string
+        // } else if (tipoRetorno == Symbol.BOOLEAN) {
+        //     pw.print("boolean " + this.nomeFunc + "(");
+        // } else if (tipoRetorno == Symbol.STRING) {
+        //     pw.print("string " + this.nomeFunc + "(");
+        // }
 
-        for (int i = 0; i < params.size(); i++) {
-            if (i + 1 == params.size()) {
-                if (params.get(i).getTipo() == Symbol.INT) {
-                    pw.print("Int " + params.get(i).getVar());
-                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
-                    pw.print("Boolean " + params.get(i).getVar());
-                }else if (params.get(i).getTipo() == Symbol.STRING){
-                    pw.print("String " + params.get(i).getVar());
-                }
-            } else {
-                if (params.get(i).getTipo() == Symbol.INT) {
-                    pw.print("Int " + params.get(i).getVar() + ", ");
-                } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
-                    pw.print("Boolean " + params.get(i).getVar() + ", ");
-                }else if (params.get(i).getTipo() == Symbol.STRING){
-                    pw.print("String " + params.get(i).getVar());
-                }
-            }
-        }
-        pw.println(")");
-        pw.println("{");
+        // for (int i = 0; i < params.size(); i++) {
+        //     if (i + 1 == params.size()) {
+        //         if (params.get(i).getTipo() == Symbol.INT) {
+        //             pw.print("Int " + params.get(i).getVar());
+        //         } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
+        //             pw.print("Boolean " + params.get(i).getVar());
+        //         }else if (params.get(i).getTipo() == Symbol.STRING){
+        //             pw.print("String " + params.get(i).getVar());
+        //         }
+        //     } else {
+        //         if (params.get(i).getTipo() == Symbol.INT) {
+        //             pw.print("Int " + params.get(i).getVar() + ", ");
+        //         } else if (params.get(i).getTipo() == Symbol.BOOLEAN){
+        //             pw.print("Boolean " + params.get(i).getVar() + ", ");
+        //         }else if (params.get(i).getTipo() == Symbol.STRING){
+        //             pw.print("String " + params.get(i).getVar());
+        //         }
+        //     }
+        // }
+        // pw.println(")");
+        // pw.println("{");
 
-        // Incrementa a tabulação
-        pw.add();
+        // // Incrementa a tabulação
+        // pw.add();
 
-        // statList
+        // // statList
 
-        // Decrementa a tabulação e fecha a função
-        pw.sub();
-        pw.println("}");
+        // // Decrementa a tabulação e fecha a função
+        // pw.sub();
+        // pw.println("}");
 
     }
 
@@ -109,7 +109,7 @@ public class Func {
         return this.nomeFunc;
     }
 
-    public Symbol getTipo() {
+    public Type getTipo() {
         return this.tipoRetorno;
     }
 
