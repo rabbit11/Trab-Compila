@@ -5,7 +5,7 @@ Check-list de análise semântica
 - [x] Declaração de Variáveis (inserir na hash)
 - [x] Declaração de funções (inserir na hash)
 - [x] Checar se a func foi declarada em funccall
-- [ ] Checar se as variáveis utilizadas durante o expr foram declaradas
+- [x] Checar se as variáveis utilizadas durante o expr foram declaradas
 - [x] Checar se as variáveis utilizadas durante o funccal foram declaradas
 - [ ] Checar o tipo das variáveis durante atribuições
 - [ ] Checar o tipo das variáveis em operações matemáticas

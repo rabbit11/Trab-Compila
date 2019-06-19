@@ -567,7 +567,6 @@ public class Compiler {
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private ExprMult exprMult() {
-     //System.out.println("Entrou na funcao exprMult " + lexer.token);
     Symbol op;
     ExprUnary esq, dir;
     ArrayList<ExprUnary> expr = new ArrayList<ExprUnary>();
@@ -584,6 +583,17 @@ public class Compiler {
       dir = exprUnary();
       tipoDir = dir.getType();
 
+      if(tipoEsq.getType() != tipoDir.getType()){
+        if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
+          (tipoEsq.getType() == Symbol.INTLITERAL && tipoDir.getType() == Symbol.INT) ||
+          (tipoEsq.getType() == Symbol.STRING && tipoDir.getType() == Symbol.STRINGLITERAL) ||
+          (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
+          (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
+          (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
+
+            error.message("Operandos de tipos incompatíveis");
+        }
+      }
       expr.add(dir);
     }
 
@@ -610,8 +620,15 @@ public class Compiler {
     }
 
     if(tipoDir != null){
-      if(tipoDir != tipoEsq){
-        error.message("operação de soma invalida, tipos de operandos diferentes");
+      if(tipoEsq.getType() != tipoDir.getType()){
+          if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
+            (tipoEsq.getType() == Symbol.INTLITERAL && tipoDir.getType() == Symbol.INT) ||
+            (tipoEsq.getType() == Symbol.STRING && tipoDir.getType() == Symbol.STRINGLITERAL) ||
+            (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
+            (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
+            (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
+  
+              error.message("Operandos de tipos incompatíveis");
       }
     }
     return new ExprAdd(expr, op, tipoEsq);
@@ -621,12 +638,16 @@ public class Compiler {
   public Stat assignExprStat() {
      //System.out.println("Entrou na funcao assignExprStat " + lexer.token);
     Expr esq, dir;
+    Type tipoEsq, tipoDir;
     esq = expr();
     dir = null;
+    tipoDir = null;
+    tipoEsq = esq.getType();
 
     if (lexer.token == Symbol.ASSIGN) {
       lexer.nextToken();
       dir = expr();
+      tipoDir = tipoDir.getType();
       lexer.nextToken();
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
@@ -643,6 +664,20 @@ public class Compiler {
         error.message("Incorrect symbol at: " + lexer.getBoolValue());
       } else {
         error.message("Incorrect symbol at: " + lexer.token);
+      }
+    }
+
+    if(tipoDir != null){
+      if(tipoEsq.getType() != tipoDir.getType()){
+          if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
+            (tipoEsq.getType() == Symbol.INTLITERAL && tipoDir.getType() == Symbol.INT) ||
+            (tipoEsq.getType() == Symbol.STRING && tipoDir.getType() == Symbol.STRINGLITERAL) ||
+            (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
+            (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
+            (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
+  
+              error.message("Operandos de tipos incompatíveis");
+          }
       }
     }
 
@@ -669,9 +704,8 @@ public class Compiler {
     return new ExprRel(left, right, op, tipo);
   }
 
+  // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
   private ExprUnary exprUnary() {
-     //System.out.println("Entrou na funcao exprUnary " + lexer.token);
-    // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
     Symbol op = lexer.token;
     Type tipo;
 
@@ -702,6 +736,9 @@ public class Compiler {
         else {
           Variable variable = new Variable(id);
           VarDecStat var = (VarDecStat) table.returnLocal(id);
+          if(var == null){
+            error.message("Variável " + id + "não declarada");
+          }
           variable.setType(var.getTipo());
 
           return variable;
