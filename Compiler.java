@@ -82,6 +82,9 @@ public class Compiler {
       else{
         error.message("EOF expected and found: " + lexer.token);
       }
+      /* verifica se existe uma funcao main */
+      if(table.returnFunction("main") == null)
+         error.message("Source code must have a procedure called main");
     }
 
     return program;
@@ -595,7 +598,7 @@ public class Compiler {
       dir = (ExprAnd) exprAnd();
       expr.add(dir);
     }
-    
+
     return new ExprAnd(expr, Symbol.OR, tipo);
   }
 
@@ -643,7 +646,7 @@ public class Compiler {
     Symbol op;
     ExprMult esq, dir;
     ArrayList<ExprMult> expr = new ArrayList<ExprMult>();
-    Type tipoEsq, tipoDir; 
+    Type tipoEsq, tipoDir;
 
     esq = exprMult();
     tipoEsq = esq.getType();
@@ -665,7 +668,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
-  
+
               error.message("Operandos de tipos incompatíveis");
       }
     }
@@ -715,7 +718,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
-  
+
               error.message("Operandos de tipos incompatíveis");
           }
       }
@@ -754,7 +757,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
-  
+
               error.message("Operandos de tipos incompatíveis");
           }
       }
@@ -784,7 +787,7 @@ public class Compiler {
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
   private Expr exprPrimary() {
     // String value = lexer.getStringValue()
-    
+
     // if(lexer.nextNoSkip() == '(') {
       // // lexer.nextToken();
       // return funcCall();
@@ -795,7 +798,7 @@ public class Compiler {
 
         if (lexer.token == Symbol.LPAR) {
           return funcCall(id);
-        } 
+        }
         else {
           Variable variable = new Variable(id);
           VarDecStat var = (VarDecStat) table.returnLocal(id);
@@ -925,7 +928,7 @@ public class Compiler {
         e = expr();
         eList.add(e);
       }
-      
+
       if (lexer.token != Symbol.RPAR) {
         if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
           error.message(") expected and found: " + lexer.getStringValue());
