@@ -89,6 +89,7 @@ public class Compiler {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
+  //RelOp ::= "<" | "<=" | ">" | ">=" | "==" | "!="
   private void RelOp() {
      //System.out.println("Entrou na funcao RelOP " + lexer.token);
     if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
@@ -105,6 +106,7 @@ public class Compiler {
         error.message("Operator expected and found: " + lexer.token);
       }
     }
+
     lexer.nextToken();
   }
 
@@ -727,9 +729,11 @@ public class Compiler {
   // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
   private ExprRel exprRel() {
     ExprAdd left, right;
-    Type tipo;
+    Type tipo, tipoEsq, tipoDir;
 
     left = exprAdd();
+    tipoEsq = left.getType();
+    tipoDir = null;
     right = null;
     tipo = left.getType();
 
@@ -738,7 +742,22 @@ public class Compiler {
     if (op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE
         || op == Symbol.GT) {
       lexer.nextToken();
+      tipoDir = right.getType();
       right = exprAdd();
+    }
+
+    if(tipoDir != null){
+      if(tipoEsq.getType() != tipoDir.getType()){
+          if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
+            (tipoEsq.getType() == Symbol.INTLITERAL && tipoDir.getType() == Symbol.INT) ||
+            (tipoEsq.getType() == Symbol.STRING && tipoDir.getType() == Symbol.STRINGLITERAL) ||
+            (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
+            (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
+            (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
+  
+              error.message("Operandos de tipos incompatíveis");
+          }
+      }
     }
 
     return new ExprRel(left, right, op, tipo);
