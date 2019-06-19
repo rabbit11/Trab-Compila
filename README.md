@@ -1,6 +1,6 @@
 ### Trabalho da disciplina de compiladores
 
-##Check-list de análise semântica
+Check-list de análise semântica
 
 - [x] Declaração de Variáveis (inserir na hash)
 - [x] Declaração de funções (inserir na hash)
