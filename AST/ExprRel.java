@@ -13,12 +13,13 @@ import Lexer.*;
 
 public class ExprRel extends Expr {
 
-    private ArrayList<Expr> expr;
+    private Expr esq, dir;
     private Symbol op;
     private Type tipo;
 
-    public ExprRel(ArrayList<Expr> expr, Symbol op, Type tipo){
-        this.expr = expr;
+    public ExprRel(Expr esq, Expr dir, Symbol op, Type tipo){
+        this.esq = esq;
+        this.dir = dir;
         this.op = op;
         this.tipo = tipo;
     }
@@ -39,22 +40,30 @@ public class ExprRel extends Expr {
         this.op = op;
     }
 
-    public void setExpr(ArrayList<Expr> expr){
-        this.expr = expr;
+    public void setEsq(Expr esq){
+        this.esq = esq;
+    }
+
+    public void setDir(Expr dir) {
+        this.dir = dir;
     }
 
     public void setType(Type tipo){
         this.tipo = tipo;
     }
 
-    public ArrayList<Expr> getExpr(){
-        return this.expr;
+    public Expr getEsq(){
+        return this.esq;
+    }
+
+    public Expr getDir() {
+        return this.dir;
     }
 
     public Type getType(){
         return this.tipo;
     }
-    
+
     public Symbol getOperador() {
         return this.op;
     }

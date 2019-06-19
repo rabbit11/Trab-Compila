@@ -478,7 +478,7 @@ public class Compiler {
 
     esq = exprRel();
     expr.add(esq);
-    
+
     tipo = esq.getType();
 
     while (lexer.token == Symbol.AND) {
@@ -612,20 +612,23 @@ public class Compiler {
     return new AssignExprStat(esq, dir);
   }
 
+  // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
   private ExprRel exprRel() {
-     //System.out.println("Entrou na funcao exprRel " + lexer.token);
-    // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
     Expr left, right;
+    Type tipo;
+
     left = exprAdd();
+    tipo = left.getType();
+
     Symbol op = lexer.token;
+
     if (op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE
         || op == Symbol.GT) {
       lexer.nextToken();
       right = exprAdd();
-
-      left = new ExprRel(left, op, right);
     }
-    return left;
+
+    return new ExprRel(left, right, op, tipo);
   }
 
   private Expr exprUnary() {
