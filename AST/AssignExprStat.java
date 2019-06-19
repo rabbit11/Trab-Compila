@@ -18,4 +18,12 @@ public class AssignExprStat extends Stat {
 
     @Override
     public void genC(PW pw){}
+
+    public Expr getEsq(){
+        return this.esq;
+    }
+
+    public Expr getDir(){
+        return this.dir;
+    }
 }

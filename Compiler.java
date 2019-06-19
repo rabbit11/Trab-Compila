@@ -470,20 +470,24 @@ public class Compiler {
   }
 
   // ExprAnd::= ExprRel {”and” ExprRel}
-  private Expr exprAnd() {
+  private ExprAnd exprAnd() {
      //System.out.println("Entrou na funcao exprAnd " + lexer.token);
-    Expr esq, dir;
+    ExprRel esq, dir;
+    ArrayList<Expr> expr = new ArrayList<Expr>();
+    Type tipo;
+
     esq = exprRel();
+    expr.add(esq);
+    
+    tipo = esq.getType();
 
     while (lexer.token == Symbol.AND) {
       lexer.nextToken();
       dir = exprRel();
-      esq = new ExprAnd(esq, Symbol.AND, dir);
+      expr.add(dir);
     }
-    //  else
-    //   System.out.println("'and' expected");
 
-    return esq;
+    return new ExprAnd(expr, Symbol.AND, tipo);
   }
 
    //  ::= LiteralInt | LiteralBoolean | LiteralString
@@ -527,16 +531,23 @@ public class Compiler {
 
   // Expr ::= ExprAnd {”or” ExprAnd}
   public Expr expr() {
-     //System.out.println("Entrou na funcao expr " + lexer.token);
-    Expr esq, dir;
-    esq = exprAnd();
+    ExprAnd esq, dir;
     Symbol op;
+    ArrayList<Expr> expr = new ArrayList<Expr>();
+    Type tipo;
+
+    esq = (ExprAnd) exprAnd();
+    tipo = esq.getType();
+
+    expr.add(esq);
 
     while ((op = lexer.token) == Symbol.OR) {
       lexer.nextToken();
-      dir = exprAnd();
+      dir = (ExprAnd) exprAnd();
+      expr.add(dir);
     }
-    return esq;
+    
+    return new ExprAnd(expr, Symbol.OR, tipo);
   }
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
@@ -601,7 +612,7 @@ public class Compiler {
     return new AssignExprStat(esq, dir);
   }
 
-  private Expr exprRel() {
+  private ExprRel exprRel() {
      //System.out.println("Entrou na funcao exprRel " + lexer.token);
     // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
     Expr left, right;
