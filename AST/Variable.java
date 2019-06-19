@@ -8,13 +8,16 @@ package AST;
 
 public class Variable extends Expr {
 
-  public Variable(String v) {
-    this.v = v;
+  public Variable(String name) {
+    this.name = name;
   }
 
   public void genC(PW pw) {
-    pw.out.print(v);
+    pw.out.print(name);
   }
 
-  private String v;
+  public String getName(){
+    return this.name;
+  }
+  private String name;
 }

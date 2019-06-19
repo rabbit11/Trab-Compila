@@ -759,7 +759,7 @@ public class Compiler {
         e = expr();
         eList.add(e);
       }
-
+      
       if (lexer.token != Symbol.RPAR) {
         if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
           error.message(") expected and found: " + lexer.getStringValue());
@@ -790,6 +790,29 @@ public class Compiler {
 
     if(table.returnFunction(name) == null){
       error.message("Função " + name + " não declarada");
+    }
+    else{
+      Func func = (Func) table.returnFunction(name);
+
+      //checa se funcdec e funccall tem mesmo num de parametros
+      if(func.getParams().size() != eList.size()){
+        error.message("Chamada da função "+ name + " com número diferente de parâmetros de sua declaração");
+      }
+
+      Variable varList;
+      ParamDec paramFunc;
+      VarDecStat varDecList;
+
+      //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
+      for(int i = 0; i < eList.size(); i++){
+        varList = (Variable) eList.get(i);
+        paramFunc = func.getParams().get(i);
+        varDecList = (VarDecStat) table.returnLocal(varList.getName());
+
+        if(varDecList.getTipo() != paramFunc.getTipo()){
+          error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
+        }
+      }
     }
 
     return new FuncCall(name, eList);

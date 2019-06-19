@@ -29,20 +29,29 @@ public class Func {
     public Func(String nomeFunc, ParamList p) {
         this.nomeFunc = nomeFunc;
         this.params = p.getListaStats();
+        this.tipoRetorno = null;
+        this.expr = null;
     }
     
     public Func(String nomeFunc, Expr e) {
         this.nomeFunc = nomeFunc;
         this.expr = e;
+        this.tipoRetorno = null;
+        this.params = null;
     }
 
     public Func(String nomeFunc, Symbol tipoRetorno) {
         this.nomeFunc = nomeFunc;
         this.tipoRetorno = tipoRetorno;
+        this.expr = null;
+        this.params = null;
     }
 
     public Func(String nomeFunc){
       this.nomeFunc = nomeFunc;
+      this.expr = null;
+      this.params = null;
+      this.tipoRetorno = null;
     }
 
     public void genC(PW pw) {

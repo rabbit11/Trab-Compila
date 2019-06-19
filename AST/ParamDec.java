@@ -10,7 +10,7 @@ import java.util.*;
 import Lexer.*;
 import AST.Type;
 
-public class ParamDec {
+public class ParamDec extends Expr{
   private String var;
   private Type tipo;
 
