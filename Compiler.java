@@ -14,6 +14,8 @@ public class Compiler {
   private SymbolTable table;
   private CompilerError error;
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   public Program compile(char[] p_input, PW pw, String fileName) {
     lexer = new Lexer(p_input);
     table = new SymbolTable();
@@ -46,6 +48,8 @@ public class Compiler {
 
     return e;
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // Program ::= Func {Func}
   private Program program() {
@@ -83,6 +87,8 @@ public class Compiler {
     return program;
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   private void RelOp() {
      //System.out.println("Entrou na funcao RelOP " + lexer.token);
     if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.LT || lexer.token == Symbol.LTE || lexer.token == Symbol.GT
@@ -101,6 +107,8 @@ public class Compiler {
     }
     lexer.nextToken();
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat() {
@@ -141,6 +149,8 @@ public class Compiler {
     return new ReturnStat(expr);
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   //Stat ::= AssignExprStat | ReturnStat | VarDecStat | IfStat | WhileStat
   private Stat stat() {
      //System.out.println("Entrou na funcao stat " + lexer.token);
@@ -162,6 +172,8 @@ public class Compiler {
       return null;
     }
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // StatList ::= "{"{Stat}"}"
   private StatList statList() {
@@ -208,6 +220,8 @@ public class Compiler {
 
     return new StatList(v);
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   //IfStat ::= "if" Expr StatList [ "else" StatList ]
   private IfStat ifStat() {
@@ -271,6 +285,8 @@ public class Compiler {
 
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // Type::="Int"|"Boolean"|"String"
   private Type type() {
      //System.out.println("Entrou na funcao type " + lexer.token);
@@ -303,6 +319,8 @@ public class Compiler {
     lexer.nextToken();
     return result;
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   private VarDecStat varDecStat() {
      //System.out.println("Entrou na funcao varDecStat " + lexer.token);
@@ -367,6 +385,8 @@ public class Compiler {
     return v;
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   //WhileStat ::= "while" Expr StatList
   private WhileStat whileStat() {
      //System.out.println("Entrou na funcao whileStat " + lexer.token);
@@ -395,6 +415,8 @@ public class Compiler {
     return new WhileStat(whilePart, e);
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   public boolean literalBoolean() {
      //System.out.println("Entrou na funcao literalBoolean " + lexer.token);
 
@@ -417,6 +439,8 @@ public class Compiler {
     return false;
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   private ParamList paramList() {
      //System.out.println("Entrou na funcao paramList " + lexer.token);
     // ParamList ::= ParamDec { ’,’ ParamDec }
@@ -435,6 +459,8 @@ public class Compiler {
    paramList.setArrayParam(pList);
    return paramList;
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   private ParamDec paramDec() {
      //System.out.println("Entrou na funcao paramDec " + lexer.token);
@@ -475,6 +501,8 @@ public class Compiler {
     return param;
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // ExprAnd::= ExprRel {”and” ExprRel}
   private ExprAnd exprAnd() {
      //System.out.println("Entrou na funcao exprAnd " + lexer.token);
@@ -495,6 +523,8 @@ public class Compiler {
 
     return new ExprAnd(expr, Symbol.AND, tipoEsq);
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
    //  ::= LiteralInt | LiteralBoolean | LiteralString
    public Expr exprLiteral() {
@@ -544,6 +574,8 @@ public class Compiler {
       return new ExprLiteral(value, op, tipo);
    }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // Expr ::= ExprAnd {”or” ExprAnd}
   public Expr expr() {
     ExprAnd esq, dir;
@@ -564,6 +596,8 @@ public class Compiler {
     
     return new ExprAnd(expr, Symbol.OR, tipo);
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private ExprMult exprMult() {
@@ -600,6 +634,8 @@ public class Compiler {
     return new ExprMult(expr, op, tipoEsq);
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private ExprAdd exprAdd() {
     Symbol op;
@@ -633,6 +669,8 @@ public class Compiler {
     }
     return new ExprAdd(expr, op, tipoEsq);
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // AssignExprStat ::= Expr [ "=" Expr ] ";"
   public Stat assignExprStat() {
@@ -684,6 +722,8 @@ public class Compiler {
     return new AssignExprStat(esq, dir);
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // ExprRel ::= ExprAdd [ RelOp ExprAdd ]
   private ExprRel exprRel() {
     ExprAdd left, right;
@@ -704,6 +744,8 @@ public class Compiler {
     return new ExprRel(left, right, op, tipo);
   }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+
   // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
   private ExprUnary exprUnary() {
     Symbol op = lexer.token;
@@ -717,6 +759,8 @@ public class Compiler {
 
     return new ExprUnary(e, op, tipo);
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
    // ExprPrimary ::= Id | FuncCall | ExprLiteral
   private Expr exprPrimary() {
@@ -749,6 +793,8 @@ public class Compiler {
       return exprLiteral();
     }
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
   private Func func() {
@@ -830,6 +876,8 @@ public class Compiler {
       return new Func(t, name, p);
     }
   }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
   // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
   private Expr funcCall(String name) {
