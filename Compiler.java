@@ -20,9 +20,16 @@ public class Compiler {
     error = new CompilerError(pw, fileName);
     error.setLexer(lexer);
 
+    //algumas inicializações
     input = p_input;
     tokenPos = 0;
 
+    //funções pre-definidas na linguagem
+    Expr expression = null;
+    table.putFunction("readInt", new Func("readInt", Symbol.INTLITERAL));
+    table.putFunction("readString", new Func("readString", Symbol.STRINGLITERAL));
+    table.putFunction("print", new Func("print", expression));
+    table.putFunction("println", new Func("println", expression));
     // symbolTable = new Hashtable();
 
     lexer.nextToken();
@@ -578,7 +585,6 @@ public class Compiler {
     }
     else if (lexer.token == Symbol.SEMICOLON) {
       lexer.nextToken();
-      // System.out.println("LINHA " + lexer.getCurrentLine());
     }
     else {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
@@ -590,8 +596,6 @@ public class Compiler {
       } else {
         error.message("Incorrect symbol at: " + lexer.token);
       }
-      // System.out.println("TOKEN " + lexer.token);
-      // System.out.println("LINHA " + lexer.getCurrentLine());
     }
 
     return new AssignExprStat(esq, dir);
@@ -648,9 +652,9 @@ public class Compiler {
     }
   }
 
+  // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
   private Func func() {
-     //System.out.println("Entrou na funcao func " + lexer.token);
-    // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
+
     if (lexer.token != Symbol.FUNCTION) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Function header expected and found: " + lexer.getStringValue());
@@ -703,14 +707,16 @@ public class Compiler {
     Type t = null;
     if (lexer.token == Symbol.ARROW) {
       lexer.nextToken();
-      // System.out.println(lexer.token);
       t = type();
     }
 
 
     statList();
 
-    //System.out.println("PRINT DA FUNC:" + lexer.token);
+    if(table.returnFunction(name) != null){
+      error.message("Função " + name + " já declarada");
+    }
+
     if(t == null) {
       if(p == null){
         return new Func(name);
@@ -727,9 +733,8 @@ public class Compiler {
     }
   }
 
+  // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
   private Expr funcCall(String name) {
-    //  System.out.println("Entrou na funcao funcCall " + lexer.token);
-    // FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
     
     ArrayList<Expr> eList = new ArrayList<Expr>();
 
@@ -781,6 +786,10 @@ public class Compiler {
         }
       }
       lexer.nextToken();
+    }
+
+    if(table.returnFunction(name) == null){
+      error.message("Função " + name + " não declarada");
     }
 
     return new FuncCall(name, eList);

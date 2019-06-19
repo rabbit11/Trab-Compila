@@ -17,6 +17,7 @@ public class Func {
     private Symbol tipoRetorno;
     private String nomeFunc;
     private ArrayList<ParamDec> params;
+    private Expr expr;
     //private FuncCorpo corpo;
 
     public Func(Symbol tipoRetorno, String nomeFunc, ParamList p) {
@@ -28,6 +29,11 @@ public class Func {
     public Func(String nomeFunc, ParamList p) {
         this.nomeFunc = nomeFunc;
         this.params = p.getListaStats();
+    }
+    
+    public Func(String nomeFunc, Expr e) {
+        this.nomeFunc = nomeFunc;
+        this.expr = e;
     }
 
     public Func(String nomeFunc, Symbol tipoRetorno) {
