@@ -17,6 +17,8 @@ public class Compiler {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
   public Program compile(char[] p_input, PW pw, String fileName) {
+    RuntimeException exception = new RuntimeException();
+
     lexer = new Lexer(p_input);
     table = new SymbolTable();
     error = new CompilerError(pw, fileName);
@@ -496,8 +498,17 @@ public class Compiler {
     } else {
       lexer.nextToken();
     }
+
     // get the type
     Type typeVar = type();
+    
+    if(table.returnLocal(id) != null){
+      error.message("Parâmetro " + id + " já foi declarado anteriormente");
+    }
+    else{
+      table.putLocal(id, new VarDecStat(id, typeVar));
+    }
+
     ParamDec param = new ParamDec(id, typeVar);
 
     return param;
@@ -822,12 +833,18 @@ public class Compiler {
         else {
           Variable variable = new Variable(id);
           VarDecStat var = (VarDecStat) table.returnLocal(id);
+
           if(var == null){
             error.message("Variável " + id + " não declarada");
+            Type tipo = new Type(Symbol.INT);
+            variable.setType(tipo);
+
+            // System.exit(0);
           }
-          
-          else
+                    
+          else{
             variable.setType(var.getTipo());
+          }
 
           return variable;
         }
@@ -933,16 +950,20 @@ public class Compiler {
     //diferentes construstores para os diferentes tipos de função
     if(t == null) {
       if(p == null){
+        table.putFunction(name, new Func(name));
         return new Func(name);
       }
       else{
+        table.putFunction(name, new Func(name, p));
         return new Func(name, p);
       }
     }
     else if(p == null) {
+      table.putFunction(name, new Func(name, t));
       return new Func(name, t);
     }
     else {
+      table.putFunction(name, new Func(t, name, p));
       return new Func(t, name, p);
     }
   }
@@ -1031,26 +1052,47 @@ public class Compiler {
       }
       else{
 
-        Variable varList;
-        ParamDec paramFunc;
-        VarDecStat varDecList;
+        // Variable varList;
+        // VarDecStat varDecList;
+        // Expr exprCheck;
         
-        //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
-        for(int i = 0; i < eList.size(); i++){
-          varList = (Variable) eList.get(i);
-          paramFunc = func.getParams().get(i);
-          varDecList = (VarDecStat) table.returnLocal(varList.getName());
+        // //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
+        
+        // for(int i = 0; i < eList.size(); i++){
+          //   // varList = (Variable) eList.get(i);
+          //   exprCheck = eList.get(i);
+          //   paramFunc = func.getParams().get(i);
+          //   varDecList = (VarDecStat) table.returnLocal(varList.getName());
           
-          if(varDecList == null){
-            error.message("Parâmetro " + name + "não declarado");
-          }
-          
-          else if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
-            error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
-          } 
-        } 
-      }
+          //   if(varDecList == null){
+            //     error.message("Parâmetro " + name + "não declarado");
+            //   }
 
+        ParamDec paramFunc;
+        ExprAnd checkParams;
+
+        for(int i = 0; i < eList.size(); i++){
+          checkParams = (ExprAnd) eList.get(i);
+          paramFunc = func.getParams().get(i);
+
+          Symbol check, tParam;
+          check = checkParams.getType().getType();
+          tParam = paramFunc.getType().getType();
+
+          if(check != tParam){
+            if (!((check == Symbol.INT && tParam == Symbol.INTLITERAL)
+              || (check == Symbol.INTLITERAL && tParam == Symbol.INT)
+              || (check == Symbol.STRING && tParam == Symbol.STRINGLITERAL)
+              || (check == Symbol.STRINGLITERAL && tParam == Symbol.STRING)
+              || (check == Symbol.BOOLEAN && tParam == Symbol.BOOLLITERAL)
+              || (check == Symbol.BOOLLITERAL && tParam == Symbol.BOOLEAN))) {
+
+            error.message("Tipo dos parâmetros não correspondem aos declarados no header");
+            }
+          }
+        }
+
+      } 
       tipo = func.getTipo();
     }
 
