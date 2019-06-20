@@ -12,5 +12,5 @@ Check-list de análise semântica
 - [ ] Checar o tipo das variáveis em operações de comparação
 - [ ] Checar se determinada função possui tipo de retorno igual ao tipo declarado
 - [ ] Checar se o programa possui uma função main
-- [ ] Checar se A quantidade e tipos de parâmetros na chamada de função/procedimento devem ser iguais aos utilizados na declaração das mesmas.
+- [x] Checar se A quantidade e tipos de parâmetros na chamada de função/procedimento devem ser iguais aos utilizados na declaração das mesmas.
 - [ ] Checar se precisa checar mais coisas (kkk to triste)
