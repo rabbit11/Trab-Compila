@@ -338,7 +338,7 @@ public class Compiler {
       }
     }
 
-    lexer.nextToken(); // ta certo isso?
+    lexer.nextToken();
 
     // System.out.println("Identifier: " + lexer.getStringValue());
 
@@ -512,7 +512,10 @@ public class Compiler {
     Type tipoEsq, tipoDir;
 
     esq = exprRel();
+
+    dir = null;
     tipoEsq = esq.getType();
+    tipoDir = null;
     expr.add(esq);
 
     while (lexer.token == Symbol.AND) {
@@ -520,6 +523,14 @@ public class Compiler {
       dir = exprRel();
       tipoDir = dir.getType();
       expr.add(dir);
+
+      if (tipoEsq.getType() != tipoDir.getType()) {
+        if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
+            || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
+
+          error.message("Operação AND com tipos não booleanos");
+        }
+      }      
     }
 
     return new ExprAnd(expr, Symbol.AND, tipoEsq);
@@ -582,20 +593,31 @@ public class Compiler {
     ExprAnd esq, dir;
     Symbol op;
     ArrayList<Expr> expr = new ArrayList<Expr>();
-    Type tipo;
+    Type tipoEsq, tipoDir;
 
     esq = (ExprAnd) exprAnd();
-    tipo = esq.getType();
+    dir = null;
+    tipoEsq = esq.getType();
+    tipoDir = null;
 
     expr.add(esq);
 
     while ((op = lexer.token) == Symbol.OR) {
       lexer.nextToken();
       dir = (ExprAnd) exprAnd();
+      tipoDir = dir.getType();
       expr.add(dir);
+
+      if (tipoEsq.getType() != tipoDir.getType()) {
+        if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
+            || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
+
+          error.message("Operação OR com tipos não booleanos");
+        }
+      }
     }
 
-    return new ExprAnd(expr, Symbol.OR, tipo);
+    return new ExprAnd(expr, Symbol.OR, tipoEsq);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -626,7 +648,7 @@ public class Compiler {
           (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
           (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
 
-            error.message("Operandos de tipos incompatíveis");
+            error.message("Multiplicação/Divisão com tipos de operandos distintos");
         }
       }
       expr.add(dir);
@@ -665,10 +687,11 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
 
-              error.message("Operandos de tipos incompatíveis");
-            }
+              error.message("Soma com tipos de operandos incompatíveis");
+          }
       }
     }
+
     return new ExprAdd(expr, op, tipoEsq);
   }
 
@@ -716,7 +739,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
 
-              error.message("Operandos de tipos incompatíveis");
+              error.message("Atribuição com tipos de operandos incompatíveis");
           }
       }
     }
@@ -742,8 +765,8 @@ public class Compiler {
     if (op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE
         || op == Symbol.GT) {
       lexer.nextToken();
-      tipoDir = right.getType();
       right = exprAdd();
+      tipoDir = right.getType();
     }
 
     if(tipoDir != null){
@@ -755,7 +778,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
 
-              error.message("Operandos de tipos incompatíveis");
+              error.message("Comparação com tipos de operandos incompatíveis");
           }
       }
     }
