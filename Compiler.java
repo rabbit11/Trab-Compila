@@ -117,7 +117,6 @@ public class Compiler {
 
   // ReturnStat ::= "return" Expr ";"
   public ReturnStat ReturnStat() {
-     //System.out.println("Entrou na funcao ReturnStat " + lexer.token);
 
     if (lexer.token != Symbol.RETURN) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
@@ -132,11 +131,8 @@ public class Compiler {
     }
 
     lexer.nextToken();
-    // lexer.nextToken();
-
     Expr expr = expr();
-
-
+    
     if (lexer.token != Symbol.SEMICOLON) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Expected ';' but found: " + lexer.getStringValue());
@@ -852,9 +848,11 @@ public class Compiler {
     lexer.nextToken();
 
     ParamList p = null;
+
     if (lexer.token == Symbol.LPAR) {
       lexer.nextToken();
       p = paramList();
+
       if (lexer.token != Symbol.RPAR) {
         if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
           error.message(") expected and found: " + lexer.getStringValue());
@@ -865,7 +863,8 @@ public class Compiler {
         } else {
           error.message(") expected and found: " + lexer.token);
         }
-      } else{
+      } 
+      else{
         lexer.nextToken();
       }
     }
@@ -876,13 +875,36 @@ public class Compiler {
       t = type();
     }
 
+    StatList statList = statList();
 
-    statList();
-
+    //checagem se a função já havia sido declarada anteriormente
     if(table.returnFunction(name) != null){
       error.message("Função " + name + " já declarada");
     }
 
+    //checagem se o retorno vindo de returnstat tem mesmo tipo que o retorno da função
+    if(statList != null && t != null){
+      ArrayList<Stat> list = statList.getList();
+
+      if(list.get(list.size()) instanceof ReturnStat){
+        ReturnStat retorno = (ReturnStat) list.get(list.size());
+        Type tipoRetorno = retorno.getExpr().getType();
+
+        if(tipoRetorno != t){
+          if (!((tipoRetorno.getType() == Symbol.INT && t.getType() == Symbol.INTLITERAL)
+              || (tipoRetorno.getType() == Symbol.INTLITERAL && t.getType() == Symbol.INT)
+              || (tipoRetorno.getType() == Symbol.STRING && t.getType() == Symbol.STRINGLITERAL)
+              || (tipoRetorno.getType() == Symbol.STRINGLITERAL && t.getType() == Symbol.STRING)
+              || (tipoRetorno.getType() == Symbol.BOOLEAN && t.getType() == Symbol.BOOLLITERAL)
+              || (tipoRetorno.getType() == Symbol.BOOLLITERAL && t.getType() == Symbol.BOOLEAN))) {
+
+            error.message("Tipo de retorno da função difere do tipo declarado em seu header");
+          }
+        }
+      }
+    }
+
+    //diferentes construstores para os diferentes tipos de função
     if(t == null) {
       if(p == null){
         return new Func(name);

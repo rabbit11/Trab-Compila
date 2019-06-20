@@ -17,10 +17,13 @@ public class StatList{
       this.listaStats = listaStats;
     }
 
-
     public void genC(PW pw){
         for(Stat s : listaStats){
           s.genC(pw);
         }
+    }
+
+    public ArrayList<Stat> getList(){
+      return this.listaStats;
     }
 }

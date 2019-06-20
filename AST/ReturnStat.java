@@ -29,4 +29,8 @@ public class ReturnStat extends Stat {
 
         pw.printBL(); // Quebra de linha
     }
+
+    public Expr getExpr(){
+        return this.expr;
+    }
 }
