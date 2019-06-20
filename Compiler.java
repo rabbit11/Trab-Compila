@@ -666,6 +666,7 @@ public class Compiler {
             (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
 
               error.message("Operandos de tipos incompatíveis");
+            }
       }
     }
     return new ExprAdd(expr, op, tipoEsq);
@@ -686,7 +687,7 @@ public class Compiler {
     if (lexer.token == Symbol.ASSIGN) {
       lexer.nextToken();
       dir = expr();
-      tipoDir = tipoDir.getType();
+      tipoDir = dir.getType();
       lexer.nextToken();
       if (lexer.token == Symbol.SEMICOLON)
         lexer.nextToken();
