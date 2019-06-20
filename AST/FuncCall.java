@@ -27,6 +27,18 @@ public class FuncCall extends Expr{
         this.tipo = null;
     }
 
+    public FuncCall(String s, Type tipo) {
+        this.funcName = s;
+        this.arrayExpr = null;
+        this.tipo = tipo;
+    }
+
+    public FuncCall(String s) {
+        this.funcName = s;
+        this.arrayExpr = null;
+        this.tipo = null;
+    }
+
     public void genC(PW pw) {
       // precisa fazer
     }

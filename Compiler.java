@@ -36,9 +36,10 @@ public class Compiler {
     tipo = new Type(Symbol.STRINGLITERAL);
     table.putFunction("readString", new Func("readString", tipo));
 
-    table.putFunction("print", new Func("print", expression));
-    table.putFunction("println", new Func("println", expression));
+    // table.putFunction("print", new Func("print", expression));
+    // table.putFunction("println", new Func("println", expression));
     table.putFunction("writeln", new Func("writeln", expression));
+    table.putFunction("write", new Func("write", expression));
     // symbolTable = new Hashtable();
 
     lexer.nextToken();
@@ -595,7 +596,7 @@ public class Compiler {
     ArrayList<Expr> expr = new ArrayList<Expr>();
     Type tipoEsq, tipoDir;
 
-    esq = (ExprAnd) exprAnd();
+    esq = exprAnd();
     dir = null;
     tipoEsq = esq.getType();
     tipoDir = null;
@@ -604,7 +605,7 @@ public class Compiler {
 
     while ((op = lexer.token) == Symbol.OR) {
       lexer.nextToken();
-      dir = (ExprAnd) exprAnd();
+      dir = exprAnd();
       tipoDir = dir.getType();
       expr.add(dir);
 
@@ -822,9 +823,11 @@ public class Compiler {
           Variable variable = new Variable(id);
           VarDecStat var = (VarDecStat) table.returnLocal(id);
           if(var == null){
-            error.message("Variável " + id + "não declarada");
+            error.message("Variável " + id + " não declarada");
           }
-          variable.setType(var.getTipo());
+          
+          else
+            variable.setType(var.getTipo());
 
           return variable;
         }
@@ -1009,39 +1012,63 @@ public class Compiler {
     else{
       Func func = (Func) table.returnFunction(name);
 
+      //caso chame a função write ou writeln e o numero de parametros for diferente de 1, apresenta erro
+      if(name.equals("write") || name.equals("writeln")){
+        if(eList.size() != 1){
+          error.message("Chamada da função " + name + " deve possuir apenas 1 parâmetro");
+        }
+      }
+      
       //checa se funcdec e funccall tem mesmo num de parametros
-      if(func.getParams().size() != eList.size()){
-        error.message("Chamada da função "+ name + " com número diferente de parâmetros de sua declaração");
+      else if(func.getParams() == null){
+        if(eList.size() > 0){
+          error.message("Chamada da função " + name + " com número diferente de parâmetros de sua declaração");
+        }
       }
 
-      Variable varList;
-      ParamDec paramFunc;
-      VarDecStat varDecList;
+      else if(func.getParams().size() != eList.size()){
+        error.message("Chamada da função "+ name + " com número diferente de parâmetros de sua declaração");
+      }
+      else{
 
-      //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
-      for(int i = 0; i < eList.size(); i++){
-        varList = (Variable) eList.get(i);
-        paramFunc = func.getParams().get(i);
-        varDecList = (VarDecStat) table.returnLocal(varList.getName());
-
-        if(varDecList == null){
-          error.message("Parâmetro " + name + "não declarado");
-        }
-
-        else if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
-          error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
-        }
-
+        Variable varList;
+        ParamDec paramFunc;
+        VarDecStat varDecList;
+        
+        //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
+        for(int i = 0; i < eList.size(); i++){
+          varList = (Variable) eList.get(i);
+          paramFunc = func.getParams().get(i);
+          varDecList = (VarDecStat) table.returnLocal(varList.getName());
+          
+          if(varDecList == null){
+            error.message("Parâmetro " + name + "não declarado");
+          }
+          
+          else if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
+            error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
+          } 
+        } 
       }
 
       tipo = func.getTipo();
     }
 
-    if(tipo != null)
-      return new FuncCall(name, eList, tipo);
+    if(tipo != null){
+      if(eList!= null)
+       return new FuncCall(name, eList, tipo);
+      
+      else
+        return new FuncCall(name, tipo);
+    }
     
-    else
-      return new FuncCall(name, eList);
+    else{
+      if(eList != null)
+        return new FuncCall(name, eList);
+
+      else
+        return new FuncCall(name);
+    }
   }
 
   private char token;
