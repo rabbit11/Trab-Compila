@@ -13,4 +13,5 @@ Check-list de análise semântica
 - [x] Checar se determinada função possui tipo de retorno igual ao tipo declarado
 - [x] Checar se o programa possui uma função main
 - [x] Checar se A quantidade e tipos de parâmetros na chamada de função/procedimento devem ser iguais aos utilizados na declaração das mesmas.
+- [ ] Criar mais testes e debuggar!!!
 - [ ] Checar se precisa checar mais coisas (kkk to triste)
