@@ -62,6 +62,7 @@ public class Compiler {
 
     while (lexer.token == Symbol.FUNCTION) {
       f.add(func());
+      table.resetLocal();
       lexer.nextToken();
       // System.out.println("ACABOU A FUNC" + lexer.token);
     }
