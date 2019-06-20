@@ -1,0 +1,14 @@
+function soma (x : Boolean, y : Int) -> Int{
+  var a : Int;
+
+  a = 3;
+  return a;
+}
+
+function main {
+
+  var result : Int;
+
+  result = soma (3, 2);
+  writeln (result);
+}

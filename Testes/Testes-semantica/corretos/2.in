@@ -1,0 +1,16 @@
+function main {
+  var x : Int;
+  var y : Int;
+  var z : Int;
+  var r : Int;
+  var res : Int;
+
+  r = x + y - z;
+
+  if r >= 0 {
+    write ("Positivo");
+  }
+  else {
+    write ("negativo");
+  }
+}

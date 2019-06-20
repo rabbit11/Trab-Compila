@@ -136,7 +136,7 @@ public class Compiler {
 
     lexer.nextToken();
     Expr expr = expr();
-    
+
     if (lexer.token != Symbol.SEMICOLON) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Expected ';' but found: " + lexer.getStringValue());
@@ -502,7 +502,7 @@ public class Compiler {
 
     // get the type
     Type typeVar = type();
-    
+
     if(table.returnLocal(id) != null){
       error.message("Parâmetro " + id + " já foi declarado anteriormente");
     }
@@ -543,7 +543,7 @@ public class Compiler {
 
           error.message("Operação AND com tipos não booleanos");
         }
-      }      
+      }
     }
 
     return new ExprAnd(expr, Symbol.AND, tipoEsq);
@@ -551,7 +551,7 @@ public class Compiler {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-   //  ::= LiteralInt | LiteralBoolean | LiteralString
+   //ExprLiteral  ::= LiteralInt | LiteralBoolean | LiteralString
    public Expr exprLiteral() {
      //System.out.println("Entrou na funcao exprLiteral " + lexer.token);
        Symbol op = lexer.token;
@@ -585,6 +585,7 @@ public class Compiler {
 
          default:
          lexer.nextToken();
+          System.out.println("TESTE: " + lexer.token);
           if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
             error.message("Invalid Expression at: " + lexer.getStringValue());
           } else if (lexer.token == Symbol.INTLITERAL) {
@@ -842,7 +843,7 @@ public class Compiler {
 
             // System.exit(0);
           }
-                    
+
           else{
             variable.setType(var.getTipo());
           }
@@ -907,7 +908,7 @@ public class Compiler {
         } else {
           error.message(") expected and found: " + lexer.token);
         }
-      } 
+      }
       else{
         lexer.nextToken();
       }
@@ -934,7 +935,7 @@ public class Compiler {
         ReturnStat retorno = (ReturnStat) list.get(list.size() - 1);
         Type tipoRetorno = retorno.getExpr().getType();
 
-        if(tipoRetorno != t){
+        if(tipoRetorno.getType() != t.getType()){ //Bruno adicionou os .getType()
           if (!((tipoRetorno.getType() == Symbol.INT && t.getType() == Symbol.INTLITERAL)
               || (tipoRetorno.getType() == Symbol.INTLITERAL && t.getType() == Symbol.INT)
               || (tipoRetorno.getType() == Symbol.STRING && t.getType() == Symbol.STRINGLITERAL)
@@ -1030,7 +1031,7 @@ public class Compiler {
     if(table.returnFunction(name) == null){
       error.message("Função " + name + " não declarada");
     }
-    
+
     else{
       Func func = (Func) table.returnFunction(name);
 
@@ -1040,7 +1041,7 @@ public class Compiler {
           error.message("Chamada da função " + name + " deve possuir apenas 1 parâmetro");
         }
       }
-      
+
       //checa se funcdec e funccall tem mesmo num de parametros
       else if(func.getParams() == null){
         if(eList.size() > 0){
@@ -1056,15 +1057,15 @@ public class Compiler {
         // Variable varList;
         // VarDecStat varDecList;
         // Expr exprCheck;
-        
+
         // //checa se a função possui mesma lista de parâmetros aos parâmetros passados para ela
-        
+
         // for(int i = 0; i < eList.size(); i++){
           //   // varList = (Variable) eList.get(i);
           //   exprCheck = eList.get(i);
           //   paramFunc = func.getParams().get(i);
           //   varDecList = (VarDecStat) table.returnLocal(varList.getName());
-          
+
           //   if(varDecList == null){
             //     error.message("Parâmetro " + name + "não declarado");
             //   }
@@ -1093,18 +1094,18 @@ public class Compiler {
           }
         }
 
-      } 
+      }
       tipo = func.getTipo();
     }
 
     if(tipo != null){
       if(eList!= null)
        return new FuncCall(name, eList, tipo);
-      
+
       else
         return new FuncCall(name, tipo);
     }
-    
+
     else{
       if(eList != null)
         return new FuncCall(name, eList);
