@@ -38,6 +38,7 @@ public class Compiler {
 
     table.putFunction("print", new Func("print", expression));
     table.putFunction("println", new Func("println", expression));
+    table.putFunction("writeln", new Func("writeln", expression));
     // symbolTable = new Hashtable();
 
     lexer.nextToken();
@@ -86,7 +87,6 @@ public class Compiler {
       if(table.returnFunction("main") == null)
          error.message("Source code must have a procedure called main");
     }
-
     return program;
   }
 
@@ -653,7 +653,6 @@ public class Compiler {
       }
       expr.add(dir);
     }
-
     return new ExprMult(expr, op, tipoEsq);
   }
 
@@ -796,7 +795,7 @@ public class Compiler {
     if (op == Symbol.PLUS || op == Symbol.MINUS)
       lexer.nextToken();
 
-    ExprPrimary e = (ExprPrimary) exprPrimary();
+    Expr e = exprPrimary();
     tipo = e.getType();
 
     return new ExprUnary(e, op, tipo);
@@ -910,8 +909,8 @@ public class Compiler {
     if(statList != null && t != null){
       ArrayList<Stat> list = statList.getList();
 
-      if(list.get(list.size()) instanceof ReturnStat){
-        ReturnStat retorno = (ReturnStat) list.get(list.size());
+      if(list.get(list.size() - 1) instanceof ReturnStat){
+        ReturnStat retorno = (ReturnStat) list.get(list.size() - 1);
         Type tipoRetorno = retorno.getExpr().getType();
 
         if(tipoRetorno != t){
@@ -1006,6 +1005,7 @@ public class Compiler {
     if(table.returnFunction(name) == null){
       error.message("Função " + name + " não declarada");
     }
+    
     else{
       Func func = (Func) table.returnFunction(name);
 
@@ -1024,14 +1024,24 @@ public class Compiler {
         paramFunc = func.getParams().get(i);
         varDecList = (VarDecStat) table.returnLocal(varList.getName());
 
-        if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
+        if(varDecList == null){
+          error.message("Parâmetro " + name + "não declarado");
+        }
+
+        else if(varDecList.getTipo().getType() != paramFunc.getType().getType()){
           error.message("Tipo de parâmetro incompatível com a declaração da função" + name);
         }
+
       }
+
       tipo = func.getTipo();
     }
 
-    return new FuncCall(name, eList, tipo);
+    if(tipo != null)
+      return new FuncCall(name, eList, tipo);
+    
+    else
+      return new FuncCall(name, eList);
   }
 
   private char token;

@@ -18,6 +18,13 @@ public class FuncCall extends Expr{
     public FuncCall(String s, ArrayList<Expr> e, Type tipo) {
         this.funcName = s;
         this.arrayExpr = e;
+        this.tipo = tipo;
+    }
+
+    public FuncCall(String s, ArrayList<Expr> e) {
+        this.funcName = s;
+        this.arrayExpr = e;
+        this.tipo = null;
     }
 
     public void genC(PW pw) {

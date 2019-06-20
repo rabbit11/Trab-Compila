@@ -9,11 +9,11 @@ import Lexer.*;
 //ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
 
 public class ExprUnary extends Expr {
-  private ExprPrimary expr;
+  private Expr expr;
   private Symbol op;
   private Type tipo;
 
-  public ExprUnary(ExprPrimary expr, Symbol op, Type tipo){
+  public ExprUnary(Expr expr, Symbol op, Type tipo){
     this.expr = expr;
     this.op = op;
     this.tipo = tipo;
@@ -23,7 +23,7 @@ public class ExprUnary extends Expr {
     //   pw.printNI(operador.toString() + "");
   }
 
-  public void setExpr(ExprPrimary expr) {
+  public void setExpr(Expr expr) {
     this.expr = expr;
   }
 
@@ -35,7 +35,7 @@ public class ExprUnary extends Expr {
     this.tipo = tipo;
   }
 
-  public ExprPrimary getExpr() {
+  public Expr getExpr() {
     return this.expr;
   }
 
