@@ -91,7 +91,7 @@ public class Compiler {
 
     /* verifica se existe uma funcao main */
     if(table.returnFunction("main") == null)
-       System.out.println("Source code must have a procedure called main ");
+       System.out.println("Function 'main' expected but not found");
     return program;
   }
 
@@ -136,23 +136,31 @@ public class Compiler {
     }
 
     lexer.nextToken();
-    Expr expr = expr();
 
-    if (lexer.token != Symbol.SEMICOLON) {
-      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getStringValue());
-      } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getIntValue());
-      } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Expected ';' but found: " + lexer.getBoolValue());
-      } else {
-        error.message("Expected ';' but found: " + lexer.token);
-      }
+    if(lexer.token == Symbol.SEMICOLON){
+      error.message("Return without expression");
+      Expr expr = expr();
+      return new ReturnStat(expr);
     }
+    else{
+      Expr expr2 = expr();
 
-    lexer.nextToken();
+      if (lexer.token != Symbol.SEMICOLON) {
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message("Expected ';' but found: " + lexer.getBoolValue());
+        } else {
+          error.message("Expected ';' but found: " + lexer.token);
+        }
+      }
 
-    return new ReturnStat(expr);
+      lexer.nextToken();
+
+      return new ReturnStat(expr2);
+    }
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -602,7 +610,6 @@ public class Compiler {
 
          default:
          lexer.nextToken();
-          System.out.println("TESTE: " + lexer.token);
           if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
             error.message("Invalid Expression at: " + lexer.getStringValue());
           } else if (lexer.token == Symbol.INTLITERAL) {
@@ -918,9 +925,15 @@ public class Compiler {
       }
     }
 
+
+
     String name = (String) lexer.getStringValue();
 
     lexer.nextToken();
+
+    //Semantica para main possuir parametros e return
+    if(name.compareTo("main") == 0 && lexer.token != Symbol.LBRA)
+      error.message("Funcao 'main' nao pode conter parametros ou tipo de retorno");
 
     ParamList p = null;
 
@@ -979,7 +992,7 @@ public class Compiler {
       }
     }
 
-    //diferentes construstores para os diferentes tipos de função
+    //diferentes construtores para os diferentes tipos de função
     if(t == null) {
       if(p == null){
         table.putFunction(name, new Func(name));

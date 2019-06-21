@@ -21,14 +21,14 @@ TESTES A SEREM REALIZADOS:
 - [X] Usar variável não declarada
 - [X] Declarar variável mais de uma vez
 - [X] Atribuir tipo de dado incompatível com variável
-- [] Função com retorno não estar associado a uma variável
-- [] Retorno de função incompatível com variável
+- [X] Função com retorno não estar associado a uma variável
+- [] Retorno de função incompatível com variável (nao entendi o q isso quer dizer)
 - [X] Valor do return diferente do que a função deveria retornar
 - [X] Chamar função que não foi declarada
 - [X] Tipos de dados no parâmetro diferentes entre chamada e definição do escopo da Função
 - [X] Quantidade de parâmetros na chamada da função deve ser igual a utilizada na declaração da função
 - [] Utilizar palavra chave como id
 - [X] Funções predefinidas não precisam ser declaradas para poderem ser usadas, basta serem chamadas com id = readInt() ou id = readString(), por exemplo.
-- [] Tem que ter função main, e tem que ser sem parâmetro e sem Retorno
+- [X] Tem que ter função main, e tem que ser sem parâmetro e sem Retorno
 - [X] Redefinir tipo de variável (Atribuir valor de tipo diferente ao longo do código)
-- [] 2 = função(), 2+2 = 3*3 -> São validos sintaticamente, mas não na semântica. Uma expressão do tipo AssignExprStat tem que começar com id.
+- [X] 2 = função(), 2+2 = 3*3 -> São validos sintaticamente, mas não na semântica. Uma expressão do tipo AssignExprStat tem que começar com id.
