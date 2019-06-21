@@ -87,7 +87,8 @@ public class Lexer {
       System.out.println(getStringValue());
     }
     else{
-      System.out.println(token);
+      if(token != null)
+        System.out.println(token);
     }
     // Pula espaços e quebra de linhas
     while (input[tokenPos] == ' ' || input[tokenPos] == '\n' || input[tokenPos] == '\t' || input[tokenPos] == '\r') {

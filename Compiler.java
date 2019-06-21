@@ -87,10 +87,11 @@ public class Compiler {
       else{
         error.message("EOF expected and found: " + lexer.token);
       }
-      /* verifica se existe uma funcao main */
-      if(table.returnFunction("main") == null)
-         error.message("Source code must have a procedure called main");
     }
+
+    /* verifica se existe uma funcao main */
+    if(table.returnFunction("main") == null)
+       System.out.println("Source code must have a procedure called main ");
     return program;
   }
 
@@ -170,6 +171,15 @@ public class Compiler {
       return ifStat();
     case WHILE:
       return whileStat();
+    case INTLITERAL:
+      error.message("Literais não devem receber atribuições ");
+      return null;
+    case BOOLLITERAL:
+      error.message("Literais não devem receber atribuições ");
+      return null;
+    case STRINGLITERAL:
+      error.message("Literais não devem receber atribuições ");
+      return null;
     default:
       // will never be executed
       // System.out.println("Statement expected");
@@ -380,13 +390,19 @@ public class Compiler {
     }
 
     lexer.nextToken();
+
+    VarDecStat v = null;
+    
     if(table.returnLocal(name) != null) {
       error.message("Variável já declarada: " + name);
+      v = (VarDecStat) table.returnLocal(name);
     }
-
-    VarDecStat v = new VarDecStat(name, typeVar);
-    table.putLocal(name, v);
-
+    
+    else{
+      v = new VarDecStat(name, typeVar);
+      table.putLocal(name, v);
+    }
+    
     return v;
   }
 
@@ -557,12 +573,13 @@ public class Compiler {
        Symbol op = lexer.token;
        Type tipo = null;
        String value = "";
+       int valueInt = 0;
 
        switch(op){
        case INTLITERAL:
          lexer.nextToken();
          tipo = new Type(Symbol.INTLITERAL);
-         value = lexer.getStringValue();
+         valueInt = lexer.getIntValue();
          break;
 
         case TRUE:
@@ -715,6 +732,8 @@ public class Compiler {
      //System.out.println("Entrou na funcao assignExprStat " + lexer.token);
     Expr esq, dir;
     Type tipoEsq, tipoDir;
+    int flag = 0;
+
     esq = expr();
     dir = null;
     tipoDir = null;
@@ -724,37 +743,48 @@ public class Compiler {
       lexer.nextToken();
       dir = expr();
       tipoDir = dir.getType();
-      lexer.nextToken();
+      // lexer.nextToken();
+      
       if (lexer.token == Symbol.SEMICOLON)
-        lexer.nextToken();
+        flag = 1;
+        // lexer.nextToken();
     }
+    
     else if (lexer.token == Symbol.SEMICOLON) {
-      lexer.nextToken();
+      flag = 1;
+      // lexer.nextToken();
     }
+
     else {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getStringValue());
+        error.message("Expected ';' but found: " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getIntValue());
+        error.message("Expected ';' but found: " + lexer.getIntValue());
       } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message("Incorrect symbol at: " + lexer.getBoolValue());
+        error.message("Expected ';' but found: " + lexer.getBoolValue());
       } else {
-        error.message("Incorrect symbol at: " + lexer.token);
+        error.message("Expected ';' but found: " + lexer.token);
       }
     }
 
     if(tipoDir != null){
-      if(tipoEsq.getType() != tipoDir.getType()){
+      //checando se algum literal está recebendo alguma atribuição
+      if(tipoEsq.getType() == Symbol.BOOLLITERAL || tipoEsq.getType() == Symbol.INTLITERAL ||
+         tipoEsq.getType() == Symbol.STRINGLITERAL){
+           error.message("Literais não podem receber atribuições");
+      }
+      else if(tipoEsq.getType() != tipoDir.getType()){
           if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
-            (tipoEsq.getType() == Symbol.INTLITERAL && tipoDir.getType() == Symbol.INT) ||
             (tipoEsq.getType() == Symbol.STRING && tipoDir.getType() == Symbol.STRINGLITERAL) ||
-            (tipoEsq.getType() == Symbol.STRINGLITERAL && tipoDir.getType() == Symbol.STRING) ||
-            (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL) ||
-            (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))){
+            (tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL))){
 
-              error.message("Atribuição com tipos de operandos incompatíveis");
+            error.message("Atribuição com tipos de operandos incompatíveis");
           }
       }
+    }
+
+    if(flag == 1){
+      lexer.nextToken();
     }
 
     return new AssignExprStat(esq, dir);
@@ -861,7 +891,7 @@ public class Compiler {
 
   // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
   private Func func() {
-
+    
     if (lexer.token != Symbol.FUNCTION) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Function header expected and found: " + lexer.getStringValue());
