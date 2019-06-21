@@ -172,14 +172,14 @@ public class Compiler {
     case WHILE:
       return whileStat();
     case INTLITERAL:
-      error.message("Literais não devem receber atribuições ");
-      return null;
+      return assignExprStat();
+
     case BOOLLITERAL:
-      error.message("Literais não devem receber atribuições ");
-      return null;
+      return assignExprStat();
+
     case STRINGLITERAL:
-      error.message("Literais não devem receber atribuições ");
-      return null;
+      return assignExprStat();
+
     default:
       // will never be executed
       // System.out.println("Statement expected");
