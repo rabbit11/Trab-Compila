@@ -319,6 +319,15 @@ public class Lexer {
     return input[tokenPos];
   }
 
+  public boolean isReserved(String token) {
+    Symbol temp = keywordsTable.get(token);
+    if(temp == null || temp == Symbol.IDLITERAL) {
+      return false;
+    }
+
+    return true;
+  }
+
   private boolean validId(String str) {
     // Precisa começar com uma letra
     if (Character.isLetter(str.charAt(0))) {

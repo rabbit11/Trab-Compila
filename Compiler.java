@@ -367,9 +367,8 @@ public class Compiler {
     // name of the identifier
     String name = lexer.getStringValue();
 
-    if (lexer.token == Symbol.INT || lexer.token == Symbol.STRING || lexer.token == Symbol.BOOLEAN) {
-      error.message(": Variável nomeada com palavra reservada " + lexer.getStringValue());
-    }
+    if (lexer.isReserved(lexer.token.toString()))
+      error.message(": Variável nomeada com palavra reservada ou numero: " + lexer.token.toString());
 
     lexer.nextToken();
 
