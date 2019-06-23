@@ -22,7 +22,7 @@ TESTES A SEREM REALIZADOS:
 - [X] Declarar variável mais de uma vez
 - [X] Atribuir tipo de dado incompatível com variável
 - [X] Função com retorno não estar associado a uma variável
-- [] Retorno de função incompatível com variável (nao entendi o q isso quer dizer)
+- [X] Retorno de função incompatível com variável
 - [X] Valor do return diferente do que a função deveria retornar
 - [X] Chamar função que não foi declarada
 - [X] Tipos de dados no parâmetro diferentes entre chamada e definição do escopo da Função
