@@ -367,6 +367,10 @@ public class Compiler {
     // name of the identifier
     String name = lexer.getStringValue();
 
+    if (lexer.token == Symbol.INT || lexer.token == Symbol.STRING || lexer.token == Symbol.BOOLEAN) {
+      error.message(": Variável nomeada com palavra reservada " + lexer.getStringValue());
+    }
+
     lexer.nextToken();
 
     if (lexer.token != Symbol.COLON) {
@@ -400,17 +404,17 @@ public class Compiler {
     lexer.nextToken();
 
     VarDecStat v = null;
-    
+
     if(table.returnLocal(name) != null) {
       error.message("Variável já declarada: " + name);
       v = (VarDecStat) table.returnLocal(name);
     }
-    
+
     else{
       v = new VarDecStat(name, typeVar);
       table.putLocal(name, v);
     }
-    
+
     return v;
   }
 
@@ -751,12 +755,12 @@ public class Compiler {
       dir = expr();
       tipoDir = dir.getType();
       // lexer.nextToken();
-      
+
       if (lexer.token == Symbol.SEMICOLON)
         flag = 1;
         // lexer.nextToken();
     }
-    
+
     else if (lexer.token == Symbol.SEMICOLON) {
       flag = 1;
       // lexer.nextToken();
@@ -898,7 +902,7 @@ public class Compiler {
 
   // Func ::= "function" Id [ "(" ParamList ")" ] ["->" Type ] StatList
   private Func func() {
-    
+
     if (lexer.token != Symbol.FUNCTION) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Function header expected and found: " + lexer.getStringValue());
@@ -912,6 +916,10 @@ public class Compiler {
       return null;
     }
     lexer.nextToken();
+
+    if(lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN || lexer.token == Symbol.STRING) {
+      error.message(": Nome da função com palavra reservada ");
+    }
 
     if (lexer.token != Symbol.IDLITERAL){
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {

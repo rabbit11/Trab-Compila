@@ -1,4 +1,4 @@
-function soma (x : Int, y : Int) -> Int{
+function soma (x : Int, y : Int) -> Int {
   var a : Int;
 
   a = x + y;
@@ -6,7 +6,6 @@ function soma (x : Int, y : Int) -> Int{
 }
 
 function main {
-
   var Int : Int;
 
   Int = soma (3, 2);
