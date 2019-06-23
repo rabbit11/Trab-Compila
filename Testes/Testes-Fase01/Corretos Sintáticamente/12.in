@@ -1,6 +1,6 @@
 function logicoE -> Boolean{
   var op : Boolean;
-  var opd : Boolean;
+  var opD : Boolean;
 
   op = true;
   opD = false;

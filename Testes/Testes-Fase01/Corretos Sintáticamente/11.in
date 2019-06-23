@@ -2,7 +2,7 @@ function somaD (c : Int, d : Int) -> Int {
   return c + d;
 }
 
-function somaP (a : Int, B : Int) -> Int {
+function somaP (a : Int, b : Int) -> Int {
   var x : Int;
   x = 1;
 

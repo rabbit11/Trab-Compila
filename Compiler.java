@@ -765,7 +765,7 @@ public class Compiler {
       // lexer.nextToken();
     }
 
-    else {
+    if (flag == 0){
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
         error.message("Expected ';' but found: " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
