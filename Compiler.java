@@ -71,6 +71,18 @@ public class Compiler {
 
     Program program = new Program(f);
 
+    if(program.getArrayFunc().size() < 1){
+      if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+        error.message("function header expected, but found: " + lexer.getStringValue());
+      } else if (lexer.token == Symbol.INTLITERAL) {
+        error.message("function header expected, but found: " + lexer.getIntValue());
+      } else if (lexer.token == Symbol.BOOLLITERAL) {
+        error.message("function header expected, but found: " + lexer.getBoolValue());
+      } else {
+        error.message("function header expected, but found: " + lexer.token);
+      }
+    }
+
     lexer.nextToken();
 
     if (lexer.token != Symbol.EOF){
@@ -134,14 +146,17 @@ public class Compiler {
         error.message("Expected 'Return' but found: " + lexer.token);
       }
     }
-
+    
     lexer.nextToken();
-
+    
     if(lexer.token == Symbol.SEMICOLON){
       error.message("Return without expression");
       Expr expr = expr();
+
+      System.exit(0);
       return new ReturnStat(expr);
     }
+
     else{
       Expr expr2 = expr();
 
@@ -276,6 +291,7 @@ public class Compiler {
       } else {
         error.message("{ expected and found " + lexer.token);
       }
+      lexer.nextToken();
       // System.out.println("LINE: " + lexer.getCurrentLine());
     }
 
@@ -334,7 +350,8 @@ public class Compiler {
       } else {
         error.message("Tipo não reconhecido " + lexer.token);
       }
-      //System.out.println("Token:" + lexer.token);
+      lexer.nextToken();
+
       return null;
     }
 
@@ -374,13 +391,13 @@ public class Compiler {
 
     if (lexer.token != Symbol.COLON) {
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message(": expected and found " + lexer.getStringValue());
+        error.message("expected ':' and found " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message(": expected and found " + lexer.getIntValue());
+        error.message("expected ':' and found " + lexer.getIntValue());
       } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message(": expected and found " + lexer.getBoolValue());
+        error.message("expected ':' and found " + lexer.getBoolValue());
       } else {
-        error.message(": expected and found " + lexer.token);
+        error.message("expected ':' and found " + lexer.token);
       }
     }
 
@@ -514,13 +531,13 @@ public class Compiler {
 
     if (lexer.token != Symbol.COLON) { // :
       if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
-        error.message(": expected and found " + lexer.getStringValue());
+        error.message("expected ':' and found " + lexer.getStringValue());
       } else if (lexer.token == Symbol.INTLITERAL) {
-        error.message(": expected and found " + lexer.getIntValue());
+        error.message("expected ':' and found " + lexer.getIntValue());
       } else if (lexer.token == Symbol.BOOLLITERAL) {
-        error.message(": expected and found " + lexer.getBoolValue());
+        error.message("expected ':' and found " + lexer.getBoolValue());
       } else {
-        error.message(": expected and found " + lexer.token);
+        error.message("expected ':' and found " + lexer.token);
       }
       // error.show(": expected");
     } else {
@@ -612,7 +629,7 @@ public class Compiler {
           break;
 
          default:
-         lexer.nextToken();
+        //  lexer.nextToken();
           if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
             error.message("Invalid Expression at: " + lexer.getStringValue());
           } else if (lexer.token == Symbol.INTLITERAL) {
@@ -622,6 +639,7 @@ public class Compiler {
           } else {
             error.message("Invalid Expression at: " + lexer.token);
           }
+          lexer.nextToken();
        }
 
       return new ExprLiteral(value, op, tipo);
@@ -757,6 +775,19 @@ public class Compiler {
 
       if (lexer.token == Symbol.SEMICOLON)
         flag = 1;
+      
+      else{
+        if (lexer.token == Symbol.IDLITERAL || lexer.token == Symbol.STRINGLITERAL) {
+          error.message("Expression expected, but found: " + lexer.getStringValue());
+        } else if (lexer.token == Symbol.INTLITERAL) {
+          error.message("Expression expected, but found: " + lexer.getIntValue());
+        } else if (lexer.token == Symbol.BOOLLITERAL) {
+          error.message("Expression expected, but found: " + lexer.getBoolValue());
+        } else {
+          error.message("Expression expected, but found: " + lexer.token);
+        }
+        flag = 1;
+      }
         // lexer.nextToken();
     }
 
@@ -775,6 +806,7 @@ public class Compiler {
       } else {
         error.message("Expected ';' but found: " + lexer.token);
       }
+      lexer.nextToken();
     }
 
     if(tipoDir != null){
@@ -881,7 +913,7 @@ public class Compiler {
             Type tipo = new Type(Symbol.INT);
             variable.setType(tipo);
 
-            // System.exit(0);
+            System.exit(0);
           }
 
           else{
@@ -892,8 +924,7 @@ public class Compiler {
         }
 
       } else {
-
-      return exprLiteral();
+        return exprLiteral();
     }
   }
 
@@ -912,12 +943,14 @@ public class Compiler {
       } else {
         error.message("Function header expected and found: " + lexer.token);
       }
+      lexer.nextToken();
       return null;
     }
     lexer.nextToken();
-
+    
     if(lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN || lexer.token == Symbol.STRING) {
       error.message(": Nome da função com palavra reservada ");
+      System.exit(0);
     }
 
     if (lexer.token != Symbol.IDLITERAL){
@@ -958,6 +991,7 @@ public class Compiler {
         } else {
           error.message(") expected and found: " + lexer.token);
         }
+        lexer.nextToken();
       }
       else{
         lexer.nextToken();
@@ -1088,19 +1122,19 @@ public class Compiler {
       //caso chame a função write ou writeln e o numero de parametros for diferente de 1, apresenta erro
       if(name.equals("write") || name.equals("writeln")){
         if(eList.size() != 1){
-          error.message("Chamada da função " + name + " deve possuir apenas 1 parâmetro");
+          error.message("Chamada da função '" + name + "' deve possuir apenas 1 parâmetro");
         }
       }
 
       //checa se funcdec e funccall tem mesmo num de parametros
       else if(func.getParams() == null){
         if(eList.size() > 0){
-          error.message("Chamada da função " + name + " com número diferente de parâmetros de sua declaração");
+          error.message("Chamada da função '" + name + "' com número diferente de parâmetros de sua declaração");
         }
       }
 
       else if(func.getParams().size() != eList.size()){
-        error.message("Chamada da função "+ name + " com número diferente de parâmetros de sua declaração");
+        error.message("Chamada da função '"+ name + "' com número diferente de parâmetros de sua declaração");
       }
       else{
 

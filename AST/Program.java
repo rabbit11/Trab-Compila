@@ -32,4 +32,8 @@ public class Program {
             }
         }
     }
+
+    public ArrayList<Func> getArrayFunc(){
+        return this.arrayFunc;
+    }
 }
