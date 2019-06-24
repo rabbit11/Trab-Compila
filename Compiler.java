@@ -778,10 +778,10 @@ public class Compiler {
     }
 
     if(tipoDir != null){
-      //checando se algum literal está recebendo alguma atribuição
+      // checando se algum literal está recebendo alguma atribuição
       if(tipoEsq.getType() == Symbol.BOOLLITERAL || tipoEsq.getType() == Symbol.INTLITERAL ||
          tipoEsq.getType() == Symbol.STRINGLITERAL){
-           error.message("Literais não podem receber atribuições");
+        error.message("Literais não podem receber atribuições");
       }
       else if(tipoEsq.getType() != tipoDir.getType()){
           if(!((tipoEsq.getType() == Symbol.INT && tipoDir.getType() == Symbol.INTLITERAL) ||
@@ -916,7 +916,11 @@ public class Compiler {
     }
     lexer.nextToken();
 
-    if(lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN || lexer.token == Symbol.STRING) {
+    // if(lexer.token == Symbol.INT || lexer.token == Symbol.BOOLEAN || lexer.token == Symbol.STRING) {
+    //   error.message(": Nome da função com palavra reservada ");
+    // }
+
+    if(lexer.isReserved(lexer.token.toString())) {
       error.message(": Nome da função com palavra reservada ");
     }
 
