@@ -56,18 +56,27 @@ public class Func {
     }
 
     public void genC(PW pw) {
-        pw.print(tipoRetorno + " ");
+        if(tipoRetorno != null){
+            pw.print(tipoRetorno.tipo(pw) + " ");
+        }
+        else{
+            pw.print("void ");
+        }
         pw.print(nomeFunc + " ");
         pw.print("(");
 
-        params.genC(pw);
+        if(params != null){
+            params.genC(pw);
+        }
 
         pw.println(") {");
-        pw.println(" ");
         
-        stats.genC(pw);
+        if(stats != null){
+            pw.println(" ");
+            stats.genC(pw);
+            pw.println(" ");
+        }
 
-        pw.println(" ");
         pw.println("}");
 
         // if (tipoRetorno == Symbol.INT) {
@@ -111,7 +120,7 @@ public class Func {
 
     }
 
-    public void setParams(ArrayList<ParamDec> var) {
+    public void setParams(ParamList var) {
         this.params = var;
     }
 
@@ -128,7 +137,7 @@ public class Func {
         return this.tipoRetorno;
     }
 
-    public ArrayList<ParamDec> getParams() {
+    public ParamList getParams() {
         return this.params;
     }
 }

@@ -21,6 +21,7 @@ public class ExprLiteral extends Expr {
     }
 
     public void genC(PW pw) {
+        pw.print(value);
     }
 
     public void setExp(Expr exp) {

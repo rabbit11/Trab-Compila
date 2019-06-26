@@ -1137,7 +1137,7 @@ public class Compiler {
         }
       }
 
-      else if(func.getParams().size() != eList.size()){
+      else if(func.getParams().getListaStats().size() != eList.size()){
         error.message("Chamada da função '"+ name + "' com número diferente de parâmetros de sua declaração");
       }
       else{
@@ -1163,7 +1163,7 @@ public class Compiler {
 
         for(int i = 0; i < eList.size(); i++){
           checkParams = (ExprAnd) eList.get(i);
-          paramFunc = func.getParams().get(i);
+          paramFunc = func.getParams().getListaStats().get(i);
 
           Symbol check, tParam;
           check = checkParams.getType().getType();

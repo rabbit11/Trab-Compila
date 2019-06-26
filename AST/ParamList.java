@@ -23,11 +23,12 @@ public class ParamList{
         for (ParamDec p : arrayParam) {
             p.genC(pw);
             i++;
+            
+            if(i > 0 && i < arrayParam.size()){//garante que imprimimos , apenas quando tem mais de 1 param
+                pw.printNI(", ");               //e não imprimimos após o último
+            }
         }
 
-        if(i > 0 && i < arrayParam.size()){//garante que imprimimos , apenas quando tem mais de 1 param
-            pw.printNI(",");               //e não imprimimos após o último
-        }
     }
 
     public void setArrayParam(ArrayList<ParamDec> p) {

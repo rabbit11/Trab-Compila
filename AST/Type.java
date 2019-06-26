@@ -19,17 +19,17 @@ public class Type {
 
   public String tipo(PW pw) {
     if (type == Symbol.INT){
-      pw.println("int");
+      // pw.println("int");
       return "int";
     }
 
     else if (type == Symbol.BOOLEAN){
-      pw.println("Boolean");
+      // pw.println("Boolean");
       return "Boolean";
     }
 
     else if (type == Symbol.STRING){
-      pw.println("String");
+      // pw.println("String");
       return "String";
     }
     return "Tipo não reconhecido";
