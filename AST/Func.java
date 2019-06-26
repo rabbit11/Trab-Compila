@@ -16,20 +16,20 @@ import Lexer.*;
 public class Func {
     private Type tipoRetorno;
     private String nomeFunc;
-    private ArrayList<ParamDec> params;
+    private ParamList params;
     private Expr expr;
-    private ArrayList<Stat> stats;
+    private StatList stats;
     //private FuncCorpo corpo;
 
     public Func(Type tipoRetorno, String nomeFunc, ParamList p) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
-        this.params = p.getListaStats();
+        this.params = p;
     }
 
     public Func(String nomeFunc, ParamList p) {
         this.nomeFunc = nomeFunc;
-        this.params = p.getListaStats();
+        this.params = p;
         this.tipoRetorno = null;
         this.expr = null;
     }
@@ -60,16 +60,15 @@ public class Func {
         pw.print(nomeFunc + " ");
         pw.print("(");
 
-           for(int i = 0; i < this.params.size(); i++){
-             this.params.get(i).genC(pw);
-             pw.print(", ");
-           }
+        params.genC(pw);
 
         pw.println(") {");
-
+        pw.println(" ");
+        
         stats.genC(pw);
 
-
+        pw.println(" ");
+        pw.println("}");
 
         // if (tipoRetorno == Symbol.INT) {
         //     pw.print("int " + this.nomeFunc + "("); // Com ident antes da string

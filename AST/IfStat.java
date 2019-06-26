@@ -24,8 +24,13 @@ public class IfStat extends Stat {
     @Override
     public void genC( PW pw ) {
         pw.print("if ( ");
+
         expr.genC(pw);
+
         pw.out.println(" ) { ");
+
+        ifBody.genC(pw);
+
         pw.println("}");
 
         if ( elseStat != null ) {

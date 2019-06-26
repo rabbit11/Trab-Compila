@@ -23,10 +23,11 @@ public class WhileStat extends Stat {
     public void genC(PW pw) {
         pw.print("while ( ");
         expr.genC(pw);
-        pw.out.println(" )");
+        pw.println(" ){");
 
-            pw.add();
-            whileBody.genC(pw);
-            pw.sub();
+        whileBody.genC(pw);
+
+        pw.printBL();
+        pw.println("}");
         }
 }

@@ -30,7 +30,7 @@ public class ParamDec extends Expr{
   public void genC(PW pw) {
     //pw.print(this.var);
     //pw.print(this.tipo.getType());
-    pw.print(this.var + ":" + this.tipo.getType());
+    pw.print(this.tipo.getType() + " " + this.var);
   }
 
   public String getVar() {

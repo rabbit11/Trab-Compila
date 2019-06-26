@@ -21,10 +21,11 @@ public class ReturnStat extends Stat {
     public void genC(PW pw) {
         pw.printBL(); // Quebra de linha
 
-        pw.printI(); // Ident
+        // pw.printI(); // Ident
         pw.printNI("return "); // Return
 
-        // super.getExpr().genC(pw); // Expressão
+        expr.genC(pw);
+        
         pw.printNI(";"); // ';'
 
         pw.printBL(); // Quebra de linha

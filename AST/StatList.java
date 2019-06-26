@@ -27,7 +27,7 @@ public class StatList{
       return this.listaStats;
     }
 
-    public ArrayList<Stat> setList(ArrayList<Stat> listaStats){
+    public void setList(ArrayList<Stat> listaStats){
       this.listaStats = listaStats;
     }
 }

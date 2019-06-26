@@ -17,7 +17,16 @@ public class AssignExprStat extends Stat {
     }
 
     @Override
-    public void genC(PW pw){}
+    public void genC(PW pw){
+        esq.genC(pw);
+
+        if(dir != null){
+            pw.println(" = ");
+            dir.genC(pw);
+        }
+        
+        pw.println(";");
+    }
 
     public Expr getEsq(){
         return this.esq;
