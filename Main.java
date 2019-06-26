@@ -14,7 +14,7 @@ public class Main {
     FileReader stream;
     int numChRead;
     Program program;
-    
+
     if ( args.length != 2 ) {
       System.out.println("Usage:\n Main input output");
       System.out.println("input is the file to be compiled");
@@ -64,10 +64,10 @@ public class Main {
         System.out.println("File " + args[1] + " could not be opened for writing");
         throw new RuntimeException();
       }
-      PrintWriter printWriter = new PrintWriter(outputStream);
-      PW pw = new PW(printWriter);
 
       program = null;
+      PrintWriter printWriter = new PrintWriter(outputStream, true);
+      PW pw = new PW(printWriter);
 
       // the generated code goes to a file and so are the errors
       try {
@@ -79,18 +79,29 @@ public class Main {
           fileName += path.charAt(i);
         }
 
-        program = compiler.compile(input, pw, fileName); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
+      program = compiler.compile(input, pw, fileName); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
       } catch ( RuntimeException e ) {
         System.out.println(e);
       }
-      // if ( program != null ) {
-      //   PW pw = new PW(printWriter);
-      //   pw.set(2); //PARAMETRO TROCADO SÓ PRA COMPILAR
-      //   program.genC(pw);
-      //   if ( printWriter.checkError() ) {
-      //     System.out.println("There was an error in the output");
-      //   }
-      // }
+
+      compiler = new Compiler();
+
+      if(program != null)
+        program.genC(pw);
+
+
+      //PrintWriter printWriter = new PrintWriter(outputStream);
+      //PW pw = new PW(printWriter);
+
+
+       // if ( program != null ) {
+       //   pw = new PW(printWriter);
+       //   pw.set(2); //PARAMETRO TROCADO SÓ PRA COMPILAR
+       //   program.genC(pw);
+       //   if ( printWriter.checkError() ) {
+       //     System.out.println("There was an error in the output");
+       //   }
+       // }
     }
   }
 }

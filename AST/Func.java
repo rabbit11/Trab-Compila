@@ -18,6 +18,7 @@ public class Func {
     private String nomeFunc;
     private ArrayList<ParamDec> params;
     private Expr expr;
+    private ArrayList<Stat> stats;
     //private FuncCorpo corpo;
 
     public Func(Type tipoRetorno, String nomeFunc, ParamList p) {
@@ -32,7 +33,7 @@ public class Func {
         this.tipoRetorno = null;
         this.expr = null;
     }
-    
+
     public Func(String nomeFunc, Expr e) {
         this.nomeFunc = nomeFunc;
         this.expr = e;
@@ -55,6 +56,21 @@ public class Func {
     }
 
     public void genC(PW pw) {
+        pw.print(tipoRetorno + " ");
+        pw.print(nomeFunc + " ");
+        pw.print("(");
+
+           for(int i = 0; i < this.params.size(); i++){
+             this.params.get(i).genC(pw);
+             pw.print(", ");
+           }
+
+        pw.println(") {");
+
+        stats.genC(pw);
+
+
+
         // if (tipoRetorno == Symbol.INT) {
         //     pw.print("int " + this.nomeFunc + "("); // Com ident antes da string
         // } else if (tipoRetorno == Symbol.BOOLEAN) {

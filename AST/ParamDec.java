@@ -28,7 +28,9 @@ public class ParamDec extends Expr{
   }
 
   public void genC(PW pw) {
-    pw.println(this.var + ":" + this.tipo.getType());
+    //pw.print(this.var);
+    //pw.print(this.tipo.getType());
+    pw.print(this.var + ":" + this.tipo.getType());
   }
 
   public String getVar() {

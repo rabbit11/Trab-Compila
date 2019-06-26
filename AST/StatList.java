@@ -26,4 +26,8 @@ public class StatList{
     public ArrayList<Stat> getList(){
       return this.listaStats;
     }
+
+    public ArrayList<Stat> setList(ArrayList<Stat> listaStats){
+      this.listaStats = listaStats;
+    }
 }
