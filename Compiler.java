@@ -649,7 +649,7 @@ public class Compiler {
 
   // Expr ::= ExprAnd {”or” ExprAnd}
   public Expr expr() {
-    ExprAnd esq, dir;
+    Expr esq, dir;
     Symbol op;
     ArrayList<Expr> expr = new ArrayList<Expr>();
     Type tipoEsq, tipoDir;
@@ -676,7 +676,7 @@ public class Compiler {
       }
     }
 
-    return new ExprAnd(expr, Symbol.OR, tipoEsq);
+    return new ExprOr(expr, Symbol.OR, tipoEsq);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -969,8 +969,6 @@ public class Compiler {
       }
     }
 
-
-
     String name = (String) lexer.getStringValue();
 
     lexer.nextToken();
@@ -1040,21 +1038,45 @@ public class Compiler {
     //diferentes construtores para os diferentes tipos de função
     if(t == null) {
       if(p == null){
-        table.putFunction(name, new Func(name));
-        return new Func(name);
+        if(statList == null){
+          table.putFunction(name, new Func(name));
+          return new Func(name);
+        }
+        else{
+          table.putFunction(name, new Func(name, statList));
+          return new Func(name, statList);
+        }
       }
       else{
-        table.putFunction(name, new Func(name, p));
-        return new Func(name, p);
+        if(statList == null){
+          table.putFunction(name, new Func(name, p));
+          return new Func(name, p);
+        }
+        else{
+          table.putFunction(name, new Func(name, p, statList));
+          return new Func(name, p, statList);
+        }
       }
     }
     else if(p == null) {
-      table.putFunction(name, new Func(name, t));
-      return new Func(name, t);
+      if(statList == null){
+        table.putFunction(name, new Func(name, t));
+        return new Func(name, t);
+      }
+      else{
+        table.putFunction(name, new Func(name, t, statList));
+        return new Func(name, t, statList);
+      }
     }
     else {
-      table.putFunction(name, new Func(t, name, p));
-      return new Func(t, name, p);
+      if(statList == null){
+        table.putFunction(name, new Func(t, name, p));
+        return new Func(t, name, p);
+      }
+      else{
+        table.putFunction(name, new Func(t, name, p, statList));
+        return new Func(t, name, p, statList);
+      }
     }
   }
 
@@ -1159,10 +1181,10 @@ public class Compiler {
             //   }
 
         ParamDec paramFunc;
-        ExprAnd checkParams;
+        ExprOr checkParams;
 
         for(int i = 0; i < eList.size(); i++){
-          checkParams = (ExprAnd) eList.get(i);
+          checkParams = (ExprOr) eList.get(i);
           paramFunc = func.getParams().getListaStats().get(i);
 
           Symbol check, tParam;

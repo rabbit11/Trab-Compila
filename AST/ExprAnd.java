@@ -24,15 +24,21 @@ public class ExprAnd extends Expr{
     }
 
     public void genC(PW pw){
-    //     esquerda.genC(pw);
+        int i = 0;
 
-    //     if(this.operador != null){
-    //         pw.printNI(" " + operador.toString() + " ");
-    //     }
+        for (Expr p : expr) {
+            p.genC(pw);
+            i++;
 
-    //     if (this.direita != null) {
-    //         direita.genC(pw);
-    //     }
+            if (this.operador != Symbol.AND) {
+                return;
+            }
+
+            if (i > 0 && i < expr.size()) {
+                pw.print(this.operador.toString() + " ");
+
+            }
+        }
     }
     
     public void setExpr(ArrayList<Expr> expr){

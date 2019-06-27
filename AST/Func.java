@@ -21,10 +21,26 @@ public class Func {
     private StatList stats;
     //private FuncCorpo corpo;
 
+    public Func(Type tipoRetorno, String nomeFunc, ParamList p, StatList stats) {
+        this.tipoRetorno = tipoRetorno;
+        this.nomeFunc = nomeFunc;
+        this.params = p;
+        this.stats = stats;
+    }
+
     public Func(Type tipoRetorno, String nomeFunc, ParamList p) {
         this.tipoRetorno = tipoRetorno;
         this.nomeFunc = nomeFunc;
         this.params = p;
+        this.stats = null;
+    }
+
+    public Func(String nomeFunc, ParamList p, StatList stats) {
+        this.nomeFunc = nomeFunc;
+        this.params = p;
+        this.tipoRetorno = null;
+        this.expr = null;
+        this.stats = stats;
     }
 
     public Func(String nomeFunc, ParamList p) {
@@ -32,6 +48,15 @@ public class Func {
         this.params = p;
         this.tipoRetorno = null;
         this.expr = null;
+        this.stats = null;
+    }
+
+    public Func(String nomeFunc, Expr e, StatList stats) {
+        this.nomeFunc = nomeFunc;
+        this.expr = e;
+        this.tipoRetorno = null;
+        this.params = null;
+        this.stats = stats;
     }
 
     public Func(String nomeFunc, Expr e) {
@@ -39,6 +64,17 @@ public class Func {
         this.expr = e;
         this.tipoRetorno = null;
         this.params = null;
+        this.stats = null;
+
+    }
+
+    public Func(String nomeFunc, Type tipoRetorno, StatList stats) {
+        this.nomeFunc = nomeFunc;
+        this.tipoRetorno = tipoRetorno;
+        this.expr = null;
+        this.params = null;
+        this.stats = stats;
+
     }
 
     public Func(String nomeFunc, Type tipoRetorno) {
@@ -46,6 +82,16 @@ public class Func {
         this.tipoRetorno = tipoRetorno;
         this.expr = null;
         this.params = null;
+        this.stats = null;
+
+    }
+
+    public Func(String nomeFunc, StatList stats) {
+        this.nomeFunc = nomeFunc;
+        this.expr = null;
+        this.params = null;
+        this.tipoRetorno = null;
+        this.stats = stats;
     }
 
     public Func(String nomeFunc){
@@ -53,6 +99,7 @@ public class Func {
       this.expr = null;
       this.params = null;
       this.tipoRetorno = null;
+      this.stats = null;
     }
 
     public void genC(PW pw) {

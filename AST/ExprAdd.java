@@ -24,15 +24,19 @@ public class ExprAdd extends Expr{
     }
 
     public void genC(PW pw){
-        // esquerda.genC(pw);
+        int i = 0;
+        for (ExprMult p : expr) {
+            p.genC(pw);
+            i++;
 
-        // if(this.operador != null){
-        //     pw.printNI(" " + operador.toString() + " ");
-        // }
+            if(op != Symbol.PLUS && op != Symbol.MINUS){
+                return;
+            }
 
-        // if (this.direita != null) {
-        //     direita.genC(pw);
-        // }
+            if (i > 0 && i < expr.size()) {
+                pw.print(this.op.toString() + " ");
+            }
+        }
     }
 
     public void setExpr(ArrayList<ExprMult> expr) {

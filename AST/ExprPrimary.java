@@ -14,6 +14,7 @@ public class ExprPrimary extends Expr{
   }
 
   public void genC(PW pw) {
+    pw.print(this.var.getVar());
   }
 
   public Type getType(){

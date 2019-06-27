@@ -19,8 +19,11 @@ public class ExprUnary extends Expr {
     this.tipo = tipo;
   }
   public void genC(PW pw){
-    // if(getOperador() != null)
-    //   pw.printNI(operador.toString() + "");
+    if(this.op != null){
+      pw.print(this.op.toString() + " ");
+    }
+
+    expr.genC(pw);
   }
 
   public void setExpr(Expr expr) {

@@ -23,15 +23,19 @@ public class ExprMult extends Expr {
     }
 
     public void genC(PW pw) {
-        // esquerda.genC(pw);
+        int i = 0;
+        for (ExprUnary p : expr) {
+            p.genC(pw);
+            i++;
 
-        // if (this.operador != null) {
-        //     pw.printNI(" " + operador.toString() + " ");
-        // }
+            if (op != Symbol.MULT && op != Symbol.DIV) {
+                return;
+            }
 
-        // if (this.direita != null) {
-        //     direita.genC(pw);
-        // }
+            if (i > 0 && i < expr.size()) {
+                pw.print(this.op.toString() + " ");
+            }
+        }
     }
 
     public void setExpr(ArrayList<ExprUnary> expr) {

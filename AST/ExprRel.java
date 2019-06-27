@@ -25,15 +25,15 @@ public class ExprRel extends Expr {
     }
 
     public void genC(PW pw){
-        // esquerda.genC(pw);
+        esq.genC(pw);
 
-        // if(this.operador != null){
-        //     pw.printNI(" " + operador.toString() + " ");
-        // }
-
-        // if (this.direita != null) {
-        //     direita.genC(pw);
-        // }
+        if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE
+            || op == Symbol.LT || op == Symbol.GTE || op == Symbol.GT) {
+            
+            pw.print(this.op.toString() + " ");
+            
+            dir.genC(pw);
+        }
     }
 
     public void setOp(Symbol op) {

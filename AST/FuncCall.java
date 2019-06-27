@@ -40,7 +40,22 @@ public class FuncCall extends Expr{
     }
 
     public void genC(PW pw) {
-      // precisa fazer
+      pw.print(this.funcName);
+
+      pw.print("(");
+
+      if(this.arrayExpr != null){
+        int i = 0;
+        
+        for (Expr p : arrayExpr) {
+            p.genC(pw);
+            i++;
+
+            if (i > 0 && i < arrayExpr.size()) {// garante que imprimimos , apenas quando tem mais de 1 param
+                pw.printNI(", "); // e não imprimimos após o último
+            }
+        }
+      }
     }
 
     public void setArrayExpr(ArrayList<Expr> e) {
