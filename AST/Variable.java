@@ -14,7 +14,7 @@ public class Variable extends Expr {
   }
 
   public void genC(PW pw) {
-    pw.println(name);
+    pw.print(this.name);
   }
 
   public String getName(){

@@ -24,6 +24,7 @@ public class ExprRel extends Expr {
         this.tipo = tipo;
     }
 
+    @Override
     public void genC(PW pw){
         esq.genC(pw);
 

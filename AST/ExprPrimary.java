@@ -13,6 +13,7 @@ public class ExprPrimary extends Expr{
     this.tipo = null;
   }
 
+  @Override
   public void genC(PW pw) {
     pw.print(this.var.getVar());
   }

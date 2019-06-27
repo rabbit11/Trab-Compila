@@ -20,6 +20,7 @@ public class ExprLiteral extends Expr {
       this.tipo = tipo;
     }
 
+    @Override
     public void genC(PW pw) {
         pw.print(value);
     }

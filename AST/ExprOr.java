@@ -23,6 +23,7 @@ public class ExprOr extends Expr {
         this.tipo = tipo;
     }
 
+    @Override
     public void genC(PW pw) {
         int i = 0;
 

@@ -55,6 +55,7 @@ public class FuncCall extends Expr{
                 pw.printNI(", "); // e não imprimimos após o último
             }
         }
+        pw.print(")");
       }
     }
 

@@ -22,17 +22,17 @@ public class RelOp {
 
   public void tipo(PW pw) {
     if (getType() == Symbol.LT)
-      pw.println("<");
+      pw.print("<");
     else if (getType() == Symbol.GT)
-      pw.println(">");
+      pw.print(">");
     else if (getType() == Symbol.LTE)
-      pw.println(">=");
+      pw.print(">=");
     else if (getType() == Symbol.GTE)
-      pw.println("<=");
+      pw.print("<=");
     else if (getType() == Symbol.EQUAL)
-      pw.println("==");
+      pw.print("==");
     else if (getType() != Symbol.DIFFERENT)
-      pw.println("=");
+      pw.print("=");
   }
 
   public Symbol getType() {
