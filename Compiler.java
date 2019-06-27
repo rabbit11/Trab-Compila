@@ -602,12 +602,14 @@ public class Compiler {
        Type tipo = null;
        String value = "";
        int valueInt = 0;
+       int flagInt = 0;
 
        switch(op){
        case INTLITERAL:
          lexer.nextToken();
          tipo = new Type(Symbol.INTLITERAL);
          valueInt = lexer.getIntValue();
+         flagInt = 1;
          break;
 
         case TRUE:
@@ -642,7 +644,12 @@ public class Compiler {
           lexer.nextToken();
        }
 
-      return new ExprLiteral(value, op, tipo);
+      if(flagInt == 0){
+        return new ExprLiteral(value, op, tipo);
+      }
+      else{
+        return new ExprLiteral(valueInt, op, tipo);
+      }
    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

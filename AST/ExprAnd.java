@@ -34,11 +34,14 @@ public class ExprAnd extends Expr{
             if (this.operador != Symbol.AND) {
                 return;
             }
-
-            if (i > 0 && i < expr.size()) {
-                pw.print(this.operador.toString() + " ");
-
+            
+            else{
+                if (i > 0 && i < expr.size()) {
+                    pw.print(this.operador.toString() + " ");
+    
+                }
             }
+
         }
     }
     

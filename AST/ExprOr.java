@@ -35,9 +35,11 @@ public class ExprOr extends Expr {
                 return;
             }
 
-            if (i > 0 && i < expr.size()) {
-                pw.print(this.operador.toString() + " ");
-
+            else{
+                if (i > 0 && i < expr.size()) {
+                    pw.print(this.operador.toString() + " ");
+    
+                }
             }
         }
 

@@ -32,10 +32,13 @@ public class ExprMult extends Expr {
             if (op != Symbol.MULT && op != Symbol.DIV) {
                 return;
             }
-
-            if (i > 0 && i < expr.size()) {
-                pw.print(this.op.toString() + " ");
+            
+            else{
+                if (i > 0 && i < expr.size()) {
+                    pw.print(this.op.toString() + " ");
+                }
             }
+
         }
     }
 

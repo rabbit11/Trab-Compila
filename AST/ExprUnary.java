@@ -19,7 +19,8 @@ public class ExprUnary extends Expr {
     this.tipo = tipo;
   }
   public void genC(PW pw){
-    if(this.op != null){
+
+    if(this.op == Symbol.PLUS || this.op == Symbol.MINUS){
       pw.print(this.op.toString() + " ");
     }
 

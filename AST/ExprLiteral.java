@@ -13,16 +13,30 @@ public class ExprLiteral extends Expr {
     private Expr exp;
     private Symbol op;
     private Type tipo;
+    private int valueInt;
 
     public ExprLiteral(String value, Symbol op, Type tipo) {
-      this.op = op;
-      this.value = value;
-      this.tipo = tipo;
+        this.op = op;
+        this.value = value;
+        this.tipo = tipo;
+        this.valueInt = -1337;
+    }
+
+    public ExprLiteral(int value, Symbol op, Type tipo) {
+        this.op = op;
+        this.value = null;
+        this.tipo = tipo;
+        this.valueInt = value;
     }
 
     @Override
     public void genC(PW pw) {
-        pw.print(value);
+        if(this.valueInt != -1337){
+            pw.print(Integer.toString(valueInt));
+        }
+        else{
+            pw.print(value);
+        }
     }
 
     public void setExp(Expr exp) {
@@ -35,6 +49,10 @@ public class ExprLiteral extends Expr {
 
     public String getValue(){
         return this.value;
+    }
+
+    public int getValueInt(){
+        return this.valueInt;
     }
 
     public Type getType(){

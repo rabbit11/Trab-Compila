@@ -26,6 +26,7 @@ public class ExprAdd extends Expr{
     @Override
     public void genC(PW pw){
         int i = 0;
+
         for (ExprMult p : expr) {
             p.genC(pw);
             i++;
@@ -33,10 +34,13 @@ public class ExprAdd extends Expr{
             if(op != Symbol.PLUS && op != Symbol.MINUS){
                 return;
             }
-
-            if (i > 0 && i < expr.size()) {
-                pw.print(this.op.toString() + " ");
+            
+            else{
+                if (i > 0 && i < expr.size()) {
+                    pw.print(this.op.toString() + " ");
+                }
             }
+
         }
     }
 
