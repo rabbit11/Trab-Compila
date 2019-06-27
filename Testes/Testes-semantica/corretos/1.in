@@ -12,4 +12,5 @@ function main {
   result = soma (3, 2);
   result = readInt();
   writeln (result);
+  write (result);
 }

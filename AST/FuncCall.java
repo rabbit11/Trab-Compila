@@ -8,6 +8,8 @@ package AST;
 
 import java.util.ArrayList;
 
+import Lexer.Symbol;
+
 //FuncCall ::= Id "(" [ Expr {”, ”Expr} ] ")"
 
 public class FuncCall extends Expr{
@@ -40,22 +42,107 @@ public class FuncCall extends Expr{
     }
 
     public void genC(PW pw) {
-      pw.print(this.funcName);
+      if(this.funcName.equals("readInt")){
+          pw.print("scanf(\"%d\" , &x)");
+      }
 
-      pw.print("(");
+      else if(this.funcName.equals("readString")) {
+          pw.print("scanf(\"%s\" , &x)");
+      }
 
-      if(this.arrayExpr != null){
-        int i = 0;
-        
-        for (Expr p : arrayExpr) {
-            p.genC(pw);
-            i++;
-
-            if (i > 0 && i < arrayExpr.size()) {// garante que imprimimos , apenas quando tem mais de 1 param
-                pw.printNI(", "); // e não imprimimos após o último
+      else if(this.funcName.equals("writeln")){
+          if(this.arrayExpr != null){
+            if(this.arrayExpr.get(0).getType().getType() == Symbol.INT){
+                pw.print("printf(" + "\"%d");
+                pw.print("\\n\", ");
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
             }
+            else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRING) {
+                pw.print("printf(" + "\"%s\"");
+                pw.print("\\n\", ");
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
+            }
+            else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLEAN) {
+                pw.print("printf(" + "\"%d\"");
+                pw.print("\\n\", ");
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
+            }
+            else if (this.arrayExpr.get(0).getType().getType() == Symbol.INTLITERAL) {
+                pw.print("printf(");
+                pw.print("\\n\", ");
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
+            }
+            else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
+                pw.print("printf(");
+                pw.print("\\n\", ");            
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
+            }
+            else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
+                pw.print("printf(");
+                pw.print("\\n\", ");
+                this.arrayExpr.get(0).genC(pw);
+                pw.print(")");
+            }
+          }
+          else{
+              pw.print("printf(" + "\n" + ")");
+          }
+      }
+
+      else if(this.funcName.equals("write")){
+            if (this.arrayExpr != null) {
+                if (this.arrayExpr.get(0).getType().getType() == Symbol.INT) {
+                    pw.print("printf(" + "\"%d\", ");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                } else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRING) {
+                    pw.print("printf(" + "\"%s\", ");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                } else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLEAN) {
+                    pw.print("printf(" + "\"%d\", ");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                } else if (this.arrayExpr.get(0).getType().getType() == Symbol.INTLITERAL) {
+                    pw.print("printf(");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                } else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
+                    pw.print("printf(");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                } else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
+                    pw.print("printf(");
+                    this.arrayExpr.get(0).genC(pw);
+                    pw.print(")");
+                }
+            } else {
+                pw.print("printf(" + " " + ")");
+            }
+      }
+
+      else{
+        pw.print(this.funcName);
+        pw.print("(");
+  
+        if(this.arrayExpr != null){
+          int i = 0;
+          
+          for (Expr p : arrayExpr) {
+              p.genC(pw);
+              i++;
+  
+              if (i > 0 && i < arrayExpr.size()) {// garante que imprimimos , apenas quando tem mais de 1 param
+                  pw.printNI(", "); // e não imprimimos após o último
+              }
+          }
+          pw.print(")");
         }
-        pw.print(")");
       }
     }
 

@@ -12,7 +12,8 @@ void main () {
  
 int result;
 result = soma(3, 2);
-result = readInt();
-writeln(result);
+result = scanf("%d" , &x);
+printf("%d\n", result);
+printf("%d", result);
  
 }
