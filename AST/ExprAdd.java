@@ -31,16 +31,11 @@ public class ExprAdd extends Expr{
             p.genC(pw);
             i++;
 
-            if(op != Symbol.PLUS && op != Symbol.MINUS){
-                return;
-            }
-            
-            else{
+            // if(op == Symbol.PLUS && op == Symbol.MINUS){
                 if (i > 0 && i < expr.size()) {
-                    pw.print(this.op.toString() + " ");
+                    pw.print(" " + this.op.toString() + " ");
                 }
-            }
-
+            // }
         }
     }
 

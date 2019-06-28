@@ -102,8 +102,11 @@ public class Compiler {
     }
 
     /* verifica se existe uma funcao main */
-    if(table.returnFunction("main") == null)
-       System.out.println("Function 'main' expected but not found");
+    if(table.returnFunction("main") == null){
+      //  System.out.println("Function 'main' expected but not found");
+      error.message("Function 'main' expected but not found");
+    }
+
     return program;
   }
 
@@ -657,7 +660,7 @@ public class Compiler {
   // Expr ::= ExprAnd {”or” ExprAnd}
   public Expr expr() {
     Expr esq, dir;
-    Symbol op;
+    Symbol op = null;
     ArrayList<Expr> expr = new ArrayList<Expr>();
     Type tipoEsq, tipoDir;
 
@@ -668,7 +671,8 @@ public class Compiler {
 
     expr.add(esq);
 
-    while ((op = lexer.token) == Symbol.OR) {
+    while (lexer.token == Symbol.OR) {
+      op = lexer.token;
       lexer.nextToken();
       dir = exprAnd();
       tipoDir = dir.getType();
@@ -683,14 +687,14 @@ public class Compiler {
       }
     }
 
-    return new ExprOr(expr, Symbol.OR, tipoEsq);
+    return new ExprOr(expr, op, tipoEsq);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private ExprMult exprMult() {
-    Symbol op;
+    Symbol op = null;
     ExprUnary esq, dir;
     ArrayList<ExprUnary> expr = new ArrayList<ExprUnary>();
     Type tipoEsq, tipoDir;
@@ -701,7 +705,8 @@ public class Compiler {
 
     expr.add(esq);
 
-    while ((op = lexer.token) == Symbol.MULT || op == Symbol.DIV) {
+    while (lexer.token == Symbol.MULT || lexer.token == Symbol.DIV) {
+      op = lexer.token;
       lexer.nextToken();
       dir = exprUnary();
       tipoDir = dir.getType();
@@ -726,7 +731,7 @@ public class Compiler {
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private ExprAdd exprAdd() {
-    Symbol op;
+    Symbol op = null;
     ExprMult esq, dir;
     ArrayList<ExprMult> expr = new ArrayList<ExprMult>();
     Type tipoEsq, tipoDir;
@@ -736,7 +741,8 @@ public class Compiler {
     tipoDir = null;
     expr.add(esq);
 
-    while ((op = lexer.token) == Symbol.PLUS || op == Symbol.MINUS) {
+    while ((lexer.token) == Symbol.PLUS || lexer.token == Symbol.MINUS) {
+      op = lexer.token;
       lexer.nextToken();
       dir = exprMult();
       tipoDir = dir.getType();
@@ -852,10 +858,11 @@ public class Compiler {
     right = null;
     tipo = left.getType();
 
-    Symbol op = lexer.token;
+    Symbol op = null;
 
-    if (op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE || op == Symbol.LT || op == Symbol.GTE
-        || op == Symbol.GT) {
+    if (lexer.token == Symbol.EQUAL || lexer.token == Symbol.DIFFERENT || lexer.token == Symbol.LTE || lexer.token == Symbol.LT || lexer.token == Symbol.GTE
+        || lexer.token == Symbol.GT) {
+      op = lexer.token;
       lexer.nextToken();
       right = exprAdd();
       tipoDir = right.getType();
@@ -882,11 +889,13 @@ public class Compiler {
 
   // ExprUnary ::= [ ( "+" | "-" ) ] ExprPrimary
   private ExprUnary exprUnary() {
-    Symbol op = lexer.token;
+    Symbol op = null;
     Type tipo;
 
-    if (op == Symbol.PLUS || op == Symbol.MINUS)
+    if (lexer.token == Symbol.PLUS || lexer.token == Symbol.MINUS){
+      op = lexer.token;
       lexer.nextToken();
+    }
 
     Expr e = exprPrimary();
     tipo = e.getType();

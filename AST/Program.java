@@ -18,8 +18,15 @@ public class Program {
     }
 
     public void genC(PW pw) {
-        pw.println("#include <stdio.h>\n");
+        pw.println("#include <stdio.h>");
+        pw.println("#include <stdbool.h>");
+        pw.printBL();
 
+        pw.println("//inicialização de variáveis necessárias na leitura de dados da entrada:");
+        pw.println("int readInt = 0;");
+        pw.println("char readString[100] = \"a\";");
+
+        pw.printBL();
         // Se não tiver nenhuma função declarada
         if (arrayFunc.contains(null)) {
             pw.println("int main(){}");

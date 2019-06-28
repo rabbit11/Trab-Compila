@@ -31,16 +31,11 @@ public class ExprOr extends Expr {
             p.genC(pw);
             i++;
 
-            if(this.operador != Symbol.OR){
-                return;
-            }
-
-            else{
+            // if(this.operador == Symbol.OR){
                 if (i > 0 && i < expr.size()) {
-                    pw.print(this.operador.toString() + " ");
-    
+                    pw.print(" " + this.operador.toString() + " ");
                 }
-            }
+            // }
         }
 
     }

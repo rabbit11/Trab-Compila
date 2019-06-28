@@ -43,11 +43,11 @@ public class FuncCall extends Expr{
 
     public void genC(PW pw) {
       if(this.funcName.equals("readInt")){
-          pw.print("scanf(\"%d\" , &x)");
+          pw.print("scanf(\"%d\" , &readInt)");
       }
 
       else if(this.funcName.equals("readString")) {
-          pw.print("scanf(\"%s\" , &x)");
+          pw.print("scanf(\"%s\" , &readString)");
       }
 
       else if(this.funcName.equals("writeln")){

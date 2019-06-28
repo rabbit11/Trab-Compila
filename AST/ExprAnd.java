@@ -31,15 +31,8 @@ public class ExprAnd extends Expr{
             p.genC(pw);
             i++;
 
-            if (this.operador != Symbol.AND) {
-                return;
-            }
-            
-            else{
-                if (i > 0 && i < expr.size()) {
-                    pw.print(this.operador.toString() + " ");
-    
-                }
+            if (i > 0 && i < expr.size()) {
+                pw.print(" " + this.operador.toString() + " ");
             }
 
         }
