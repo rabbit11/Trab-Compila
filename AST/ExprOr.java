@@ -33,7 +33,8 @@ public class ExprOr extends Expr {
 
             // if(this.operador == Symbol.OR){
                 if (i > 0 && i < expr.size()) {
-                    pw.print(" " + this.operador.toString() + " ");
+                    // pw.print(" " + this.operador.toString() + " ");
+                    pw.print(" " + "|| ");
                 }
             // }
         }

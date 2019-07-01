@@ -32,7 +32,8 @@ public class ExprAnd extends Expr{
             i++;
 
             if (i > 0 && i < expr.size()) {
-                pw.print(" " + this.operador.toString() + " ");
+                // pw.print(" " + this.operador.toString() + " ");
+                pw.print(" " + "&& ");
             }
 
         }

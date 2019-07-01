@@ -59,33 +59,33 @@ public class FuncCall extends Expr{
                 pw.print(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRING) {
-                pw.print("printf(" + "\"%s\"");
+                pw.print("printf(" + "\"%s");
                 pw.print("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
                 pw.print(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLEAN) {
-                pw.print("printf(" + "\"%d\"");
+                pw.print("printf(" + "\"%d");
                 pw.print("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
                 pw.print(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.INTLITERAL) {
                 pw.print("printf(");
-                pw.print("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
+                pw.print("\\n\"");
                 pw.print(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
                 pw.print("printf(");
-                pw.print("\\n\", ");            
                 this.arrayExpr.get(0).genC(pw);
+                pw.print("\\n\"");            
                 pw.print(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
                 pw.print("printf(");
-                pw.print("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
+                pw.print("\\n\"");
                 pw.print(")");
             }
           }
@@ -115,7 +115,7 @@ public class FuncCall extends Expr{
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
                     pw.print("printf(");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.print("\")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
                     pw.print("printf(");
                     this.arrayExpr.get(0).genC(pw);
@@ -135,6 +135,10 @@ public class FuncCall extends Expr{
           
           for (Expr p : arrayExpr) {
               p.genC(pw);
+
+              if(p.getType().getType() == Symbol.STRINGLITERAL){
+                pw.print("\"");  
+              }
               i++;
   
               if (i > 0 && i < arrayExpr.size()) {// garante que imprimimos , apenas quando tem mais de 1 param

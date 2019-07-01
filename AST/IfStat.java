@@ -27,7 +27,7 @@ public class IfStat extends Stat {
 
         expr.genC(pw);
 
-        pw.out.println(" ) { ");
+        pw.println(" ) { ");
 
         ifBody.genC(pw);
 
@@ -35,9 +35,9 @@ public class IfStat extends Stat {
 
         if ( elseStat != null ) {
             pw.println("else {");
-            pw.add();
+            // pw.add();
             elseStat.genC(pw);
-            pw.sub();
+            // pw.sub();
             pw.println("}");
         }
     }

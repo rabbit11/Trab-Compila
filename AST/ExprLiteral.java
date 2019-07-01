@@ -35,6 +35,9 @@ public class ExprLiteral extends Expr {
             pw.print(Integer.toString(valueInt));
         }
         else{
+            if(tipo.getType() == Symbol.STRINGLITERAL){
+                value = value.substring(0, value.length() - 1);
+            }
             pw.print(value);
         }
     }

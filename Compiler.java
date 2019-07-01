@@ -626,11 +626,11 @@ public class Compiler {
           tipo = new Type(Symbol.BOOLLITERAL);
           value = "false";
           break;
-
-        case STRINGLITERAL:
+          
+          case STRINGLITERAL:
           tipo = new Type(Symbol.STRINGLITERAL);
-          lexer.nextToken();
           value = lexer.getStringValue();
+          lexer.nextToken();
           break;
 
          default:

@@ -22,11 +22,11 @@ public class ReturnStat extends Stat {
         pw.printBL(); // Quebra de linha
 
         // pw.printI(); // Ident
-        pw.printNI("return "); // Return
+        pw.print("return "); // Return
 
         expr.genC(pw);
         
-        pw.printNI(";"); // ';'
+        pw.print(";"); // ';'
 
         pw.printBL(); // Quebra de linha
     }

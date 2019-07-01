@@ -25,12 +25,12 @@ public class Type {
 
     else if (type == Symbol.BOOLEAN){
       // pw.println("Boolean");
-      return "Boolean";
+      return "bool";
     }
 
     else if (type == Symbol.STRING){
       // pw.println("String");
-      return "Char*";
+      return "Char[100]";
     }
     return "Tipo não reconhecido";
   }

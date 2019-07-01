@@ -5,7 +5,7 @@
     // Vinícius Crepschi       743601
 
 package AST;
-
+import Lexer.*;
 // AssignExprStat ::= Expr [ "=" Expr ] ";"
 
 public class AssignExprStat extends Stat {
@@ -23,6 +23,10 @@ public class AssignExprStat extends Stat {
         if(dir != null){
             pw.print(" = ");
             this.dir.genC(pw);
+
+            if (dir.getType().getType() == Symbol.STRINGLITERAL) {
+                pw.print("\"");
+            }
         }
         pw.println(";");
     }

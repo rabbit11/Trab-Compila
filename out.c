@@ -5,20 +5,25 @@
 int readInt = 0;
 char readString[100] = "a";
 
-int soma (int x, int y) {
+int somaD (int c, int d) {
  
-int a;
-a = x + y;
 
-return a;
+return c + d;
+ 
+}
+int somaP (int a, int b) {
+ 
+int x;
+x = 1;
+while ( x != 4 ){
+a = somaD(a, b);
+x = x + 1;
+
+}
  
 }
 void main () {
  
-int result;
-result = soma(3, 2);
-result = scanf("%d" , &readInt);
-printf("%d\n", result);
-printf("%d", result);
+printf("%d\n", somaP(1, 2));
  
 }
