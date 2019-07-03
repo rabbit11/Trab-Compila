@@ -79,7 +79,7 @@ public class Main {
           fileName += path.charAt(i);
         }
 
-      program = compiler.compile(input, pw, fileName); //RETIRDADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
+      program = compiler.compile(input, pw, fileName); //RETIRADO PRINTWRITER DOS PARAMETROS DA FUNÇÃO COMPILE
       } catch ( RuntimeException e ) {
         System.out.println(e);
       }

@@ -775,7 +775,15 @@ public class Compiler {
     Type tipoEsq, tipoDir;
     int flag = 0;
 
-    esq = expr();
+    if(lexer.token != Symbol.INTLITERAL && lexer.token != Symbol.INT){
+      esq = expr();
+    }
+    else{
+      error.message("Literais não podem receber atribuições");
+      esq = null;
+      System.exit(0);
+    }
+
     dir = null;
     tipoDir = null;
     tipoEsq = esq.getType();
@@ -990,8 +998,10 @@ public class Compiler {
     lexer.nextToken();
 
     //Semantica para main possuir parametros e return
-    if(name.compareTo("main") == 0 && lexer.token != Symbol.LBRA)
+    if(name.compareTo("main") == 0 && lexer.token != Symbol.LBRA){
       error.message("Funcao 'main' nao pode conter parametros ou tipo de retorno");
+      System.exit(0);
+    }
 
     ParamList p = null;
 
