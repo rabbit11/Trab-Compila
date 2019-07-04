@@ -12,9 +12,11 @@ import java.util.ArrayList;
 
 public class Program {
     private ArrayList<Func> arrayFunc;
+    private boolean errorSignaled;
 
     public Program(ArrayList<Func> arrayFunc) {
         this.arrayFunc = arrayFunc;
+        errorSignaled = false;
     }
 
     public void genC(PW pw) {
@@ -42,5 +44,13 @@ public class Program {
 
     public ArrayList<Func> getArrayFunc(){
         return this.arrayFunc;
+    }
+
+    public void setError(boolean error){
+        this.errorSignaled = error;
+    }
+
+    public boolean getError(){
+        return this.errorSignaled;
     }
 }

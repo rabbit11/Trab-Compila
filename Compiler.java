@@ -52,6 +52,7 @@ public class Compiler {
 
     if (error.errorSignaled() == true) {
       errorSignaled = true;
+      e.setError(true);
     }
     return e;
   }

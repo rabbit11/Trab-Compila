@@ -86,8 +86,12 @@ public class Main {
 
       compiler = new Compiler();
 
-      if(program != null && compiler.errorSignaled == false)
+      if(program != null && program.getError() == false){
         program.genC(pw);
+      }
+      else{
+        System.out.println("Erro de compilação detectado, geração de arquivo .c cancelada");
+      }
 
 
       //PrintWriter printWriter = new PrintWriter(outputStream);
