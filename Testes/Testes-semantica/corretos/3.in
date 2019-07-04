@@ -4,6 +4,8 @@ function somaD (c : Int, d : Int) -> Int {
 
 function somaP (a : Int, b : Int) -> Int {
   var x : Int;
+  var s : String;
+  s = readString();
   x = 1;
 
   while x != 4 {

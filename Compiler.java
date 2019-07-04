@@ -32,10 +32,10 @@ public class Compiler {
     Expr expression = null;
     Type tipo = null;
 
-    tipo = new Type(Symbol.INTLITERAL);
+    tipo = new Type(Symbol.INT);
     table.putFunction("readInt", new Func("readInt", tipo));
 
-    tipo = new Type(Symbol.STRINGLITERAL);
+    tipo = new Type(Symbol.STRING);
     table.putFunction("readString", new Func("readString", tipo));
 
     // table.putFunction("print", new Func("print", expression));

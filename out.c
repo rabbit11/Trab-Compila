@@ -14,6 +14,8 @@ return c + d;
 int somaP (int a, int b) {
  
 int x;
+Char[100] s;
+s = scanf("%s", &readString);
 x = 1;
 while ( x != 4 ){
 a = somaD(a, b);
