@@ -752,7 +752,7 @@ public class Compiler {
       dir = exprMult();
       tipoDir = dir.getType();
       expr.add(dir);
-      System.out.println(op + " me " + lexer.getCurrentLine());
+      //System.out.println(op + " me " + lexer.getCurrentLine());
     }
 
     if(tipoDir != null){
