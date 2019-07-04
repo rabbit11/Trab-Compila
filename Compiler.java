@@ -698,7 +698,7 @@ public class Compiler {
 
   //ExprMult ::= ExprUnary {(” ∗ ” | ”/”)ExprUnary}
   private ExprMult exprMult() {
-    Symbol op = null;
+    ArrayList<Symbol> op = new ArrayList<Symbol>();
     ExprUnary esq, dir;
     ArrayList<ExprUnary> expr = new ArrayList<ExprUnary>();
     Type tipoEsq, tipoDir;
@@ -710,7 +710,7 @@ public class Compiler {
     expr.add(esq);
 
     while (lexer.token == Symbol.MULT || lexer.token == Symbol.DIV) {
-      op = lexer.token;
+      op.add(lexer.token);
       lexer.nextToken();
       dir = exprUnary();
       tipoDir = dir.getType();
@@ -735,9 +735,9 @@ public class Compiler {
 
   // ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
   private ExprAdd exprAdd() {
-    Symbol op = null;
     ExprMult esq, dir;
     ArrayList<ExprMult> expr = new ArrayList<ExprMult>();
+    ArrayList<Symbol> op = new ArrayList<Symbol>();
     Type tipoEsq, tipoDir;
 
     esq = exprMult();
@@ -745,12 +745,14 @@ public class Compiler {
     tipoDir = null;
     expr.add(esq);
 
-    while ((lexer.token) == Symbol.PLUS || lexer.token == Symbol.MINUS) {
-      op = lexer.token;
+    while (lexer.token == Symbol.PLUS || lexer.token == Symbol.MINUS) {
+      op.add(lexer.token);
+      
       lexer.nextToken();
       dir = exprMult();
       tipoDir = dir.getType();
       expr.add(dir);
+      System.out.println(op + " me " + lexer.getCurrentLine());
     }
 
     if(tipoDir != null){

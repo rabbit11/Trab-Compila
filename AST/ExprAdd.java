@@ -13,11 +13,11 @@ import Lexer.*;
 //ExprAdd ::= ExprMult {(” + ” | ” − ”)ExprMult}
 
 public class ExprAdd extends Expr{
-    private Symbol op;
+    private ArrayList<Symbol> op;
     private ArrayList<ExprMult> expr;
     private Type tipo;
 
-    public ExprAdd(ArrayList<ExprMult> expr, Symbol op, Type tipo ){
+    public ExprAdd(ArrayList<ExprMult> expr, ArrayList<Symbol> op, Type tipo ){
         this.op = op;
         this.expr = expr;
         this.tipo = tipo;
@@ -26,16 +26,18 @@ public class ExprAdd extends Expr{
     @Override
     public void genC(PW pw){
         int i = 0;
-
+        int j = 0;
         for (ExprMult p : expr) {
             p.genC(pw);
             i++;
 
-            // if(op == Symbol.PLUS && op == Symbol.MINUS){
-                if (i > 0 && i < expr.size()) {
-                    pw.print(" " + this.op.toString() + " ");
-                }
+            // if (i > 0 && i < expr.size()) {
+            //     pw.print(" " + this.op.toString() + " ");
             // }
+            if(i > 0 && i < expr.size()){
+                pw.print(" " + this.op.get(j).toString() + " ");
+                j++;
+            }
         }
     }
 
@@ -43,19 +45,19 @@ public class ExprAdd extends Expr{
         this.expr = expr;
     }
 
-    public void setOp(Symbol op) {
-        this.op = op;
-    }
-
     public void setTipo(Type tipo) {
         this.tipo = tipo;
+    }
+    
+    public void addOp(Symbol op){
+        this.op.add(op);
     }
 
     public ArrayList<ExprMult> getExpr() {
         return this.expr;
     }
 
-    public Symbol getOp() {
+    public ArrayList<Symbol> getOp() {
         return this.op;
     }
 

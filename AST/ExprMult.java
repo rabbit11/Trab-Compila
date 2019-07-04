@@ -14,9 +14,9 @@ import Lexer.*;
 public class ExprMult extends Expr {
     ArrayList<ExprUnary> expr;
     private Type tipo;
-    private Symbol op;
+    ArrayList<Symbol> op;
 
-    public ExprMult(ArrayList<ExprUnary> expr, Symbol op, Type tipo) {    
+    public ExprMult(ArrayList<ExprUnary> expr, ArrayList<Symbol> op, Type tipo) {    
         this.expr = expr;
         this.op = op;
         this.tipo = tipo;
@@ -25,15 +25,19 @@ public class ExprMult extends Expr {
     @Override
     public void genC(PW pw) {
         int i = 0;
+        int j = 0;
         for (ExprUnary p : expr) {
             p.genC(pw);
             i++;
 
-            // if (op == Symbol.MULT && op == Symbol.DIV) {
-                if (i > 0 && i < expr.size()) {
-                    pw.print(" " + this.op.toString() + " ");
-                }
+            // if (i > 0 && i < expr.size()) {
+            //     pw.print(" " + this.op.toString() + " ");
             // }
+
+            if(i > 0 && i < expr.size()){
+                pw.print(" " + this.op.get(j) + " ");
+                j++;
+            }
         }
     }
 
@@ -41,9 +45,9 @@ public class ExprMult extends Expr {
         this.expr = expr;
     }
 
-    public void setOp(Symbol op) {
-        this.op = op;
-    }
+    // public void setOp(Symbol op) {
+    //     this.op = op;
+    // }
 
     public void setTipo(Type tipo) {
         this.tipo = tipo;
@@ -53,9 +57,9 @@ public class ExprMult extends Expr {
         return this.expr;
     }
 
-    public Symbol getOp() {
-        return this.op;
-    }
+    // public Symbol getOp() {
+    //     return this.op;
+    // }
 
     public Type getType() {
         return this.tipo;
