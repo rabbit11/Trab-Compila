@@ -778,13 +778,23 @@ public class Compiler {
     Type tipoEsq, tipoDir;
     int flag = 0;
 
-    if(lexer.token != Symbol.INTLITERAL && lexer.token != Symbol.INT){
-      esq = expr();
-    }
-    else{
+    if(lexer.token == Symbol.INTLITERAL || lexer.token == Symbol.INT){
       error.message("Literais não podem receber atribuições");
       esq = null;
       System.exit(0);
+    }
+    else if(lexer.token == Symbol.STRINGLITERAL || lexer.token == Symbol.STRING){
+      error.message("string inválida recebendo atribuicao");
+      esq = null;
+      System.exit(0);
+    }
+    else if(lexer.token == Symbol.BOOLLITERAL || lexer.token == Symbol.BOOLEAN){
+      error.message("Booleanos não podem receber atribuições");
+      esq = null;
+      System.exit(0);
+    }
+    else{
+      esq = expr();
     }
 
     dir = null;
