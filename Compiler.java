@@ -27,7 +27,7 @@ public class Compiler {
     //algumas inicializações
     input = p_input;
     tokenPos = 0;
-
+    errorSignaled = false;
     //funções pre-definidas na linguagem
     Expr expression = null;
     Type tipo = null;
@@ -50,6 +50,9 @@ public class Compiler {
     if (lexer.token != Symbol.EOF)
       error.message("EOF expected");
 
+    if (error.errorSignaled() == true) {
+      errorSignaled = true;
+    }
     return e;
   }
 
@@ -1254,5 +1257,6 @@ public class Compiler {
   private char token;
   private int tokenPos;
   private char[] input;
+  public boolean errorSignaled;
   // private Hashtable<Character, VarDecStat> symbolTable;
 }

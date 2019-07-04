@@ -86,7 +86,7 @@ public class Main {
 
       compiler = new Compiler();
 
-      if(program != null)
+      if(program != null && compiler.errorSignaled == false)
         program.genC(pw);
 
 
