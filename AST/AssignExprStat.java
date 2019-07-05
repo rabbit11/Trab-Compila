@@ -10,25 +10,54 @@ import Lexer.*;
 
 public class AssignExprStat extends Stat {
     private Expr esq, dir;
-
-    public AssignExprStat(Expr esq, Expr dir) {
+    private boolean readInt, readString;
+    public AssignExprStat(Expr esq, Expr dir, boolean readInt, boolean readString) {
         this.esq = esq;
         this.dir = dir;
+        this.readInt = readInt;
+        this.readString = readString;
     }
 
     @Override
     public void genC(PW pw){
-        this.esq.genC(pw);
+        //checando se há uma atribuição de strings (algo ilegal em C)
+        //checando operações de leitura
+        if(readInt == true){
+            pw.print("scanf(\"%d\", &");
+            this.esq.genC(pw);
+            pw.println(");");
+        }
+        
+        else if(readString == true){
+            pw.print("scanf(\"%s\", ");
+            this.esq.genC(pw);
+            pw.println(");");
+        }
 
-        if(dir != null){
-            pw.print(" = ");
-            this.dir.genC(pw);
+        else if(this.esq.getType().getType() == Symbol.STRING || 
+            this.esq.getType().getType() == Symbol.STRINGLITERAL){
 
-            if (dir.getType().getType() == Symbol.STRINGLITERAL) {
-                pw.print("\"");
+            if(this.dir != null){
+                pw.print("strcpy(");
+                this.esq.genC(pw);
+                pw.print(", ");
+                this.dir.genC(pw);
+                pw.println(");");
             }
         }
-        pw.println(";");
+        else{
+            this.esq.genC(pw);
+            
+            if(dir != null){
+                pw.print(" = ");
+                this.dir.genC(pw);
+                
+                if (dir.getType().getType() == Symbol.STRINGLITERAL) {
+                    pw.print("\"");
+                }
+            }
+            pw.println(";");
+        }
     }
 
     public Expr getEsq(){

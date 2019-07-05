@@ -30,7 +30,13 @@ public class VarDecStat extends Stat{
   }
 
   public void genC(PW pw) {
-    pw.println(this.tipo.tipo(pw) + " " + this.var + ";");
+    if(this.tipo.getType() == Symbol.STRING){
+      pw.println(this.tipo.tipo(pw) + " " + this.var + "[100];");
+    }
+    
+    else{
+      pw.println(this.tipo.tipo(pw) + " " + this.var + ";");
+    }
   }
 
   public String getVar() {

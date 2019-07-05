@@ -780,6 +780,8 @@ public class Compiler {
     Expr esq, dir;
     Type tipoEsq, tipoDir;
     int flag = 0;
+    boolean readInt = false;
+    boolean readString = false;
 
     if(lexer.token == Symbol.INTLITERAL || lexer.token == Symbol.INT){
       error.message("Literais não podem receber atribuições");
@@ -806,6 +808,15 @@ public class Compiler {
 
     if (lexer.token == Symbol.ASSIGN) {
       lexer.nextToken();
+
+      if(lexer.getStringValue().equals("readInt")){
+        readInt = true;
+      }
+
+      else if(lexer.getStringValue().equals("readString")){
+        readString = true;
+      }
+
       dir = expr();
       tipoDir = dir.getType();
       // lexer.nextToken();
@@ -866,7 +877,7 @@ public class Compiler {
       lexer.nextToken();
     }
 
-    return new AssignExprStat(esq, dir);
+    return new AssignExprStat(esq, dir, readInt, readString);
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

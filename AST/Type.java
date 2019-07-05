@@ -30,7 +30,7 @@ public class Type {
 
     else if (type == Symbol.STRING){
       // pw.println("String");
-      return "Char[100]";
+      return "char";
     }
     return "Tipo não reconhecido";
   }

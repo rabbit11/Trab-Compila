@@ -90,7 +90,7 @@ public class Main {
         program.genC(pw);
       }
       else{
-        System.out.println("Erro de compilação detectado, geração de arquivo .c cancelada");
+        System.out.println("Erro de compilação detectado, geração de código em C abortada");
       }
 
 

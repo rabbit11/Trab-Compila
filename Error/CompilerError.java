@@ -34,7 +34,9 @@ public class CompilerError{
     }
 
     public void message(String message){
-        this.signaled = true;
+        if(this.signaled == false){
+            this.signaled = true;
+        }
         
         String errMessage = this.fileName + ":" + lexer.getLineNumber() + ":" + message;
         
