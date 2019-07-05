@@ -5,6 +5,8 @@ function main{
   
  texto = texto + textao;
 
+ num = num + num;
+
   num = readInt();
   texto = readString();
 

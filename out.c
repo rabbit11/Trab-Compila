@@ -3,13 +3,11 @@
 #include <string.h>
 
 
-void main () {
+int recebeDado () {
  
 int num;
+int numDois;
 char texto[100];
-char textao[100];
-strcpy(texto, strcat(texto, strcat(textao, );
 scanf("%d", &num);
+scanf("%d", &numDois);
 scanf("%s", texto);
- 
-}

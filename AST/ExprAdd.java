@@ -29,10 +29,21 @@ public class ExprAdd extends Expr {
         int j = 0;
 
         for (ExprMult p : expr) {
-            if (this.expr.size() > 1) {
-                if (this.tipo.getType() == Symbol.STRING || this.tipo.getType() == Symbol.STRINGLITERAL) {
-                    i++;
+            if ((this.tipo.getType() == Symbol.STRING || 
+                    this.tipo.getType() == Symbol.STRINGLITERAL) && expr.size() > 1) {
+
+                if(i % 2 == 0){
                     pw.print("strcat(");
+                    p.genC(pw);
+                }
+                else if(i < expr.size()){
+                    pw.print(", ");
+                    p.genC(pw);
+                }
+                else{
+                    p.genC(pw);
+                }
+                i++;
 
                     // if (this.expr.size() > 2 && i < this.expr.size()) {
                     //     pw.print("strcat(");
@@ -47,9 +58,6 @@ public class ExprAdd extends Expr {
                     //         pw.print(")");
                     //     }
                     // }
-                    p.genC(pw);
-                    pw.print(", ");
-                }
             } else {
                 p.genC(pw);
                 i++;
