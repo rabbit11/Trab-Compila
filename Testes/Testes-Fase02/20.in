@@ -1,6 +1,9 @@
 function main{
 	var num:Int;
   var texto:String;
+  var textao:String;
+  
+ texto = texto + textao;
 
   num = readInt();
   texto = readString();
