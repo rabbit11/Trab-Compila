@@ -59,6 +59,10 @@ function main{
   res = aninhamento(h,g);
 
   var n : String;
+  var wx : String;
+  if n == wx{
+    n = wx;
+  }
   n = "variavel de texto da main";
 
   imprime(90, 30, 30, "chamada de funcao da main");

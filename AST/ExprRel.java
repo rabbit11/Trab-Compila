@@ -26,14 +26,35 @@ public class ExprRel extends Expr {
 
     @Override
     public void genC(PW pw){
-        esq.genC(pw);
+        int flag = 0;
 
-        if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE
+        if(this.esq.getType() != null){
+            if((this.esq.getType().getType() == Symbol.STRING ||
+            this.esq.getType().getType() == Symbol.STRINGLITERAL) &&
+            this.op == Symbol.EQUAL){
+                
+                pw.print("strcmp(");
+                esq.genC(pw);
+                pw.print(", ");
+                dir.genC(pw);
+                pw.print(") == 0");
+                flag = 1;
+            }
+        }
+
+        if(flag == 0){
+            if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE
             || op == Symbol.LT || op == Symbol.GTE || op == Symbol.GT) {
-            
-            pw.print(" " + this.op.toString() + " ");
-            
-            dir.genC(pw);
+                
+                esq.genC(pw);
+                
+                pw.print(" " + this.op.toString() + " ");
+                
+                dir.genC(pw);
+            }
+            else{
+                esq.genC(pw);
+            }
         }
     }
 

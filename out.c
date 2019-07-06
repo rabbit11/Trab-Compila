@@ -63,6 +63,10 @@ int g;
 int res;
 res = aninhamento(h, g);
 char n[100];
+char wx[100];
+if ( strcmp(n, wx) == 0 ) { 
+strcpy(n, wx);
+}
 strcpy(n, "variavel de texto da main");
 imprime(90, 30, 30, "chamada de funcao da main");
 int i;
