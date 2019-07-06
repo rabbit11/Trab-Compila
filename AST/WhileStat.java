@@ -21,13 +21,12 @@ public class WhileStat extends Stat {
 
     @Override
     public void genC(PW pw) {
-        pw.print("while ( ");
+        pw.print("while (");
         expr.genC(pw);
-        pw.println(" ){");
+        pw.printlnNI("){");
 
         whileBody.genC(pw);
 
-        pw.printBL();
         pw.println("}");
         }
 }

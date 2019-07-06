@@ -23,11 +23,11 @@ public class IfStat extends Stat {
 
     @Override
     public void genC( PW pw ) {
-        pw.print("if ( ");
+        pw.print("if (");
 
         expr.genC(pw);
 
-        pw.println(" ) { ");
+        pw.printlnNI(") { ");
 
         ifBody.genC(pw);
 

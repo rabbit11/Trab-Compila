@@ -31,7 +31,7 @@ public class ExprRel extends Expr {
         if(op == Symbol.EQUAL || op == Symbol.DIFFERENT || op == Symbol.LTE
             || op == Symbol.LT || op == Symbol.GTE || op == Symbol.GT) {
             
-            pw.print(" " + this.op.toString() + " ");
+            pw.printNI(" " + this.op.toString() + " ");
             
             dir.genC(pw);
         }

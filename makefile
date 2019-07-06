@@ -50,6 +50,7 @@ CLASSES =	\
         AST/ExprAnd.java \
         AST/ExprLiteral.java \
         AST/ExprMult.java \
+        AST/ExprOr.java \
         AST/ExprPrimary.java \
         AST/ExprRel.java \
         AST/ExprUnary.java \
@@ -63,6 +64,8 @@ CLASSES =	\
         AST/PW.java \
         AST/RelOp.java \
         AST/ReturnStat.java \
+        AST/Stat.java \
+        AST/StatList.java \
         AST/Type.java \
         AST/VarDecStat.java \
         AST/Variable.java \

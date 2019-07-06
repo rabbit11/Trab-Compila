@@ -26,7 +26,7 @@ public class ReturnStat extends Stat {
 
         expr.genC(pw);
         
-        pw.print(";"); // ';'
+        pw.printNI(";"); // ';'
 
         pw.printBL(); // Quebra de linha
     }

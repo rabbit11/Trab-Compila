@@ -53,73 +53,73 @@ public class FuncCall extends Expr{
       else if(this.funcName.equals("writeln")){
           if(this.arrayExpr != null){
             if(this.arrayExpr.get(0).getType().getType() == Symbol.INT){
-                pw.print("printf(" + "\"%d");
-                pw.print("\\n\", ");
+                pw.printNI("printf(" + "\"%d");
+                pw.printNI("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print(")");
+                pw.printNI(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRING) {
-                pw.print("printf(" + "\"%s");
-                pw.print("\\n\", ");
+                pw.printNI("printf(" + "\"%s");
+                pw.printNI("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print(")");
+                pw.printNI(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLEAN) {
-                pw.print("printf(" + "\"%d");
-                pw.print("\\n\", ");
+                pw.printNI("printf(" + "\"%d");
+                pw.printNI("\\n\", ");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print(")");
+                pw.printNI(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.INTLITERAL) {
-                pw.print("printf(");
+                pw.printNI("printf(");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print("\\n\"");
-                pw.print(")");
+                pw.printNI("\\n\"");
+                pw.printNI(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
-                pw.print("printf(");
+                pw.printNI("printf(");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print("\\n\"");            
-                pw.print(")");
+                pw.printNI("\\n\"");            
+                pw.printNI(")");
             }
             else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
-                pw.print("printf(");
+                pw.printNI("printf(");
                 this.arrayExpr.get(0).genC(pw);
-                pw.print("\\n\"");
-                pw.print(")");
+                pw.printNI("\\n\"");
+                pw.printNI(")");
             }
           }
           else{
-              pw.print("printf(" + "\n" + ")");
+              pw.printNI("printf(" + "\n" + ")");
           }
       }
 
       else if(this.funcName.equals("write")){
             if (this.arrayExpr != null) {
                 if (this.arrayExpr.get(0).getType().getType() == Symbol.INT) {
-                    pw.print("printf(" + "\"%d\", ");
+                    pw.printNI("printf(" + "\"%d\", ");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.printNI(")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRING) {
-                    pw.print("printf(" + "\"%s\", ");
+                    pw.printNI("printf(" + "\"%s\", ");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.printNI(")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLEAN) {
-                    pw.print("printf(" + "\"%d\", ");
+                    pw.printNI("printf(" + "\"%d\", ");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.printNI(")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.INTLITERAL) {
-                    pw.print("printf(");
+                    pw.printNI("printf(");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.printNI(")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.STRINGLITERAL) {
-                    pw.print("printf(");
+                    pw.printNI("printf(");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print("\")");
+                    pw.printNI("\")");
                 } else if (this.arrayExpr.get(0).getType().getType() == Symbol.BOOLLITERAL) {
-                    pw.print("printf(");
+                    pw.printNI("printf(");
                     this.arrayExpr.get(0).genC(pw);
-                    pw.print(")");
+                    pw.printNI(")");
                 }
             } else {
                 pw.print("printf(" + " " + ")");
@@ -127,8 +127,8 @@ public class FuncCall extends Expr{
       }
 
       else{
-        pw.print(this.funcName);
-        pw.print("(");
+        pw.printNI(this.funcName);
+        pw.printNI("(");
   
         if(this.arrayExpr != null){
           int i = 0;
@@ -137,7 +137,7 @@ public class FuncCall extends Expr{
               p.genC(pw);
 
               if(p.getType().getType() == Symbol.STRINGLITERAL){
-                pw.print("\"");  
+                pw.printNI("\"");  
               }
               i++;
   
@@ -145,7 +145,7 @@ public class FuncCall extends Expr{
                   pw.printNI(", "); // e não imprimimos após o último
               }
           }
-          pw.print(")");
+          pw.printNI(")");
         }
       }
     }

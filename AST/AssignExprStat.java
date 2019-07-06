@@ -28,14 +28,14 @@ public class AssignExprStat extends Stat {
             flag = 1;
             pw.print("scanf(\"%d\", &");
             this.esq.genC(pw);
-            pw.println(");");
+            pw.printlnNI(");");
         }
         
         else if(readString == true){
             flag = 1;
             pw.print("scanf(\"%s\", ");
             this.esq.genC(pw);
-            pw.println(");");
+            pw.printlnNI(");");
         }
 
         else{
@@ -47,29 +47,30 @@ public class AssignExprStat extends Stat {
                         flag = 1;
                         pw.print("strcpy(");
                         this.esq.genC(pw);
-                        pw.print(", ");
+                        pw.printNI(", ");
                         this.dir.genC(pw);
 
                         if(this.dir.getType().getType() == Symbol.STRINGLITERAL){
-                            pw.print("\"");
+                            pw.printNI("\"");
                         }
-                        pw.println(");");
+                        pw.printlnNI(");");
                     }
                 }           
             }
 
             if(flag == 0){
+                pw.print("");
                 this.esq.genC(pw);
                 
                 if(dir != null){
-                    pw.print(" = ");
+                    pw.printNI(" = ");
                     this.dir.genC(pw);
                     
                     if (dir.getType().getType() == Symbol.STRINGLITERAL) {
-                        pw.print("\"");
+                        pw.printNI("\"");
                     }
                 }
-                pw.println(";");
+                pw.printlnNI(";");
             }
         }
     }

@@ -109,22 +109,23 @@ public class Func {
         else{
             pw.print("void ");
         }
-        pw.print(nomeFunc + " ");
-        pw.print("(");
+        pw.printNI(nomeFunc + " ");
+        pw.printNI("(");
 
         if(params != null){
             params.genC(pw);
         }
 
-        pw.println(") {");
+        pw.printlnNI(") {");
         
         if(stats != null){
-            pw.println(" ");
+            pw.printlnNI("");
             stats.genC(pw);
-            pw.println(" ");
+            //pw.printlnNI("");
         }
 
-        pw.println("}");
+        pw.printlnNI("}");
+        pw.printBL();
 
         // if (tipoRetorno == Symbol.INT) {
         //     pw.print("int " + this.nomeFunc + "("); // Com ident antes da string

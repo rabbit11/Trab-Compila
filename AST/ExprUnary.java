@@ -21,7 +21,7 @@ public class ExprUnary extends Expr {
   public void genC(PW pw){
 
     if(this.op == Symbol.PLUS || this.op == Symbol.MINUS){
-      pw.print(" " + this.op.toString() + " ");
+      pw.printNI(" " + this.op.toString() + " ");
     }
 
     expr.genC(pw);

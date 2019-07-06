@@ -35,7 +35,7 @@ public class ExprMult extends Expr {
             // }
 
             if(i > 0 && i < expr.size()){
-                pw.print(" " + this.op.get(j) + " ");
+                pw.printNI(" " + this.op.get(j) + " ");
                 j++;
             }
         }

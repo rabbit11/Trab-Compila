@@ -33,7 +33,7 @@ public class ExprAnd extends Expr{
 
             if (i > 0 && i < expr.size()) {
                 // pw.print(" " + this.operador.toString() + " ");
-                pw.print(" " + "&& ");
+                pw.printNI(" " + "&& ");
             }
 
         }
