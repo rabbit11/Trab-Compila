@@ -63,7 +63,7 @@ int g;
 int res;
 res = aninhamento(h, g);
 char n[100];
-strcpy(n, "variavel de texto da main);
+strcpy(n, "variavel de texto da main");
 imprime(90, 30, 30, "chamada de funcao da main");
 int i;
 i = 0;

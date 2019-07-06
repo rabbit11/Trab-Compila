@@ -40,13 +40,19 @@ public class AssignExprStat extends Stat {
 
         else{
             if(this.esq.getType() != null && this.dir != null){
-                if (this.esq.getType().getType() == Symbol.STRING || this.esq.getType().getType() == Symbol.STRINGLITERAL) {
+                if (this.esq.getType().getType() == Symbol.STRING || 
+                    this.esq.getType().getType() == Symbol.STRINGLITERAL) {
+
                     if (this.dir != null) {
                         flag = 1;
                         pw.print("strcpy(");
                         this.esq.genC(pw);
                         pw.print(", ");
                         this.dir.genC(pw);
+
+                        if(this.dir.getType().getType() == Symbol.STRINGLITERAL){
+                            pw.print("\"");
+                        }
                         pw.println(");");
                     }
                 }           
