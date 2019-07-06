@@ -178,7 +178,6 @@ public class Compiler {
           error.message("Expected ';' but found: " + lexer.token);
         }
       }
-
       lexer.nextToken();
 
       return new ReturnStat(expr2);
@@ -752,7 +751,7 @@ public class Compiler {
       dir = exprMult();
       tipoDir = dir.getType();
       expr.add(dir);
-      System.out.println(op + " me " + lexer.getCurrentLine() + expr.size());
+      // System.out.println(op + " me " + lexer.getCurrentLine() + expr.size());
     }
 
     if(tipoDir != null){
@@ -1256,25 +1255,26 @@ public class Compiler {
             }
           }
         }
-
       }
       tipo = func.getTipo();
     }
 
     if(tipo != null){
-      if(eList!= null)
+      if(eList!= null){
        return new FuncCall(name, eList, tipo);
-
-      else
+      }
+      else{
         return new FuncCall(name, tipo);
+      }
     }
 
     else{
-      if(eList != null)
+      if(eList != null){
         return new FuncCall(name, eList);
-
-      else
+      }
+      else{
         return new FuncCall(name);
+      }
     }
   }
 

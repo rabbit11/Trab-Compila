@@ -27,38 +27,32 @@ public class ExprAdd extends Expr {
     public void genC(PW pw) {
         int i = 0;
         int j = 0;
+        int flag = 0;
 
         for (ExprMult p : expr) {
-            if ((this.tipo.getType() == Symbol.STRING || 
-                    this.tipo.getType() == Symbol.STRINGLITERAL) && expr.size() > 1) {
+            if(this.tipo != null){
 
-                if(i % 2 == 0){
-                    pw.print("strcat(");
-                    p.genC(pw);
+                if ((this.tipo.getType() == Symbol.STRING || 
+                this.tipo.getType() == Symbol.STRINGLITERAL) && expr.size() > 1) {
+
+                    if(i % 2 == 0){
+                        flag = 1;
+                        pw.print("strcat(");
+                        p.genC(pw);
+                    }
+                    else if(i < expr.size()){
+                        flag = 1;
+                        pw.print(", ");
+                        p.genC(pw);
+                    }
+                    else{
+                        flag = 1;
+                        p.genC(pw);
+                    }
+                    i++;
                 }
-                else if(i < expr.size()){
-                    pw.print(", ");
-                    p.genC(pw);
-                }
-                else{
-                    p.genC(pw);
-                }
-                i++;
-
-                    // if (this.expr.size() > 2 && i < this.expr.size()) {
-                    //     pw.print("strcat(");
-
-                    //     if (i < this.expr.size()) {
-                    //         p.genC(pw);
-                    //         pw.print(", ");
-                    //     }
-
-                    //     else {
-                    //         p.genC(pw);
-                    //         pw.print(")");
-                    //     }
-                    // }
-            } else {
+            }
+            if(flag == 0){
                 p.genC(pw);
                 i++;
 

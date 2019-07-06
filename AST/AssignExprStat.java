@@ -22,41 +22,49 @@ public class AssignExprStat extends Stat {
     public void genC(PW pw){
         //checando se há uma atribuição de strings (algo ilegal em C)
         //checando operações de leitura
+        int flag = 0;
+
         if(readInt == true){
+            flag = 1;
             pw.print("scanf(\"%d\", &");
             this.esq.genC(pw);
             pw.println(");");
         }
         
         else if(readString == true){
+            flag = 1;
             pw.print("scanf(\"%s\", ");
             this.esq.genC(pw);
             pw.println(");");
         }
 
-        else if(this.esq.getType().getType() == Symbol.STRING || 
-            this.esq.getType().getType() == Symbol.STRINGLITERAL){
-
-            if(this.dir != null){
-                pw.print("strcpy(");
-                this.esq.genC(pw);
-                pw.print(", ");
-                this.dir.genC(pw);
-                pw.println(");");
-            }
-        }
         else{
-            this.esq.genC(pw);
-            
-            if(dir != null){
-                pw.print(" = ");
-                this.dir.genC(pw);
-                
-                if (dir.getType().getType() == Symbol.STRINGLITERAL) {
-                    pw.print("\"");
-                }
+            if(this.esq.getType() != null && this.dir != null){
+                if (this.esq.getType().getType() == Symbol.STRING || this.esq.getType().getType() == Symbol.STRINGLITERAL) {
+                    if (this.dir != null) {
+                        flag = 1;
+                        pw.print("strcpy(");
+                        this.esq.genC(pw);
+                        pw.print(", ");
+                        this.dir.genC(pw);
+                        pw.println(");");
+                    }
+                }           
             }
-            pw.println(";");
+
+            if(flag == 0){
+                this.esq.genC(pw);
+                
+                if(dir != null){
+                    pw.print(" = ");
+                    this.dir.genC(pw);
+                    
+                    if (dir.getType().getType() == Symbol.STRINGLITERAL) {
+                        pw.print("\"");
+                    }
+                }
+                pw.println(";");
+            }
         }
     }
 
