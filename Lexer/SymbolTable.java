@@ -49,4 +49,12 @@ public class SymbolTable {
   public void putFunction(String chave, Object valor) {
     this.functionTable.put(chave, valor);
   }
+
+  public void deleteFunction(String chave){
+    this.functionTable.remove(chave);
+  }
+
+  public void updateFunction(String chave, Object novo){
+    this.functionTable.replace(chave, novo);
+  }
 }

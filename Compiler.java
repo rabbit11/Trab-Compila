@@ -1058,12 +1058,31 @@ public class Compiler {
       t = type();
     }
 
-    StatList statList = statList();
-
+    int flagStat = 0;
     //checagem se a função já havia sido declarada anteriormente
     if(table.returnFunction(name) != null){
       error.message("Função " + name + " já declarada");
     }
+
+    //isso faz com que seja possível funções recursivas na gramatica
+    else{
+      if(t == null) {
+        if(p == null){
+            table.putFunction(name, new Func(name));
+        }
+        else{
+            table.putFunction(name, new Func(name, p));
+        }
+    }
+    else if(p == null) {
+        table.putFunction(name, new Func(name, t));
+    }
+    else {
+        table.putFunction(name, new Func(t, name, p));
+    }
+  }
+
+    StatList statList = statList();
 
     //checagem se o retorno vindo de returnstat tem mesmo tipo que o retorno da função
     if(statList != null && t != null){
@@ -1081,52 +1100,60 @@ public class Compiler {
               || (tipoRetorno.getType() == Symbol.BOOLEAN && t.getType() == Symbol.BOOLLITERAL)
               || (tipoRetorno.getType() == Symbol.BOOLLITERAL && t.getType() == Symbol.BOOLEAN))) {
 
-            error.message("Tipo de retorno da função difere do tipo declarado em seu header");
+                error.message("Tipo de retorno da função difere do tipo declarado em seu header");
           }
         }
       }
     }
-
+    
     //diferentes construtores para os diferentes tipos de função
     if(t == null) {
       if(p == null){
         if(statList == null){
-          table.putFunction(name, new Func(name));
+          // table.putFunction(name, new Func(name));
+          table.updateFunction(name, new Func(name));
           return new Func(name);
         }
         else{
-          table.putFunction(name, new Func(name, statList));
+          // table.putFunction(name, new Func(name, statList));
+          table.updateFunction(name, new Func(name, statList));
           return new Func(name, statList);
         }
       }
       else{
         if(statList == null){
-          table.putFunction(name, new Func(name, p));
+          // table.putFunction(name, new Func(name, p));
+          table.updateFunction(name, new Func(name, p));
           return new Func(name, p);
         }
         else{
-          table.putFunction(name, new Func(name, p, statList));
+          // table.putFunction(name, new Func(name, p, statList));
+          table.updateFunction(name, new Func(name, p, statList));
           return new Func(name, p, statList);
         }
       }
     }
     else if(p == null) {
       if(statList == null){
-        table.putFunction(name, new Func(name, t));
+        // table.putFunction(name, new Func(name, t));
+        table.updateFunction(name, new Func(name, t));
         return new Func(name, t);
       }
       else{
-        table.putFunction(name, new Func(name, t, statList));
+        // table.putFunction(name, new Func(name, t, statList));
+        table.updateFunction(name, new Func(name, t, statList));
         return new Func(name, t, statList);
       }
     }
     else {
       if(statList == null){
-        table.putFunction(name, new Func(t, name, p));
+        // table.putFunction(name, new Func(t, name, p));
+        table.updateFunction(name, new Func(t, name, p));
         return new Func(t, name, p);
       }
       else{
-        table.putFunction(name, new Func(t, name, p, statList));
+        // table.putFunction(name, new Func(t, name, p, statList));
+        table.updateFunction(name, new Func(t, name, p, statList));
         return new Func(t, name, p, statList);
       }
     }
@@ -1203,7 +1230,7 @@ public class Compiler {
           error.message("Chamada da função '" + name + "' deve possuir apenas 1 parâmetro");
         }
       }
-
+      
       //checa se funcdec e funccall tem mesmo num de parametros
       else if(func.getParams() == null){
         if(eList.size() > 0){
