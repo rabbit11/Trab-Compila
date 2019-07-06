@@ -40,14 +40,21 @@ public class ExprAdd extends Expr {
                         pw.print("strcat(");
                         p.genC(pw);
                     }
+
                     else if(i < expr.size()){
                         flag = 1;
                         pw.print(", ");
                         p.genC(pw);
+
+                        if(i == expr.size() - 1){
+                            pw.print(")");
+                        }
                     }
+
                     else{
                         flag = 1;
                         p.genC(pw);
+                        pw.print(")");
                     }
                     i++;
                 }
