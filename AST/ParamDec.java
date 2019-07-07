@@ -28,7 +28,12 @@ public class ParamDec extends Expr{
   }
 
   public void genC(PW pw) {
-    pw.printNI(this.tipo.tipo(pw) + " " + this.var);
+    if(this.tipo.getType() == Symbol.STRING){
+      pw.printNI(this.tipo.tipo(pw) + " " + this.var + "[100]");      
+    }
+    else{
+      pw.printNI(this.tipo.tipo(pw) + " " + this.var);
+    }
   }
 
   public String getVar() {
