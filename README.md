@@ -62,4 +62,5 @@ Erros a serem corrigidos:
          return "write";
       }
    nao apareceu a segunda aspa no codigo gerado
+= [ ] a = b + c + d, onde todos estas variáveis são do tipo string
 
