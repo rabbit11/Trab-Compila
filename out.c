@@ -3,124 +3,33 @@
 #include <string.h>
 
 
-int constante () {
+int fatorial (int n) {
 
-    int valorA;
-    int valorB;
-    valorA = 1 *  + 2 +  + 5 *  - 4;
-    valorB = 10 / 2 - 20 /  - 5;
-    if (false || valorB != 10) { 
+    if (n <= 0) { 
 
-        return valorA;
-    }
-
-    return valorB;
-}
-
-int multiplicar (int multA, int multB, bool tipo) {
-
-    int total;
-    if (tipo == true) { 
-        int i;
-        i = 1;
-        total = 0;
-        while (i <= multB){
-            total = total + multA;
-            i = i + 1;
-        }
-
-        return total;
-    }
-    if (tipo == false) { 
-        total = multA * multB;
-
-        return total;
-    }
-}
-
-bool maiorIgual (int valorAa, int valorBb) {
-
-    if (valorAa >= valorBb) { 
-
-        return true;
+        return 1;
     }
     else {
 
-        return false;
+        return n * fatorial(n - 1);
     }
 }
 
-char mensagem (char msg) {
+void imprimir (int before, int valor, char* after) {
 
-    printf("%s\n", msg);
-
-    return "write";
-}
-
-void calc (bool oper) {
-
-    int valor;
-    int x;
-    x =  - constante() + 100;
-    valor = 1 + constante();
-    if (oper == true || x > 80 && x < 0 && valor != 2 || valor > 50) { 
-        valor = valor + 50;
+    int i;
+    i = 0;
+    while (i < before){
+        printf("*");
+        i = i + 1;
     }
-}
-
-void mensagens (char msgA, char msgB) {
-
-    char aux[100];
-    strcpy(aux, "Ola, sua mensagem:");
-    printf("%s", aux);
-    printf("%s\n", msgA);
-    printf("%s", aux);
-    printf("%s\n", msgB);
-}
-
-bool portaAnd (bool eA, bool eB) {
-
-    eA;
-    eB;
-    bool resultado;
-    if (eA == true && eB == true) { 
-        resultado = true;
-    }
-    else {
-        resultado = false;
-    }
-
-    return resultado;
-}
-
-void comparador (char msgF, bool tipoComp) {
-
-    char com[100];
-    strcpy(com, "Permitido");
-    if (tipoComp) { 
-        strcpy(com, "Proibido");
-    }
-    if (    strcmp(msgF, com) == 0) { 
-        printf("Acertou");
-    }
-}
-
-void loopInfinito () {
-
-    int expr;
-    while (true){
-    }
+    printf("\n");
+    printf("%d\n", valor);
+    printf("%s\n", after);
 }
 
 void main () {
 
-    int resultadoM;
-    char texto[100];
-    resultadoM = multiplicar(constante(), 10, true);
-    calc(maiorIgual(resultadoM, 10));
-    strcpy(texto, mensagem("ola"));
-    mensagens("Cuidado", "Pode ir");
-    comparador("Permitido", portaAnd(true, true));
-    loopInfinito();
+    imprimir(50, fatorial(5) * 2 * fatorial(3), " 	fim");
 }
 

@@ -56,11 +56,10 @@ Erros a serem corrigidos:
    talvez o mesmo raciocinio para: return a == b
    onde retorna 1 se a == b
 
-- [ ] permitir comentarios com /* e */
 - [X] problema no retorno de funcao, em que retorna uma string com nome de funcao, ex:
       function f(x : Int) -> String{
          return "write";
       }
    nao apareceu a segunda aspa no codigo gerado
-= [ ] a = b + c + d, onde todos estas variáveis são do tipo string
+= [ ] a = b + c + d, onde todos estas variáveis são do tipo string (nem sei se é possível fazer)
 
