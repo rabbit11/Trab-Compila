@@ -48,7 +48,7 @@ public class ExprRel extends Expr {
                 
                 esq.genC(pw);
                 
-                pw.print(" " + this.op.toString() + " ");
+                pw.printNI(" " + this.op.toString() + " ");
                 
                 dir.genC(pw);
             }

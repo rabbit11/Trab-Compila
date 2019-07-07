@@ -32,13 +32,13 @@ public class ExprLiteral extends Expr {
     @Override
     public void genC(PW pw) {
         if(this.valueInt != -1337){
-            pw.print(Integer.toString(valueInt));
+            pw.printNI(Integer.toString(valueInt));
         }
         else{
             if(tipo.getType() == Symbol.STRINGLITERAL){
                 value = value.substring(0, value.length() - 1);
             }
-            pw.print(value);
+            pw.printNI(value);
         }
     }
 

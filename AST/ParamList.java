@@ -25,7 +25,7 @@ public class ParamList{
             i++;
             
             if(i > 0 && i < arrayParam.size()){//garante que imprimimos , apenas quando tem mais de 1 param
-                pw.print(", ");               //e não imprimimos após o último
+                pw.printNI(", ");               //e não imprimimos após o último
             }
         }
 

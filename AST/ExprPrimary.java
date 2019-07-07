@@ -15,7 +15,7 @@ public class ExprPrimary extends Expr{
 
   @Override
   public void genC(PW pw) {
-    pw.print(this.var.getVar());
+    pw.printNI(this.var.getVar());
   }
 
   public Type getType(){

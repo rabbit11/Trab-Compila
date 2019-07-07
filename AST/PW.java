@@ -51,6 +51,10 @@ public class PW {
         out.print(s);
     }
 
+    public void printlnNI(String s){
+        out.println(s);
+    }
+
     public void printBL(){
         out.println("");
     }

@@ -22,9 +22,9 @@ public class LiteralBoolean {
 
   public void writeLiteral(PW pw) {
     if (value == Symbol.TRUE)
-      pw.println("true");
+      pw.printlnNI("true");
     else if (value == Symbol.FALSE)
-      pw.println("false");
+      pw.printlnNI("false");
   }
 
   public Symbol getValue() {

@@ -19,7 +19,9 @@ public class StatList{
 
     public void genC(PW pw){
         for(Stat s : listaStats){
+          pw.add();
           s.genC(pw);
+          pw.sub();
         }
     }
 

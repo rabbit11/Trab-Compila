@@ -37,13 +37,13 @@ public class ExprAdd extends Expr {
 
                     if(i % 2 == 0){
                         flag = 1;
-                        pw.print("strcat(");
+                        pw.printNI("strcat(");
                         p.genC(pw);
                     }
 
                     else if(i < expr.size()){
                         flag = 1;
-                        pw.print(", ");
+                        pw.printNI(", ");
                         p.genC(pw);
 
                         if(i == expr.size() - 1){
@@ -67,7 +67,7 @@ public class ExprAdd extends Expr {
                 // pw.print(" " + this.op.toString() + " ");
                 // }
                 if (i > 0 && i < expr.size()) {
-                    pw.print(" " + this.op.get(j).toString() + " ");
+                    pw.printNI(" " + this.op.get(j).toString() + " ");
                     j++;
                 }
             }
