@@ -47,14 +47,14 @@ public class ExprAdd extends Expr {
                         p.genC(pw);
 
                         if(i == expr.size() - 1){
-                            pw.print(")");
+                            pw.printNI(")");
                         }
                     }
 
                     else{
                         flag = 1;
                         p.genC(pw);
-                        pw.print(")");
+                        pw.printNI(")");
                     }
                     i++;
                 }

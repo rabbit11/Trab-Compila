@@ -35,9 +35,9 @@ public class ExprRel extends Expr {
                 
                 pw.print("strcmp(");
                 esq.genC(pw);
-                pw.print(", ");
+                pw.printNI(", ");
                 dir.genC(pw);
-                pw.print(") == 0");
+                pw.printNI(") == 0");
                 flag = 1;
             }
         }
