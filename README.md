@@ -27,7 +27,7 @@ TESTES A SEREM REALIZADOS:
 - [X] Chamar função que não foi declarada
 - [X] Tipos de dados no parâmetro diferentes entre chamada e definição do escopo da Função
 - [X] Quantidade de parâmetros na chamada da função deve ser igual a utilizada na declaração da função
-- [] Utilizar palavra chave como id
+- [X] Utilizar palavra chave como id
 - [X] Funções predefinidas não precisam ser declaradas para poderem ser usadas, basta serem chamadas com id = readInt() ou id = readString(), por exemplo.
 - [X] Tem que ter função main, e tem que ser sem parâmetro e sem Retorno
 - [X] Redefinir tipo de variável (Atribuir valor de tipo diferente ao longo do código)
@@ -35,8 +35,8 @@ TESTES A SEREM REALIZADOS:
 
 Erros a serem corrigidos:
 
-- [] problema com chamadas de funcao onde operadores nao estao separados com espaco, ex: fatorial(5)*5*fatorial(5)
-- [] permitir declaracao da mesma variavel em escopos diferentes, ex:
+- [X] problema com chamadas de funcao onde operadores nao estao separados com espaco, ex: fatorial(5)*5*fatorial(5)
+- [ ] permitir declaracao da mesma variavel em escopos diferentes, ex:
       function f (tipo : Boolean) -> Int{
       if tipo == true{
          var teste : Int;
@@ -49,15 +49,15 @@ Erros a serem corrigidos:
           return teste;
       }
 
-- [] nao permite condições com "and" e "or" para tipos nao booleanos, ex: if flag == true or x > 80    (x como um inteiro)
+- [X] nao permite condições com "and" e "or" para tipos nao booleanos, ex: if flag == true or x > 80    (x como um inteiro)
 
-- [] nao permite operacoes do tipo: a = x == 5 or y;
+- [ ] nao permite operacoes do tipo: a = x == 5 or y;
    onde "a" deveria receber true caso a condicao fosse verdadeira
    talvez o mesmo raciocinio para: return a == b
    onde retorna 1 se a == b
 
-- [] permitir comentarios com /* e */
-- [] problema no retorno de funcao, em que retorna uma string com nome de funcao, ex:
+- [ ] permitir comentarios com /* e */
+- [X] problema no retorno de funcao, em que retorna uma string com nome de funcao, ex:
       function f(x : Int) -> String{
          return "write";
       }
