@@ -6,6 +6,8 @@
 
 package AST;
 
+import Lexer.Symbol;
+
 //ReturnStat ::= "return" Expr ";"
 
 public class ReturnStat extends Stat {
@@ -26,6 +28,9 @@ public class ReturnStat extends Stat {
 
         expr.genC(pw);
         
+        if(this.expr.getType().getType() == Symbol.STRINGLITERAL){
+            pw.printNI("\"");
+        }
         pw.printNI(";"); // ';'
 
         pw.printBL(); // Quebra de linha

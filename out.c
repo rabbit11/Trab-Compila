@@ -3,82 +3,124 @@
 #include <string.h>
 
 
-void imprime (int q, int w, int e, char nomeFunc) {
- 
-printf("**************\n");
-printf("%d\n", q);
-printf("%d\n", w);
-printf("%d\n", e);
-printf("%s\n", nomeFunc);
-printf("***Fim***\n");
- 
-}
-int aninhamento (int k, int l) {
- 
-int i;
-int j;
-bool alternaLogico;
-bool a;
-int b;
-char eleven[100];
-int morma;
-int final;
-final = 0;
-b = 4000;
-i = 0;
-j = k * l;
-a = false;
-i = j + b - final;
-scanf("%s", eleven);
-scanf("%d", &morma);
-while ( i <= k ){
-alternaLogico = true;
-while ( j >= l ){
-if ( a == alternaLogico ) { 
-b = b / 2;
-final = final + 1;
-}
-else {
-if ( b < 2 || b != 4 && b > 5 ) { 
-b = b - 1;
-}
-}
-alternaLogico = false;
-j = j - 2;
-final = final - 1;
+int constante () {
 
-}
-i = i + 1;
+    int valorA;
+    int valorB;
+    valorA = 1 *  + 2 +  + 5 *  - 4;
+    valorB = 10 / 2 - 20 /  - 5;
+    if (false || valorB != 10) { 
 
-}
-imprime(i, j, b, " aninhamento");
+        return valorA;
+    }
 
-return final;
- 
+    return valorB;
 }
+
+int multiplicar (int multA, int multB, bool tipo) {
+
+    int total;
+    if (tipo == true) { 
+        int i;
+        i = 1;
+        total = 0;
+        while (i <= multB){
+            total = total + multA;
+            i = i + 1;
+        }
+
+        return total;
+    }
+    if (tipo == false) { 
+        total = multA * multB;
+
+        return total;
+    }
+}
+
+bool maiorIgual (int valorAa, int valorBb) {
+
+    if (valorAa >= valorBb) { 
+
+        return true;
+    }
+    else {
+
+        return false;
+    }
+}
+
+char mensagem (char msg) {
+
+    printf("%s\n", msg);
+
+    return "write";
+}
+
+void calc (bool oper) {
+
+    int valor;
+    int x;
+    x =  - constante() + 100;
+    valor = 1 + constante();
+    if (oper == true || x > 80 && x < 0 && valor != 2 || valor > 50) { 
+        valor = valor + 50;
+    }
+}
+
+void mensagens (char msgA, char msgB) {
+
+    char aux[100];
+    strcpy(aux, "Ola, sua mensagem:");
+    printf("%s", aux);
+    printf("%s\n", msgA);
+    printf("%s", aux);
+    printf("%s\n", msgB);
+}
+
+bool portaAnd (bool eA, bool eB) {
+
+    eA;
+    eB;
+    bool resultado;
+    if (eA == true && eB == true) { 
+        resultado = true;
+    }
+    else {
+        resultado = false;
+    }
+
+    return resultado;
+}
+
+void comparador (char msgF, bool tipoComp) {
+
+    char com[100];
+    strcpy(com, "Permitido");
+    if (tipoComp) { 
+        strcpy(com, "Proibido");
+    }
+    if (    strcmp(msgF, com) == 0) { 
+        printf("Acertou");
+    }
+}
+
+void loopInfinito () {
+
+    int expr;
+    while (true){
+    }
+}
+
 void main () {
- 
-int h;
-int g;
-int res;
-res = aninhamento(h, g);
-char n[100];
-char wx[100];
-if ( strcmp(n, wx) == 0 ) { 
-strcpy(n, wx);
-}
-strcpy(n, "variavel de texto da main");
-imprime(90, 30, 30, "chamada de funcao da main");
-int i;
-i = 0;
-int resDois;
-while ( i != 3 ){
-imprime(i, i + 1, i + 2, "i, i+1, i+2");
-i = i + 1;
-if ( i == 2 ) { 
-resDois = aninhamento(i, i + 1);
+
+    int resultadoM;
+    char texto[100];
+    resultadoM = multiplicar(constante(), 10, true);
+    calc(maiorIgual(resultadoM, 10));
+    strcpy(texto, mensagem("ola"));
+    mensagens("Cuidado", "Pode ir");
+    comparador("Permitido", portaAnd(true, true));
+    loopInfinito();
 }
 
-}
- 
-}

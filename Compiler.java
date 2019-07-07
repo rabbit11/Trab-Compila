@@ -587,13 +587,13 @@ public class Compiler {
       tipoDir = dir.getType();
       expr.add(dir);
 
-      if (tipoEsq.getType() != tipoDir.getType()) {
-        if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
-            || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
+      // if (tipoEsq.getType() != tipoDir.getType()) {
+      //   if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
+      //       || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
 
-          error.message("Operação AND com tipos não booleanos");
-        }
-      }
+      //     error.message("Operação AND com tipos não booleanos");
+      //   }
+      // }
     }
 
     return new ExprAnd(expr, Symbol.AND, tipoEsq);
@@ -681,13 +681,13 @@ public class Compiler {
       tipoDir = dir.getType();
       expr.add(dir);
 
-      if (tipoEsq.getType() != tipoDir.getType()) {
-        if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
-            || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
+      // if (tipoEsq.getType() != tipoDir.getType()) {
+      //   if (!((tipoEsq.getType() == Symbol.BOOLEAN && tipoDir.getType() == Symbol.BOOLLITERAL)
+      //       || (tipoEsq.getType() == Symbol.BOOLLITERAL && tipoDir.getType() == Symbol.BOOLEAN))) {
 
-          error.message("Operação OR com tipos não booleanos");
-        }
-      }
+      //     error.message("Operação OR com tipos não booleanos");
+      //   }
+      // }
     }
 
     return new ExprOr(expr, op, tipoEsq);
